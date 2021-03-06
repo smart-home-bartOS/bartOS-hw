@@ -1,9 +1,14 @@
 using namespace std;
 #include <SPI.h>
 
+#include <memory>
+
 #include "GeneralDeps.h"
+#include "HttpClient.h"
+#include "HttpManageDeviceConn.h"
 #include "capabilities.h"
-#include "http/HttpClient.h"
+#include "device/OnlineDevice.h"
+#include "device/connector/DataConnector.h"
 #include "mqtt/MessageForwarder.h"
 #include "wifiUtils/WifiUtils.h"
 
@@ -18,6 +23,9 @@ const char *CONFIG_FILE = "/config.json";
 
 Device device;
 MessageForwarder forwarder;
+
+shared_ptr<ManageConnector> manage = make_shared<HttpManageDeviceConn>();
+OnlineDevice onlineDevice(manage);
 
 void saveConfigCallback() {
     wifiUtils.setShouldSaveConfig(true);

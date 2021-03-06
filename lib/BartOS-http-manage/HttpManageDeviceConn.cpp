@@ -45,7 +45,7 @@ DynamicJsonDocument getCreateJSON() {
     return create;
 }
 
-HttpResponse HttpManageDeviceConn::createDevice() {
+DynamicJsonDocument HttpManageDeviceConn::createDevice() {
     char buffer[2048];
     DynamicJsonDocument json = getCreateJSON();
     serializeJson(json, buffer);
@@ -65,12 +65,8 @@ HttpResponse HttpManageDeviceConn::createDevice() {
     if (!containKeys(obj, keys) || resp.getResponseCode() != 200 || resp.getResponseCode() != 201) {
         return;
     }
-    //TODO
-    device.setID(obj[ID]);
-    MessageForwarder::manageCreateSPIFS(obj, ID);
 
-    setInitialized(true);
-    doc.garbageCollect();
+    return doc;
 }
 
 HttpResponse HttpManageDeviceConn::connectDevice() {}

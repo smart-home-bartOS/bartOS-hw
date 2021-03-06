@@ -19,9 +19,6 @@ class Device {
     long _homeID = -1;
     long _roomID = -1;
 
-    shared_ptr<ManageConnector> manageConnector;
-    shared_ptr<DataConnector> dataConnector;
-
     //TODO
     string _brokerURL;
     //TODO
@@ -42,6 +39,8 @@ class Device {
    public:
     Device();
     ~Device() = default;
+
+    virtual void init();
 
     string getName();
     void setName(const string &name);

@@ -345,13 +345,3 @@ string Device::getServerURL() {
 void Device::setServerURL(const string &serverURL) {
     _serverURL = serverURL;
 }
-
-bool Device::storeCreateResponse() {
-    const DynamicJsonDocument &doc = fsManager.readConfigFile();
-
-    DynamicJsonDocument updatedFile(2 * DEFAULT_FILE_SIZE);
-    updatedFile[DEVICE_ID] = getID();
-}
-
-bool Device::storeConnectResponse() {
-}

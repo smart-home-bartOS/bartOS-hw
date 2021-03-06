@@ -5,6 +5,7 @@
 
 #include "HttpResponse.h"
 #include "device/connector/ManageConnector.h"
+
 using namespace std;
 
 class HttpManageDeviceConn : public ManageConnector {

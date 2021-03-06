@@ -3,16 +3,13 @@
 
 #include <ArduinoJson.h>
 
-#include "device/connector/Connector.h"
+#include "device/connector/DeviceConnector.h"
 
 using namespace std;
 
 class ManageConnector : public DeviceConnector {
    public:
     virtual ~ManageConnector(){};
-
-    virtual void connect() = 0;
-    virtual void disconnect() = 0;
 
     virtual DynamicJsonDocument createDevice() = 0;
     virtual DynamicJsonDocument connectDevice() = 0;
