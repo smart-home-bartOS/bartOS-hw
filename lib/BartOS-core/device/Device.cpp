@@ -3,15 +3,18 @@
 
 #include <string>
 
+#include "DeviceFields.h"
 #include "capability/utils/CapabilityUtils.h"
-#include "http/HttpClient.h"
 #include "mqtt/MessageForwarder.h"
 #include "mqtt/MqttClient.h"
+#include "storage/FsManager.h"
 #include "wifiUtils/WifiUtils.h"
 
 extern MqttClient client;
 extern WifiUtils wifiUtils;
-extern HttpClient httpClient;
+//extern HttpClient httpClient;
+
+FsManager fsManager;
 
 Device::Device() {
     setName("Dev_" + NumberGenerator::generateIntToString(2000, 9999));
@@ -341,4 +344,14 @@ string Device::getServerURL() {
 
 void Device::setServerURL(const string &serverURL) {
     _serverURL = serverURL;
+}
+
+bool Device::storeCreateResponse() {
+    const DynamicJsonDocument &doc = fsManager.readConfigFile();
+
+    DynamicJsonDocument updatedFile(2 * DEFAULT_FILE_SIZE);
+    updatedFile[DEVICE_ID] = getID();
+}
+
+bool Device::storeConnectResponse() {
 }

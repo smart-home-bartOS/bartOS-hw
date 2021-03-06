@@ -8,16 +8,28 @@
 #include "HttpResponse.h"
 using namespace std;
 
+enum class HttpMethod {
+    GET,
+    POST,
+    PATCH,
+    PUT,
+    DELETE
+};
+
 class HttpClient {
    private:
     string _serverURL = "";
     void setUpClient(HTTPClient& client, const string& path);
-    void execute(int execMethod, HTTPClient& client, HttpResponse& response);
+    HttpResponse execute(HttpMethod method, const string& path);
+    HttpResponse execute(HttpMethod method, const string& path, const string& body);
 
    public:
     HttpClient(const string& serverURL);
     HttpClient() = default;
     ~HttpClient() = default;
+
+    void connect();
+    void disconnect();
 
     string getServerURL();
     void setServerURL(const string& serverURL);
@@ -25,6 +37,8 @@ class HttpClient {
     HttpResponse doGet(const string& path);
     HttpResponse doPost(const string& path, const string& body);
     HttpResponse doPatch(const string& path, const string& body);
+    HttpResponse doDelete(const string& path);
+    HttpResponse doDelete(const string& path, const string& body);
 };
 
 #endif  //HTTP_CLIENT_H

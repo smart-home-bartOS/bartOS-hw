@@ -19,18 +19,23 @@ class Device {
     long _homeID = -1;
     long _roomID = -1;
 
-    string _brokerURL;
-    string _serverURL;
+    shared_ptr<ManageConnector> manageConnector;
+    shared_ptr<DataConnector> dataConnector;
 
+    //TODO
+    string _brokerURL;
+    //TODO
+    string _serverURL;
+    //TODO
     int _manageMsgID;
 
     bool _initialized = false;
 
     vector<shared_ptr<Capability>> _capabilities;
-
+    //TODO
     DynamicJsonDocument getCreateJSON();
     size_t getCreateJSONSize();
-
+    //TODO
     DynamicJsonDocument getConnectJSON();
     size_t getConnectJSONSize();
 
@@ -49,16 +54,17 @@ class Device {
 
     long getRoomID();
     void setRoomID(const long &roomID);
-
+    //TODO
     long getManageMsgID();
     void setManageMsgID(const long &msgID);
-
+    //TODO
     string getBrokerURL();
     void setBrokerURL(const string &brokerURL);
-
+    //TODO
     string getServerURL();
     void setServerURL(const string &serverURL);
 
+    //TODO
     //TOPIC
     string getHomeTopic();
     string getHomeTopicWildCard();
@@ -77,7 +83,7 @@ class Device {
 
     string getEraseAllTopic();
     string getEraseTopicWild();
-
+    //
     bool isInitialized();
     void setInitialized(bool initialized);
 
@@ -98,6 +104,7 @@ class Device {
 
     void executeAllCapabilities();
 
+    //TODO
     /* JSON */
     void publishCreateMessage();
 
@@ -106,6 +113,10 @@ class Device {
     void publishGetRoom();
 
     void eraseAll();
+    //
+
+    bool storeCreateResponse();
+    bool storeConnectResponse();
 };
 
 #endif  // DEVICE_H

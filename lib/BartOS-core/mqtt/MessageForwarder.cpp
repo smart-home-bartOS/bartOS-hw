@@ -33,6 +33,7 @@ bool MessageForwarder::equalsTopic(const string &receiveTopic) {
     return (strcmp(_topic, receiveTopic.c_str()) == 0);
 }
 
+//TODO remove
 void MessageForwarder::manageCreateSPIFS(const JsonObject &obj, const long &deviceID) {
     DynamicJsonDocument doc(1520);
 
@@ -113,15 +114,4 @@ void MessageForwarder::manageCapabilityReact(const JsonObject &obj) {
             return;
         }
     }
-}
-
-bool MessageForwarder::containKeys(const JsonObject &obj, vector<string> &keys) {
-    if (keys.size() == 0)
-        return false;
-
-    for (string &key : keys) {
-        if (!obj.containsKey(key.c_str()))
-            return false;
-    }
-    return true;
 }
