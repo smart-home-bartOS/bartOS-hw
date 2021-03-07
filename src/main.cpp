@@ -3,13 +3,11 @@ using namespace std;
 
 #include <memory>
 
-#include "GeneralDeps.h"
 #include "HttpClient.h"
 #include "HttpManageDeviceConn.h"
+#include "MqttClient.h"
 #include "capabilities.h"
 #include "device/OnlineDevice.h"
-#include "device/connector/DataConnector.h"
-#include "mqtt/MessageForwarder.h"
 #include "wifiUtils/WifiUtils.h"
 
 WiFiClient espClient;
@@ -21,11 +19,9 @@ HttpClient httpClient;
 
 const char *CONFIG_FILE = "/config.json";
 
-Device device;
-MessageForwarder forwarder;
-
-shared_ptr<ManageConnector> manage = make_shared<HttpManageDeviceConn>();
-OnlineDevice onlineDevice(manage);
+auto dataConnector = make_shared<MqttClient>(clientPub);
+shared_ptr<ManageConnector> manageConnector = make_shared<HttpManageDeviceConn>("serverURL");
+OnlineDevice onlineDevice(manageConnector, dataConnector);
 
 void saveConfigCallback() {
     wifiUtils.setShouldSaveConfig(true);
@@ -39,7 +35,7 @@ void forwardMessages(char *topic, byte *payload, unsigned int length) {
         return;
     }
 
-    forwarder.forwardMessage(topic, doc);
+    //forwarder.forwardMessage(topic, doc);
     doc.garbageCollect();
 }
 

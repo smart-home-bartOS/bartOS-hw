@@ -21,4 +21,14 @@ const vector<string> DEVICE_FIELDS{
     UUID,
     DEVICE_ID};
 
+const vector<string> DEVICE_CREATE_FIELDS{
+    ID,
+    NAME,
+    CAPABILITIES};
+
+const vector<string> DEVICE_CONNECT_FIELDS{
+    ID,
+    NAME,
+    CAPABILITIES};
+
 #endif  //DEVICE_FIELDS_H

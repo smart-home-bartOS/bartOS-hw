@@ -1,11 +1,13 @@
 #ifndef MQTT_CLIENT_H
 #define MQTT_CLIENT_H
 
-#include "GeneralDeps.h"
+#include <ArduinoJson.h>
+#include <PubSubClient.h>
 
+#include "device/connector/DataConnector.h"
 using namespace std;
 
-class MqttClient {
+class MqttClient : public DataConnector<void, DynamicJsonDocument> {
    private:
     const uint16_t PORT = 1883;
 
@@ -24,15 +26,20 @@ class MqttClient {
     MqttClient(PubSubClient &mqttClient);
     ~MqttClient() = default;
 
+    void connect();
+    void disconnect();
+
+    void sendData(const string &path, DynamicJsonDocument data);
+
     string getUUID();
-    void setUUID(string UUID);
+    void setUUID(const string &UUID);
 
     void init(const string &brokerURL);
     bool reconnect();
     void checkAvailability();
 
     string getBrokerURL();
-    void setBrokerURL(string brokerURL);
+    void setBrokerURL(const string &brokerURL);
 
     PubSubClient &getMQTT();
 };

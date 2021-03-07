@@ -1,8 +1,7 @@
 #include "MqttClient.h"
 
 #include "ESP8266TrueRandom.h"
-
-extern Device device;
+#include "MqttTopics.h"
 
 MqttClient::MqttClient(PubSubClient &mqttClient) : _mqttClient(mqttClient) {
     _lastReconnectAttempt = 0;
@@ -14,16 +13,38 @@ void MqttClient::init(const string &brokerURL) {
     reconnect();
 }
 
+void MqttClient::connect() {
+    reconnect();
+}
+
+void MqttClient::disconnect() {
+    _mqttClient.disconnect();
+}
+
+void MqttClient::sendData(const string &path, DynamicJsonDocument data) {
+    if (path == "")
+        return;
+    char buffer[600];
+
+    size_t size = serializeJson(data, buffer);
+    data.shrinkToFit();
+    data.garbageCollect();
+
+    getMQTT().publish(path.c_str(), buffer, size);
+}
+
 string MqttClient::getUUID() {
     return _uuid;
 }
-void MqttClient::setUUID(string UUID) {
+void MqttClient::setUUID(const string &UUID) {
     _uuid = UUID;
 }
 
 bool MqttClient::reconnect() {
-    if (_mqttClient.connect(getUUID().c_str(), device.getLogoutTopic().c_str(), 1, false, "")) {
-        _mqttClient.subscribe(device.getEraseTopicWild().c_str());
+    Device *dev = getDevice().get();
+    if (!_mqttClient.connect(getUUID().c_str(), getLogoutHomeTopic(dev->getHomeID()).c_str(), 1, false, "")) {
+        Serial.println("Cannot connect MQTT client");
+        return false;
     }
     Serial.print(".");
 
@@ -37,11 +58,8 @@ void MqttClient::checkAvailability() {
             _lastReconnectAttempt = now;
             if (reconnect()) {
                 _lastReconnectAttempt = 0;
-                if (device.getID() != -1) {
-                    device.publishConnectMessage();
-                } else {
-                    device.publishCreateMessage();
-                }
+
+                //TODO check validity
             }
         }
     } else {
@@ -53,7 +71,7 @@ string MqttClient::getBrokerURL() {
     return _brokerURL;
 }
 
-void MqttClient::setBrokerURL(string brokerURL) {
+void MqttClient::setBrokerURL(const string &brokerURL) {
     _brokerURL = brokerURL;
 }
 

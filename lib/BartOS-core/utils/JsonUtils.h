@@ -28,16 +28,7 @@ static bool containOnlyAllowedKey(const JsonObject &obj, const vector<string> &k
         return false;
 
     for (auto kvp : obj) {
-        bool isAllowed = false;
-
-        for (const string &key : keys) {
-            if (strcmp(kvp.key().c_str(), key.c_str()) == 0) {
-                isAllowed = true;
-                break;
-            }
-        }
-
-        if (!isAllowed) {
+        if (!isAllowedKey(kvp.key().c_str(), keys)) {
             return false;
         }
     }
@@ -53,4 +44,19 @@ static bool containKeys(const JsonObject &obj, const vector<string> &keys) {
             return false;
     }
     return true;
+}
+
+static DynamicJsonDocument reduceToAllowedKeys(DynamicJsonDocument &doc, const vector<string> &keys) {
+    JsonObject obj = doc.as<JsonObject>();
+    if (containOnlyAllowedKey(obj, keys)) {
+        return doc;
+    } else {
+        DynamicJsonDocument newDoc(doc.size() + 50);
+        for (auto kvp : obj) {
+            if (isAllowedKey(kvp.key().c_str(), keys)) {
+                newDoc.add(kvp);
+            }
+        }
+        return newDoc;
+    }
 }

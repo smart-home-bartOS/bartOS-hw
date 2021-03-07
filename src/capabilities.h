@@ -9,7 +9,6 @@
 #include <vector>
 
 #include "capability/general/Capability.h"
-#include "core/HumidityCap.h"
 #include "core/LightsCap.h"
 #include "core/PIRCap.h"
 #include "core/RelayCap.h"

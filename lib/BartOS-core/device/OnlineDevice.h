@@ -5,11 +5,11 @@
 #include "connector/DataConnector.h"
 #include "connector/ManageConnector.h"
 
-class OnlineDevice : public Device {
+class OnlineDevice : public Device, enable_shared_from_this<OnlineDevice> {
    private:
     bool _storeFileSystem = false;
-    shared_ptr<ManageConnector> _manageConnector;
     shared_ptr<DataConnector> _dataConnector;
+    shared_ptr<ManageConnector> _manageConnector;
 
    public:
     OnlineDevice(shared_ptr<ManageConnector> &manageConn,
@@ -29,6 +29,12 @@ class OnlineDevice : public Device {
 
     shared_ptr<ManageConnector> getManageConnector();
     shared_ptr<DataConnector> getDataConnector();
+
+    void setManageConnector(shared_ptr<ManageConnector> connector);
+    void setManageConnector(shared_ptr<DataConnector> connector);
+
+    DynamicJsonDocument getCreateJSON();
+    DynamicJsonDocument getConnectJSON();
 };
 
 #endif  //ONLINE_DEVICE_H

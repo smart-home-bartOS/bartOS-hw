@@ -22,7 +22,10 @@ class HttpManageDeviceConn : public ManageConnector {
     void setServerURL(const string& serverURL);
     string getServerURL();
 
-    DynamicJsonDocument createDevice();
+    shared_ptr<Device> getDevice();
+    void setDevice(shared_ptr<Device> device);
+
+    DynamicJsonDocument createDevice(const DynamicJsonDocument& data);
     DynamicJsonDocument connectDevice();
     DynamicJsonDocument disconnectDevice();
     DynamicJsonDocument getRoom();

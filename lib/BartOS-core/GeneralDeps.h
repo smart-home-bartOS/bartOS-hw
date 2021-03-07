@@ -8,8 +8,8 @@
 
 #include <memory>
 
+#include "MqttClient.h"
 #include "device/Device_deps.h"
-#include "mqtt/MqttClient.h"
 
 using namespace std;
 

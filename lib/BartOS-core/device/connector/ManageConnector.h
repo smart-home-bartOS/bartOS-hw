@@ -11,7 +11,7 @@ class ManageConnector : public DeviceConnector {
    public:
     virtual ~ManageConnector(){};
 
-    virtual DynamicJsonDocument createDevice() = 0;
+    virtual DynamicJsonDocument createDevice(const DynamicJsonDocument& data) = 0;
     virtual DynamicJsonDocument connectDevice() = 0;
     virtual DynamicJsonDocument disconnectDevice() = 0;
     virtual DynamicJsonDocument getRoom() = 0;

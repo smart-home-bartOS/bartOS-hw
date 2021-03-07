@@ -3,13 +3,13 @@
 #include <ArduinoJson.h>
 
 #include "HttpClient.h"
+#include "HttpPath.h"
 #include "device/Device.h"
 #include "device/DeviceFields.h"
 #include "device/DevicePath.h"
 #include "utils/JsonUtils.h"
 
 HttpClient httpClient;
-extern Device device;
 
 HttpManageDeviceConn::HttpManageDeviceConn(const string& serverURL) : _serverURL(serverURL) {
     httpClient.setServerURL(serverURL);
@@ -26,34 +26,18 @@ string HttpManageDeviceConn::getServerURL() {
     return _serverURL;
 }
 
-size_t getCreateJSONSize(size_t capabilitiesSize) {
-    return JSON_ARRAY_SIZE(capabilitiesSize) + capabilitiesSize * (JSON_OBJECT_SIZE(3) + 100) + JSON_OBJECT_SIZE(4) + 500;
-}
-
-DynamicJsonDocument getCreateJSON() {
-    const size_t capacity = getCreateJSONSize(device.getCapabilities().size());
-    DynamicJsonDocument create(capacity);
-
-    create[NAME] = device.getName().c_str();
-    JsonArray caps = create.createNestedArray(CAPABILITIES);
-
-    for (auto& item : device.getCapabilities()) {
-        JsonObject obj = caps.createNestedObject();
-        item->editCreateCapNested(obj);
+bool isValidResponseCode(const int code, const vector<int> allowedResponseCodes) {
+    for (const int item : allowedResponseCodes) {
+        if (item == code) {
+            return true;
+        }
     }
-
-    return create;
+    return false;
 }
 
-DynamicJsonDocument HttpManageDeviceConn::createDevice() {
-    char buffer[2048];
-    DynamicJsonDocument json = getCreateJSON();
-    serializeJson(json, buffer);
-
-    HttpResponse resp = httpClient.doPost(getHomePath(device.getHomeID()), string(buffer));
-
+DynamicJsonDocument getJsonFromResponse(HttpResponse& response, const vector<int> allowedResponseCodes, const vector<string> allowedKeys) {
     DynamicJsonDocument doc(1024);
-    DeserializationError err = deserializeJson(doc, resp.getPayload().c_str(), resp.getPayload().size());
+    DeserializationError err = deserializeJson(doc, response.getPayload().c_str(), response.getPayload().size());
     if (err) {
         Serial.println(err.c_str());
         return;
@@ -61,14 +45,52 @@ DynamicJsonDocument HttpManageDeviceConn::createDevice() {
 
     JsonObject obj = doc.as<JsonObject>();
 
-    vector<string> keys{ID, NAME, CAPABILITIES};
-    if (!containKeys(obj, keys) || resp.getResponseCode() != 200 || resp.getResponseCode() != 201) {
+    if (!allowedKeys.empty() && !containKeys(obj, allowedKeys)) {
+        return;
+    }
+
+    if (!isValidResponseCode(response.getResponseCode(), allowedResponseCodes)) {
         return;
     }
 
     return doc;
 }
 
-HttpResponse HttpManageDeviceConn::connectDevice() {}
-HttpResponse HttpManageDeviceConn::disconnectDevice() {}
-HttpResponse HttpManageDeviceConn::getRoom() {}
+DynamicJsonDocument getJsonFromResponse(HttpResponse& response, const vector<int> allowedResponseCodes) {
+    const vector<string> emptyVector = {};
+    return getJsonFromResponse(response, allowedResponseCodes, emptyVector);
+}
+
+DynamicJsonDocument HttpManageDeviceConn::createDevice(const DynamicJsonDocument& data) {
+    char buffer[2048];
+    serializeJson(data, buffer);
+    Device* device = getDevice().get();
+
+    HttpResponse resp = httpClient.doPost(getCreatePath(device->getHomeID()), string(buffer));
+    const vector<int> allowedResponseCodes = {200, 201};
+
+    return getJsonFromResponse(resp, allowedResponseCodes, DEVICE_CREATE_FIELDS);
+}
+
+DynamicJsonDocument HttpManageDeviceConn::connectDevice() {
+    Device* device = getDevice().get();
+
+    HttpResponse resp = httpClient.doGet(getConnectPath(device->getHomeID(), device->getID()));
+
+    const vector<int> allowedResponseCodes = {200};
+
+    return getJsonFromResponse(resp, allowedResponseCodes, DEVICE_CONNECT_FIELDS);
+}
+
+DynamicJsonDocument HttpManageDeviceConn::disconnectDevice() {
+    Device* device = getDevice().get();
+
+    HttpResponse resp = httpClient.doGet(getDisconnectPath(device->getHomeID(), device->getID()));
+
+    const vector<int> allowedResponseCodes = {200};
+
+    return getJsonFromResponse(resp, allowedResponseCodes, DEVICE_CONNECT_FIELDS);
+}
+
+//TODO
+DynamicJsonDocument HttpManageDeviceConn::getRoom() {}
