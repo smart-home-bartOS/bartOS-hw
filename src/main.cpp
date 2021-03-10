@@ -3,29 +3,24 @@ using namespace std;
 
 #include <memory>
 
-#include "HttpClient.h"
-#include "HttpManageDeviceConn.h"
-#include "MqttClient.h"
-#include "capabilities.h"
-#include "device/OnlineDevice.h"
-#include "wifiUtils/WifiUtils.h"
+#include "http-manage/HttpClient.h"
+#include "http-manage/HttpManageDeviceConn.h"
+#include "mqtt-data/MqttClient.h"
+#include "online-device/device/OnlineDevice.h"
+#include "wifi-manager/BartOsWifiManager.h"
 
 WiFiClient espClient;
 PubSubClient clientPub(espClient);
 MqttClient client(clientPub);
-WiFiManager wifiManager;
-WifiUtils wifiUtils(wifiManager);
 HttpClient httpClient;
+BartOsWifiManager wifiManager;
 
 const char *CONFIG_FILE = "/config.json";
 
-auto dataConnector = make_shared<MqttClient>(clientPub);
+shared_ptr<DataConnector> dataConnector = make_shared<MqttClient>(clientPub);
 shared_ptr<ManageConnector> manageConnector = make_shared<HttpManageDeviceConn>("serverURL");
-OnlineDevice onlineDevice(manageConnector, dataConnector);
 
-void saveConfigCallback() {
-    wifiUtils.setShouldSaveConfig(true);
-}
+OnlineDevice onlineDevice(manageConnector, dataConnector);
 
 void forwardMessages(char *topic, byte *payload, unsigned int length) {
     DynamicJsonDocument doc(1024);
@@ -42,28 +37,13 @@ void forwardMessages(char *topic, byte *payload, unsigned int length) {
 void setup() {
     Serial.begin(9600);
 
-    wifiUtils.shouldClearStates(shouldClearState);
-    wifiManager.setSaveConfigCallback(saveConfigCallback);
-    wifiUtils.begin();
+    wifiManager.begin();
 
-    client.init(device.getBrokerURL());
-    client.getMQTT().setCallback(forwardMessages);
-
-    httpClient.setServerURL(device.getServerURL());
-
-    device.setCapabilities(createdCaps);
-    device.initAllCapabilities();
-
-    if (!wifiUtils.alreadyDeviceCreated()) {
-        device.publishCreateMessage();
-        wifiUtils.setShouldSaveConfig(false);
-    } else {
-        device.publishConnectMessage();
-    }
+    onlineDevice.setCapabilities(createdCaps);
+    onlineDevice.initAllCapabilities();
 }
 
 void loop() {
-    client.checkAvailability();
-    device.executeAllCapabilities();
+    onlineDevice.executeAllCapabilities();
     delay(10);
 }
