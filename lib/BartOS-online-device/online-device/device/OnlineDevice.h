@@ -38,8 +38,7 @@ class OnlineDevice : public Device, enable_shared_from_this<OnlineDevice> {
     void setManageConnector(shared_ptr<ManageConnector> connector);
     void setManageConnector(shared_ptr<DataConnector> connector);
 
-    void setCapsIDFromJSON(const JsonObject &obj);
-    void setCapsIDFromJSON(const JsonObject &obj, bool shouldCreate);
+    void setUpCapabilities(const JsonObject &capsData);
 
     DynamicJsonDocument getCreateJSON();
     DynamicJsonDocument getConnectJSON();

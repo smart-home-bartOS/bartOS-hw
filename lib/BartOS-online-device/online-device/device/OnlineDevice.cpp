@@ -3,6 +3,7 @@
 #include "OnlineDeviceFields.h"
 #include "core/capability/CapabilityFields.h"
 #include "core/storage/FsManager.h"
+#include "online-device/capability/OnlineCapability.h"
 #include "online-device/utils/JsonUtils.h"
 
 extern FsManager fsManager;
@@ -51,8 +52,10 @@ DynamicJsonDocument OnlineDevice::getCreateJSON() {
     JsonArray caps = create.createNestedArray(DeviceFields::CAPABILITIES);
 
     for (auto &item : getCapabilities()) {
-        JsonObject obj = caps.createNestedObject();
-        item->editCreateCapNested(obj);
+        if (item.get()->getConnectionType() == ConnectionType::ONLINE) {
+            JsonObject obj = caps.createNestedObject();
+            OnlineCapability::setRepresentation(obj, item);
+        }
     }
 
     return create;
@@ -62,7 +65,7 @@ bool OnlineDevice::createDevice() {
     DynamicJsonDocument doc = getManageConnector().get()->createDevice(getCreateJSON());
 
     setID(doc[DeviceFields::ID]);
-    setCapsIDFromJSON(doc.as<JsonObject>());
+    setUpCapabilities(doc.as<JsonObject>());
 
     setInitialized(true);
 
@@ -85,7 +88,7 @@ bool OnlineDevice::connectDevice() {
         }
     }
 
-    setCapsIDFromJSON(doc.as<JsonObject>());
+    setUpCapabilities(doc.as<JsonObject>());
     setInitialized(true);
 
     doc.garbageCollect();
@@ -96,28 +99,19 @@ bool OnlineDevice::disconnectDevice() {
     getManageConnector().get()->disconnectDevice();
 }
 
-void OnlineDevice::setCapsIDFromJSON(const JsonObject &obj, bool shouldCreate) {
-    if (obj.containsKey(CapabilityFields::CAPABILITIES)) {
-        StaticJsonDocument<1024> doc;
+void OnlineDevice::setUpCapabilities(const JsonObject &capsData) {
+    if (capsData.containsKey(CapabilityFields::CAPABILITIES)) {
+        JsonArray caps = capsData[CapabilityFields::CAPABILITIES];
 
-        JsonArray caps = obj[CapabilityFields::CAPABILITIES];
-
-        for (JsonObject cap : caps) {
-            long capID = cap[CapabilityFields::ID];
-            uint8_t pin = cap[CapabilityFields::PIN];
-            const char *type = cap[CapabilityFields::TYPE];
-
-            auto p_cap = getCapByPin(pin);
-            if (p_cap != nullptr) {
-                p_cap->setID(capID);
+        for (JsonObject capData : caps) {
+            if (capData.containsKey(CapabilityFields::PIN)) {
+                auto p_cap = getCapByPin(capData[CapabilityFields::PIN]);
+                if (p_cap != nullptr) {
+                    OnlineCapability::setUpCapabilityWithActualData(capData, p_cap);
+                }
             }
         }
-        doc.garbageCollect();
     }
-}
-
-void OnlineDevice::setCapsIDFromJSON(const JsonObject &obj) {
-    setCapsIDFromJSON(obj, false);
 }
 
 WifiCredentials OnlineDevice::getWifiCredentials() {

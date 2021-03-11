@@ -15,9 +15,10 @@ class Capability : public StateConnection {
     long _ID = -1;
     uint8_t _pin;
     bool _enable;
+    string _name = "";
     CapabilityType _type;
     shared_ptr<Device> _device;
-    string _nameID = "";
+    string _typeID = "";
 
     unsigned _sampleTime = 0;
     unsigned long _lastExecution;
@@ -26,8 +27,8 @@ class Capability : public StateConnection {
     bool isSampleTimeAchieved();
 
    public:
-    Capability(const uint8_t &pin, CapabilityType type);
-    Capability(const uint8_t &pin, CapabilityType type, const unsigned sampleTime);
+    Capability(const string &name, const uint8_t &pin, CapabilityType type);
+    Capability(const string &name, const uint8_t &pin, CapabilityType type, const unsigned sampleTime);
     ~Capability() = default;
 
     virtual void init();
@@ -37,8 +38,11 @@ class Capability : public StateConnection {
     long getID();
     void setID(const long &id);
 
-    virtual string getNameID();
-    virtual void setNameID(const string &nameID);
+    virtual string getTypeID();
+    virtual void setTypeID(const string &typeID);
+
+    string getName();
+    void setName(const string &name);
 
     uint8_t getPin();
     void setPin(const uint8_t &pin);

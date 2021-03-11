@@ -1,11 +1,12 @@
 #include "Capability.h"
 
-Capability::Capability(const uint8_t &pin, CapabilityType type) : StateConnection(ConnectionType::OFFLINE),
-                                                                  _pin(pin),
-                                                                  _type(type) {
+Capability::Capability(const string &name, const uint8_t &pin, CapabilityType type) : StateConnection(ConnectionType::OFFLINE),
+                                                                                      _pin(pin),
+                                                                                      _type(type),
+                                                                                      _name(name) {
 }
 
-Capability::Capability(const uint8_t &pin, CapabilityType type, const unsigned sampleTime) : Capability(pin, type) {
+Capability::Capability(const string &name, const uint8_t &pin, CapabilityType type, const unsigned sampleTime) : Capability(name, pin, type) {
     setSampleTime(sampleTime);
 }
 
@@ -16,12 +17,20 @@ void Capability::setID(const long &id) {
     _ID = id;
 }
 
-string Capability::getNameID() {
-    return _nameID;
+string Capability::getTypeID() {
+    return _typeID;
 }
 
-void Capability::setNameID(const string &nameID) {
-    _nameID = nameID;
+void Capability::setTypeID(const string &typeID) {
+    _typeID = typeID;
+}
+
+string Capability::getName() {
+    return _name;
+}
+
+void Capability::setName(const string &name) {
+    _name = name;
 }
 
 shared_ptr<Device> Capability::getDevice() {

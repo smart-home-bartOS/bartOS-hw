@@ -7,6 +7,7 @@ using namespace std;
 #include "http-manage/HttpManageDeviceConn.h"
 #include "mqtt-data/MqttClient.h"
 #include "online-device/device/OnlineDevice.h"
+#include "temp-online/TemperatureOnline.h"
 #include "wifi-manager/BartOsWifiManager.h"
 
 WiFiClient espClient;
@@ -22,28 +23,18 @@ shared_ptr<ManageConnector> manageConnector = make_shared<HttpManageDeviceConn>(
 
 OnlineDevice onlineDevice(manageConnector, dataConnector);
 
-void forwardMessages(char *topic, byte *payload, unsigned int length) {
-    DynamicJsonDocument doc(1024);
-    DeserializationError err = deserializeJson(doc, payload, length);
-    if (err) {
-        Serial.println(err.c_str());
-        return;
-    }
-
-    //forwarder.forwardMessage(topic, doc);
-    doc.garbageCollect();
-}
+vector<shared_ptr<Capability>> capabilities{
+    make_shared<TemperatureOnline>("temp", 10, dataConnector)};
 
 void setup() {
     Serial.begin(9600);
 
     wifiManager.begin();
 
-    onlineDevice.setCapabilities(createdCaps);
+    onlineDevice.setCapabilities(capabilities);
     onlineDevice.initAllCapabilities();
 }
 
 void loop() {
     onlineDevice.executeAllCapabilities();
-    delay(10);
 }

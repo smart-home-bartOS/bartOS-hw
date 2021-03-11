@@ -2,7 +2,6 @@
 #include "CapabilityWithState.h"
 
 CapabilityWithState::CapabilityWithState(const uint8_t &pin, CapabilityType type) : Capability(pin, type) {
-
 }
 
 bool CapabilityWithState::isTurnedOn() {
