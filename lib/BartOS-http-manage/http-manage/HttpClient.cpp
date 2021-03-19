@@ -33,19 +33,19 @@ HttpResponse HttpClient::execute(HttpMethod method, const string& path, const st
     switch (method) {
         case HttpMethod::GET:
             code = http.GET();
-            return;
+            break;
         case HttpMethod::POST:
             code = http.POST(body.c_str());
-            return;
+            break;
         case HttpMethod::PATCH:
             code = http.PATCH(body.c_str());
-            return;
+            break;
         case HttpMethod::PUT:
             code = http.PUT(body.c_str());
-            return;
+            break;
         case HttpMethod::DELETE:
             code = http.sendRequest("DELETE", body.c_str());
-            return;
+            break;
     }
 
     resp.setResponseCode(code);

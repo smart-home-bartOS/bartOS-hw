@@ -1,8 +1,5 @@
 
 #include "NumberGenerator.h"
-
-#include <time.h>
-
 #include <sstream>
 
 #include "ESP8266TrueRandom.h"

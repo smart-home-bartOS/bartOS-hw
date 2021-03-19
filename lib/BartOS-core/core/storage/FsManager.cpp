@@ -1,15 +1,15 @@
 #include "FsManager.h"
 
-#include <LittleFS.h>
+#include <memory>
 
 #include "FS.h"
 
 FsManager::FsManager() {
 }
 
-DynamicJsonDocument FsManager::readStorage(const string& filePath) {
+DynamicJsonDocument FsManager::readStorage(const string &filePath) {
     DynamicJsonDocument doc(DEFAULT_FILE_SIZE);
-
+/*
     if (LittleFS.begin() && LittleFS.exists(filePath.c_str())) {
         File file = LittleFS.open(filePath.c_str(), READ_MODE.c_str());
         if (file) {
@@ -29,7 +29,7 @@ DynamicJsonDocument FsManager::readStorage(const string& filePath) {
         }
     } else {
         Serial.println("Cannot find file");
-    }
+    }*/
 
     return doc;
 }
@@ -38,8 +38,8 @@ DynamicJsonDocument FsManager::readConfigFile() {
     return readStorage(CONFIG_FILE);
 }
 
-bool FsManager::saveToStorage(const string& filePath, const DynamicJsonDocument& doc) {
-    File file = LittleFS.open(filePath.c_str(), WRITE_MODE.c_str());
+bool FsManager::saveToStorage(const string &filePath, const DynamicJsonDocument &doc) {
+    /*File file = LittleFS.open(filePath.c_str(), WRITE_MODE.c_str());
     if (!file) {
         Serial.println("Cannot save to storage.");
         return false;
@@ -50,10 +50,10 @@ bool FsManager::saveToStorage(const string& filePath, const DynamicJsonDocument&
         file.close();
         return false;
     }
-    file.close();
+    file.close();*/
     return true;
 }
 
-bool FsManager::saveToConfigFile(const DynamicJsonDocument& doc) {
+bool FsManager::saveToConfigFile(const DynamicJsonDocument &doc) {
     return saveToStorage(CONFIG_FILE, doc);
 }

@@ -3,8 +3,9 @@
 
 #include <ArduinoJson.h>
 #include <PubSubClient.h>
+#include <string>
+#include <online-device/device/connector/DataConnector.h>
 
-#include "online-device/device/connector/DataConnector.h"
 using namespace std;
 
 class MqttClient : public DataConnector {
@@ -20,16 +21,14 @@ class MqttClient : public DataConnector {
 
     PubSubClient &_mqttClient;
 
-    void setupWifi();
-
    public:
-    MqttClient(PubSubClient &mqttClient);
-    ~MqttClient() = default;
+    explicit MqttClient(PubSubClient &mqttClient);
+    ~MqttClient() override = default;
 
-    void connect();
-    void disconnect();
+    void connect() override;
+    void disconnect() override;
 
-    void sendData(const string &path, DynamicJsonDocument data);
+    void sendData(const string &path, DynamicJsonDocument data) override;
 
     string getUUID();
     void setUUID(const string &UUID);

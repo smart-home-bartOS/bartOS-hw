@@ -2,14 +2,13 @@
 #define DEVICE_PATH_H
 
 #include <string>
-
-#include "online-device/utils/JsonUtils.h"
+#include <online-device/utils/JsonUtils.h>
 
 using namespace std;
 
-static const string& HOMES_PATH = "homes";
-static const string& ROOMS_PATH = "rooms";
-static const string& DEVICES_PATH = "devices";
+static const string HOMES_PATH = "homes";
+static const string ROOMS_PATH = "rooms";
+static const string DEVICES_PATH = "devices";
 
 static string getHomePath(const long homeID) {
     return "/" + HOMES_PATH + convertLongToString(homeID);

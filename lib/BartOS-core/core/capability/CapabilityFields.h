@@ -3,29 +3,30 @@
 
 #include <string>
 #include <vector>
+
 using namespace std;
 
 class CapabilityFields {
-   public:
-    static const string ID;
-    static const string NAME;
-    static const string PIN;
-    static const string TYPE;
-    static const string CAPABILITIES;
+public:
+    static const char* ID;
+    static const char* NAME;
+    static const char* PIN;
+    static const char* TYPE;
+    static const char* CAPABILITIES;
 
-    static const vector<string> getFields() {
+    static vector<string> getFields() {
         return vector<string>{
-            ID,
-            NAME,
-            PIN,
-            TYPE};
+                ID,
+                NAME,
+                PIN,
+                TYPE};
     }
 };
 
-const string CapabilityFields::ID = "id";
-const string CapabilityFields::NAME = "name";
-const string CapabilityFields::PIN = "pin";
-const string CapabilityFields::TYPE = "type";
-const string CapabilityFields::CAPABILITIES = "capabilities";
+const char* CapabilityFields::ID = "id";
+const char* CapabilityFields::NAME = "name";
+const char* CapabilityFields::PIN = "pin";
+const char* CapabilityFields::TYPE = "type";
+const char* CapabilityFields::CAPABILITIES = "capabilities";
 
 #endif  //CAPABILITY_FIELDS_H

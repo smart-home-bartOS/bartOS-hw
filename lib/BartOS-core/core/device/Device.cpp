@@ -24,15 +24,17 @@ void Device::setName(const string &name) {
 }
 
 long Device::getID() {
-    return _ID;
+    return _id;
 }
+
 void Device::setID(const long &id) {
-    _ID = id;
+    _id = id;
 }
 
 long Device::getHomeID() {
     return _homeID;
 }
+
 void Device::setHomeID(const long &homeID) {
     _homeID = homeID;
 }
@@ -48,17 +50,14 @@ void Device::setRoomID(const long &roomID) {
 bool Device::isInitialized() {
     return _initialized;
 }
+
 void Device::setInitialized(bool initialized) {
     _initialized = initialized;
 }
 
 /* CAPS */
-vector<shared_ptr<Capability>> Device::getCapabilities() {
+vector<Capability &> Device::getCapabilities() {
     return _capabilities;
-}
-
-void Device::setCapabilities(vector<shared_ptr<Capability>> &caps) {
-    _capabilities = caps;
 }
 
 auto Device::getCapByPin(const uint8_t &pin) -> shared_ptr<Capability> {
@@ -70,21 +69,21 @@ auto Device::getCapByPin(const uint8_t &pin) -> shared_ptr<Capability> {
     return nullptr;
 }
 
-void Device::addCapability(shared_ptr<Capability> cap) {
+void Device::addCapability(Capability &cap) {
     _capabilities.push_back(cap);
 }
 
 void Device::removeCapability(long id) {
-    vector<shared_ptr<Capability>> caps = getCapabilities();
+    vector<Capability &> caps = getCapabilities();
     for (unsigned i = 0; i < caps.size(); i++) {
-        if (caps[i]->getID() == id) {
+        if (caps[i].getID() == id) {
             _capabilities.erase(caps.begin() + i);
         }
     }
 }
 
 void Device::removeCapabilityByPin(const uint8_t &pin) {
-    vector<shared_ptr<Capability>> caps = getCapabilities();
+    vector<Capability &> caps = getCapabilities();
     for (unsigned i = 0; i < caps.size(); i++) {
         if (caps[i]->getPin() == pin) {
             _capabilities.erase(caps.begin() + i);
@@ -93,14 +92,14 @@ void Device::removeCapabilityByPin(const uint8_t &pin) {
 }
 
 void Device::initAllCapabilities() {
-    for (auto &item : getCapabilities()) {
+    for (Capability &item : getCapabilities()) {
         item->init();
     }
 }
 
 void Device::executeAllCapabilities() {
-    for (auto &item : getCapabilities()) {
-        item->execute();
+    for (Capability item : getCapabilities()) {
+        item.execute();
     }
 }
 

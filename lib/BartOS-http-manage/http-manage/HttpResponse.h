@@ -15,7 +15,7 @@ class HttpResponse {
     ~HttpResponse() = default;
 
     int getResponseCode();
-    void setResponseCode(const int code);
+    void setResponseCode(int code);
 
     string& getPayload();
 

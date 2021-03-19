@@ -4,52 +4,57 @@
 #include <memory>
 #include <string>
 #include <vector>
-
-#include "core/StateConnection.h"
-#include "core/capability/Capability.h"
-#include "core/generator/NumberGenerator.h"
+#include <core/StateConnection.h>
+#include <core/capability/Capability.h>
 
 using namespace std;
 
+class Capability;
+
 class Device : public StateConnection {
-   private:
+private:
     string _name;
-    long _ID = -1;
+    long _id = -1;
     long _homeID = -1;
     long _roomID = -1;
 
     bool _initialized = false;
 
-    vector<shared_ptr<Capability>> _capabilities;
+    vector<reference_wrapper<Capability>> _capabilities;
 
-   public:
-    Device();
+public:
+    Device(vector<Capability &> &capabilities);
+
     ~Device() = default;
 
-    virtual void init();
+    virtual void init() = 0;
 
     string getName();
+
     void setName(const string &name);
 
     long getID();
+
     void setID(const long &id);
 
     long getHomeID();
+
     void setHomeID(const long &homeID);
 
     long getRoomID();
+
     void setRoomID(const long &roomID);
 
     bool isInitialized();
+
     void setInitialized(bool initialized);
 
     /* CAPS */
-    vector<shared_ptr<Capability>> getCapabilities();
-    void setCapabilities(vector<shared_ptr<Capability>> &caps);
+    vector<Capability &> getCapabilities();
 
-    auto getCapByPin(const uint8_t &pin) -> shared_ptr<Capability>;
+    auto getCapByPin(const uint8_t &pin);
 
-    void addCapability(shared_ptr<Capability> cap);
+    void addCapability(Capability &cap);
 
     void removeCapability(long id);
 

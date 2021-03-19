@@ -6,20 +6,24 @@
 using namespace std;
 
 class WifiCredentials {
-   private:
+private:
     string _ssid;
     string _pass;
 
-   public:
+public:
     WifiCredentials();
-    WifiCredentials(const string& ssid, const string& pass);
+
+    WifiCredentials(string ssid, string pass);
+
     ~WifiCredentials() = default;
 
     string getSSID();
-    void setSSID(const string& ssid);
+
+    void setSSID(const string &ssid);
 
     string getPassword();
-    void setPassword(const string& pass);
+
+    void setPassword(const string &pass);
 };
 
 #endif  //WIFI_CREDENTIALS_H

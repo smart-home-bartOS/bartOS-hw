@@ -1,47 +1,43 @@
 #include "OnlineDevice.h"
 
+#include <cstring>
+#include <memory>
+#include <core/storage/FsManager.h>
+#include <online-device/capability/OnlineCapability.h>
+
 #include "OnlineDeviceFields.h"
-#include "core/capability/CapabilityFields.h"
-#include "core/storage/FsManager.h"
-#include "online-device/capability/OnlineCapability.h"
-#include "online-device/utils/JsonUtils.h"
 
 extern FsManager fsManager;
 
-OnlineDevice::OnlineDevice(shared_ptr<ManageConnector> &manageConn,
-                           shared_ptr<DataConnector> &dataConn,
+OnlineDevice::OnlineDevice(ManageConnector &manageConn,
+                           DataConnector &dataConn,
                            bool storeToFileSystem) : _manageConnector(manageConn),
-                                                     _dataConnector(dataConn),
-                                                     _storeFileSystem(storeToFileSystem) {
+                                                     _dataConnector(dataConn) {
     setConnectionType(ConnectionType::ONLINE);
-    shared_ptr<Device> instance = make_shared<OnlineDevice>(shared_from_this());
-    _manageConnector.get()->setDevice(instance);
-    _dataConnector.get()->setDevice(instance);
+    _manageConnector.setDevice(shared_from_this());
+    _dataConnector.setDevice(shared_from_this());
 }
 
-OnlineDevice::OnlineDevice(shared_ptr<ManageConnector> &manageConn,
-                           shared_ptr<DataConnector> &dataConn) : OnlineDevice(manageConn, dataConn, false) {
+OnlineDevice::OnlineDevice(ManageConnector &manageConn,
+                           DataConnector &dataConn) : OnlineDevice(manageConn, dataConn, false) {
 }
 
 void OnlineDevice::init() {
-    getManageConnector().get()->connect();
-    getDataConnector().get()->connect();
+    getManageConnector().connect();
+    getDataConnector().connect();
 }
 
-bool OnlineDevice::shouldSaveToFileSystem() {
-    return _storeFileSystem;
-}
-
-shared_ptr<ManageConnector> OnlineDevice::getManageConnector() {
+ManageConnector &OnlineDevice::getManageConnector() {
     return _manageConnector;
 }
 
-shared_ptr<DataConnector> OnlineDevice::getDataConnector() {
+DataConnector &OnlineDevice::getDataConnector() {
     return _dataConnector;
 }
 
 size_t getCreateJSONSize(size_t capabilitiesSize) {
-    return JSON_ARRAY_SIZE(capabilitiesSize) + capabilitiesSize * (JSON_OBJECT_SIZE(3) + 100) + JSON_OBJECT_SIZE(4) + 500;
+    return JSON_ARRAY_SIZE(capabilitiesSize) + capabilitiesSize * (JSON_OBJECT_SIZE(3) + 100) + JSON_OBJECT_SIZE(4) +
+           500;
 }
 
 DynamicJsonDocument OnlineDevice::getCreateJSON() {
@@ -52,7 +48,7 @@ DynamicJsonDocument OnlineDevice::getCreateJSON() {
     JsonArray caps = create.createNestedArray(DeviceFields::CAPABILITIES);
 
     for (auto &item : getCapabilities()) {
-        if (item.get()->getConnectionType() == ConnectionType::ONLINE) {
+        if (item->getConnectionType() == ConnectionType::ONLINE) {
             JsonObject obj = caps.createNestedObject();
             OnlineCapability::setRepresentation(obj, item);
         }
@@ -62,7 +58,7 @@ DynamicJsonDocument OnlineDevice::getCreateJSON() {
 }
 
 bool OnlineDevice::createDevice() {
-    DynamicJsonDocument doc = getManageConnector().get()->createDevice(getCreateJSON());
+    DynamicJsonDocument doc = getManageConnector().createDevice(getCreateJSON());
 
     setID(doc[DeviceFields::ID]);
     setUpCapabilities(doc.as<JsonObject>());
@@ -74,7 +70,7 @@ bool OnlineDevice::createDevice() {
 }
 
 bool OnlineDevice::connectDevice() {
-    DynamicJsonDocument doc = getManageConnector().get()->connectDevice();
+    DynamicJsonDocument doc = getManageConnector().connectDevice();
 
     const char *name = doc[DeviceFields::NAME];
     if (strcmp(name, getName().c_str()) != 0) {
@@ -96,7 +92,7 @@ bool OnlineDevice::connectDevice() {
 }
 
 bool OnlineDevice::disconnectDevice() {
-    getManageConnector().get()->disconnectDevice();
+    getManageConnector().disconnectDevice();
 }
 
 void OnlineDevice::setUpCapabilities(const JsonObject &capsData) {
@@ -118,6 +114,6 @@ WifiCredentials OnlineDevice::getWifiCredentials() {
     return _wifiCredentials;
 }
 
-void OnlineDevice::setWifiCredentials(WifiCredentials credentials) {
+void OnlineDevice::setWifiCredentials(const WifiCredentials &credentials) {
     _wifiCredentials = credentials;
 }

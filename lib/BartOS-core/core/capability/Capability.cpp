@@ -1,28 +1,25 @@
 #include "Capability.h"
 
-Capability::Capability(const string &name, const uint8_t &pin, CapabilityType type) : StateConnection(ConnectionType::OFFLINE),
-                                                                                      _pin(pin),
-                                                                                      _type(type),
-                                                                                      _name(name) {
+Capability::Capability(const uint8_t &pin, const string &type) : StateConnection(ConnectionType::OFFLINE),
+                                                                  _pin(pin),
+                                                                  _type(type) {
 }
 
-Capability::Capability(const string &name, const uint8_t &pin, CapabilityType type, const unsigned sampleTime) : Capability(name, pin, type) {
+Capability::Capability(const uint8_t &pin, const string &type, const unsigned sampleTime) : Capability(pin, type) {
     setSampleTime(sampleTime);
+}
+
+Capability::Capability(const uint8_t &pin, const string &type, const string &name, const unsigned sampleTime)
+        : Capability(pin, type, sampleTime) {
+    setName(name);
 }
 
 long Capability::getID() {
     return _ID;
 }
+
 void Capability::setID(const long &id) {
     _ID = id;
-}
-
-string Capability::getTypeID() {
-    return _typeID;
-}
-
-void Capability::setTypeID(const string &typeID) {
-    _typeID = typeID;
 }
 
 string Capability::getName() {
@@ -64,11 +61,11 @@ bool Capability::isEnabled() {
     return _enable;
 }
 
-CapabilityType Capability::getType() {
+string Capability::getType() {
     return _type;
 }
 
-void Capability::setType(CapabilityType &type) {
+void Capability::setType(const string &type) {
     _type = type;
 }
 

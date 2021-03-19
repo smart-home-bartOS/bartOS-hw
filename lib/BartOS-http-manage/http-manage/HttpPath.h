@@ -3,8 +3,7 @@
 
 using namespace std;
 #include <string>
-
-#include "online-device/device/DevicePath.h"
+#include <online-device/device/DevicePath.h>
 
 static const string& CONNECT_PATH = "connect";
 static const string& DISCONNECT_PATH = "disconnect";

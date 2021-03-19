@@ -20,8 +20,8 @@ class TemperatureOnline : public TemperatureCap, public OnlineCapability {
 
     ~TemperatureOnline() = default;
 
-    void handleData(const JsonObject &obj) {}
-    void sendData();
+    void handleData(const JsonObject &obj) override {}
+    void sendData() override;
 };
 
 #endif  //TEMPERATURE_ONLINE_H

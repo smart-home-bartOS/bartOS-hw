@@ -7,7 +7,7 @@ int HttpResponse::getResponseCode() {
     return _code;
 }
 
-void HttpResponse::setResponseCode(const int code) {
+void HttpResponse::setResponseCode(int code) {
     _code = code;
 }
 

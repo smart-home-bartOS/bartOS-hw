@@ -1,11 +1,13 @@
 #include "OnlineCapability.h"
 
-#include "online-device/utils/JsonUtils.h"
+#include <utility>
+#include <online-device/utils/JsonUtils.h>
 
-OnlineCapability::OnlineCapability(shared_ptr<DataConnector> dataConnector) : _dataConnector(dataConnector) {
+OnlineCapability::OnlineCapability(shared_ptr<DataConnector> dataConnector) : _dataConnector(std::move(dataConnector)) {
 }
 
-OnlineCapability::OnlineCapability(shared_ptr<DataConnector> dataConnector, const string &defaultPath) : OnlineCapability(dataConnector) {
+OnlineCapability::OnlineCapability(shared_ptr<DataConnector> dataConnector, const string &defaultPath)
+        : OnlineCapability(std::move(dataConnector)) {
     setDefaultPath(defaultPath);
 }
 
@@ -25,27 +27,28 @@ shared_ptr<DataConnector> OnlineCapability::getDataConnector() {
 }
 
 void OnlineCapability::setDataConnector(shared_ptr<DataConnector> dataConnector) {
-    _dataConnector = dataConnector;
+    _dataConnector = std::move(dataConnector);
 }
 
-const string OnlineCapability::getDefaultPath() {
+string OnlineCapability::getDefaultPath() {
     return _defaultPath;
 }
+
 void OnlineCapability::setDefaultPath(const string &path) {
     _defaultPath = path;
 }
 
-void OnlineCapability::setRepresentation(JsonObject &obj, shared_ptr<Capability> capability) {
+void OnlineCapability::setRepresentation(JsonObject &obj, const shared_ptr<Capability> &capability) {
     obj.clear();
     Capability *cap = capability.get();
     obj[CapabilityFields::PIN] = cap->getPin();
-    obj[CapabilityFields::TYPE] = cap->getTypeID().c_str();
+    obj[CapabilityFields::TYPE] = cap->getType().c_str();
 }
 
-void OnlineCapability::setUpCapabilityWithActualData(JsonObject &obj, shared_ptr<Capability> capability) {
+void OnlineCapability::setUpCapabilityWithActualData(JsonObject &obj, const shared_ptr<Capability> &capability) {
     const vector<string> KEYS{CapabilityFields::ID, CapabilityFields::NAME};
     if (containKeys(obj, KEYS)) {
-        capability.get()->setID(obj[CapabilityFields::ID]);
-        capability.get()->setName(obj[CapabilityFields::NAME]);
+        capability->setID(obj[CapabilityFields::ID].as<long>());
+        capability->setName(obj[CapabilityFields::NAME].as<char*>());
     }
 }

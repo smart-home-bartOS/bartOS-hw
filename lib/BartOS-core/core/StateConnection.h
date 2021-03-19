@@ -1,17 +1,15 @@
 #ifndef STATE_CONNECTION_H
 #define STATE_CONNECTION_H
 
-enum class ConnectionType {
-    OFFLINE,
-    ONLINE
-};
+#include "ConnectionType.h"
 
 class StateConnection {
-   private:
+private:
     ConnectionType _connectionType;
 
-   public:
-    StateConnection(ConnectionType type);
+public:
+    explicit StateConnection(ConnectionType type) : _connectionType(type) {}
+
     ~StateConnection() = default;
 
     ConnectionType getConnectionType() {

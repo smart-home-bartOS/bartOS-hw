@@ -5,18 +5,19 @@
 #include <WiFiManager.h>
 
 #include <string>
-
-#include "online-device/WifiCredentials.h"
+#include <online-device/WifiCredentials.h>
 
 using namespace std;
 
 class BartOsWifiManager : public WifiCredentials {
-   private:
+private:
     bool _shouldSaveConfig = false;
+
     void setWifiManager();
 
-   public:
+public:
     BartOsWifiManager();
+
     ~BartOsWifiManager() = default;
 
     void begin();

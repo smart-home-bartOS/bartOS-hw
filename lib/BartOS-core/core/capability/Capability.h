@@ -4,58 +4,70 @@
 #include <cstdint>
 
 #include "CapabilityFields.h"
-#include "CapabilityType.h"
-#include "core/StateConnection.h"
-#include "core/device/Device.h"
+#include "CapabilityType.hpp"
+#include <string>
+#include <memory>
+#include <core/StateConnection.h>
+#include <core/device/Device.h>
 
 using namespace std;
 
+class Device;
+
 class Capability : public StateConnection {
-   private:
+private:
     long _ID = -1;
     uint8_t _pin;
-    bool _enable;
+    bool _enable = true;
     string _name = "";
-    CapabilityType _type;
+    string _type = CapabilityType::OTHER;
     shared_ptr<Device> _device;
-    string _typeID = "";
 
     unsigned _sampleTime = 0;
-    unsigned long _lastExecution;
+    unsigned long _lastExecution = 0;
 
-   protected:
+protected:
     bool isSampleTimeAchieved();
 
-   public:
-    Capability(const string &name, const uint8_t &pin, CapabilityType type);
-    Capability(const string &name, const uint8_t &pin, CapabilityType type, const unsigned sampleTime);
+public:
+    Capability(const uint8_t &pin, const string &type);
+
+    Capability(const uint8_t &pin, const string &type, const unsigned sampleTime);
+
+    Capability(const uint8_t &pin, const string &type, const string &name, const unsigned sampleTime);
+
     ~Capability() = default;
 
     virtual void init();
+
     void preExecute();
+
     virtual void execute();
 
     long getID();
+
     void setID(const long &id);
 
-    virtual string getTypeID();
-    virtual void setTypeID(const string &typeID);
-
     string getName();
+
     void setName(const string &name);
 
     uint8_t getPin();
+
     void setPin(const uint8_t &pin);
 
-    CapabilityType getType();
-    void setType(CapabilityType &type);
+    string getType();
+
+    void setType(const string &type);
 
     bool isEnabled();
 
     unsigned getSampleTime();
+
     void setSampleTime(unsigned millis);
 
     shared_ptr<Device> getDevice();
+
     void setDevice(shared_ptr<Device> device);
 };
 
