@@ -2,19 +2,13 @@ using namespace std;
 
 #include <Arduino.h>
 
-#include <memory>
-#include <vector>
 #include <PubSubClient.h>
 #include <WiFiClient.h>
 #include <mqtt-data/MqttClient.h>
-#include <http-manage/HttpClient.h>
 #include <wifi-manager/BartOsWifiManager.h>
-#include <online-device/device/connector/DataConnector.h>
-#include <online-device/device/connector/ManageConnector.h>
 #include <http-manage/HttpManageDeviceConn.h>
 #include <online-device/device/OnlineDevice.h>
-#include <temp-online/TemperatureOnline.h>
-#include <core/capability/Capability.h>
+#include "capabilities.h"
 
 WiFiClient espClient;
 PubSubClient clientPub(espClient);
@@ -23,22 +17,17 @@ PubSubClient clientPub(espClient);
 HttpManageDeviceConn httpDeviceConnector("serverURL");
 MqttClient mqttDataConnector(clientPub);
 
-BartOsWifiManager wifiManager;
+WiFiManager externalWifiManager;
+BartOsWifiManager wifiManager(externalWifiManager);
 
 const char *CONFIG_FILE = "/config.json";
 
-OnlineDevice onlineDevice(httpDeviceConnector, mqttDataConnector);
-TemperatureCap temp(D7);
-
-vector<reference_wrapper<Capability>> createdCaps{temp};
+OnlineDevice onlineDevice(CAPABILITIES, httpDeviceConnector, mqttDataConnector);
 
 void setup() {
     Serial.begin(9600);
 
-
-
     wifiManager.begin();
-
     onlineDevice.initAllCapabilities();
 }
 

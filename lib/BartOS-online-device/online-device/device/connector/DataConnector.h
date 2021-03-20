@@ -9,7 +9,7 @@ using namespace std;
 
 class DataConnector : public DeviceConnector {
 public:
-    ~DataConnector() override ;
+    ~DataConnector() {};
 
     virtual void sendData(const string &path, DynamicJsonDocument data) = 0;
 };

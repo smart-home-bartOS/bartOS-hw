@@ -17,7 +17,7 @@ class MqttClient : public DataConnector {
 
     char _msg[100];
 
-    long _lastReconnectAttempt;
+    unsigned long _lastReconnectAttempt;
 
     PubSubClient &_mqttClient;
 

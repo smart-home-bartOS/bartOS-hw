@@ -15,10 +15,13 @@ private:
     WifiCredentials _wifiCredentials;
 
 public:
-    OnlineDevice(ManageConnector &manageConn,
-                 DataConnector &dataConn);
+    OnlineDevice(const vector<shared_ptr<Capability>>& capabilities,
+                 ManageConnector &manageConn,
+                 DataConnector &dataConn
+    );
 
-    OnlineDevice(ManageConnector &manageConn,
+    OnlineDevice(const vector<shared_ptr<Capability>>& capabilities,
+                 ManageConnector &manageConn,
                  DataConnector &dataConn,
                  bool storeToFileSystem);
 

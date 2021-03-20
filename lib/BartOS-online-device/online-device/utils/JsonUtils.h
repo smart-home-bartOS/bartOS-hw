@@ -1,3 +1,6 @@
+#ifndef JSON_UTILS_H
+#define JSON_UTILS_H
+
 #include <ArduinoJson.h>
 
 #include <sstream>
@@ -54,9 +57,11 @@ static DynamicJsonDocument reduceToAllowedKeys(DynamicJsonDocument &doc, const v
         DynamicJsonDocument newDoc(doc.size() + 50);
         for (auto kvp : obj) {
             if (isAllowedKey(kvp.key().c_str(), keys)) {
-                newDoc[kvp.key().c_str()]=kvp.value();
+                newDoc[kvp.key().c_str()] = kvp.value();
             }
         }
         return newDoc;
     }
 }
+
+#endif //JSON_UTILS_H

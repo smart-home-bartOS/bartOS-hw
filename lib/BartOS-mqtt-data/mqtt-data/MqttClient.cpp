@@ -22,8 +22,7 @@ void MqttClient::disconnect() {
 }
 
 void MqttClient::sendData(const string &path, DynamicJsonDocument data) {
-    if (path == "")
-        return;
+    if (path.empty()) return;
     char buffer[600];
 
     size_t size = serializeJson(data, buffer);
@@ -36,13 +35,18 @@ void MqttClient::sendData(const string &path, DynamicJsonDocument data) {
 string MqttClient::getUUID() {
     return _uuid;
 }
+
 void MqttClient::setUUID(const string &UUID) {
     _uuid = UUID;
 }
 
 bool MqttClient::reconnect() {
     Device *dev = getDevice().get();
-    if (!_mqttClient.connect(getUUID().c_str(), getLogoutHomeTopic(dev->getHomeID()).c_str(), 1, false, "")) {
+    if (!_mqttClient.connect(getUUID().c_str(),
+                             MqttTopics::getLogoutHomeTopic(dev->getHomeID()).c_str(),
+                             1,
+                             false,
+                             "")) {
         Serial.println("Cannot connect MQTT client");
         return false;
     }
@@ -53,7 +57,7 @@ bool MqttClient::reconnect() {
 
 void MqttClient::checkAvailability() {
     if (!_mqttClient.connected()) {
-        long now = millis();
+        unsigned long now = millis();
         if (now - _lastReconnectAttempt > 3000) {
             _lastReconnectAttempt = now;
             if (reconnect()) {

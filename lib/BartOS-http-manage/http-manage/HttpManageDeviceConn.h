@@ -13,11 +13,11 @@ private:
 public:
     explicit HttpManageDeviceConn(const string &serverURL);
 
-    ~HttpManageDeviceConn() = default;
+    ~HttpManageDeviceConn() override = default;
 
-    void connect();
+    void connect() override;
 
-    void disconnect();
+    void disconnect() override;
 
     void setServerURL(const string &serverURL);
 

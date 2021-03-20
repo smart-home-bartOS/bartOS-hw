@@ -11,12 +11,15 @@ using namespace std;
 
 class BartOsWifiManager : public WifiCredentials {
 private:
+    WiFiManager &_wifiManager;
     bool _shouldSaveConfig = false;
+
+    WiFiManager &getWiFiManager();
 
     void setWifiManager();
 
 public:
-    BartOsWifiManager();
+    explicit BartOsWifiManager(WiFiManager &wifiManager);
 
     ~BartOsWifiManager() = default;
 

@@ -1,17 +1,26 @@
 #include "Capability.h"
 
-Capability::Capability(const uint8_t &pin, const string &type) : StateConnection(ConnectionType::OFFLINE),
-                                                                  _pin(pin),
-                                                                  _type(type) {
+#include <utility>
+
+Capability::Capability(const uint8_t &pin) : StateConnection(ConnectionType::OFFLINE),
+                                             _pin(pin) {
+}
+
+Capability::Capability(const uint8_t &pin, const string &type) : Capability(pin) {
+    setType(type);
 }
 
 Capability::Capability(const uint8_t &pin, const string &type, const unsigned sampleTime) : Capability(pin, type) {
     setSampleTime(sampleTime);
 }
 
-Capability::Capability(const uint8_t &pin, const string &type, const string &name, const unsigned sampleTime)
-        : Capability(pin, type, sampleTime) {
+Capability::Capability(const uint8_t &pin, const string &type, const string &name) : Capability(pin, type) {
     setName(name);
+}
+
+Capability::Capability(const uint8_t &pin, const string &type, const string &name, const unsigned sampleTime)
+        : Capability(pin, type, name) {
+    setSampleTime(sampleTime);
 }
 
 long Capability::getID() {
@@ -35,7 +44,7 @@ shared_ptr<Device> Capability::getDevice() {
 }
 
 void Capability::setDevice(shared_ptr<Device> device) {
-    _device = device;
+    _device = move(device);
 }
 
 //VIRTUAL

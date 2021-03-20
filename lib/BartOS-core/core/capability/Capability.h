@@ -4,7 +4,7 @@
 #include <cstdint>
 
 #include "CapabilityFields.h"
-#include "CapabilityType.hpp"
+#include "CapabilityType.h"
 #include <string>
 #include <memory>
 #include <core/StateConnection.h>
@@ -30,9 +30,13 @@ protected:
     bool isSampleTimeAchieved();
 
 public:
+    Capability(const uint8_t &pin);
+
     Capability(const uint8_t &pin, const string &type);
 
     Capability(const uint8_t &pin, const string &type, const unsigned sampleTime);
+
+    Capability(const uint8_t &pin, const string &type, const string &name);
 
     Capability(const uint8_t &pin, const string &type, const string &name, const unsigned sampleTime);
 

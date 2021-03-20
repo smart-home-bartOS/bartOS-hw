@@ -1,38 +1,35 @@
 #include "BartOsWifiManager.h"
 
-#include <ESP8266WebServer.h>
-#include <ESP8266WiFi.h>
-#include <LittleFS.h>
-
 #include "ESP8266TrueRandom.h"
-#include "FS.h"
 
 #define SSID_SIZE 100
 #define PASSWORD_SIZE 100
 
-char ssid[SSID_SIZE];
-char password[PASSWORD_SIZE];
-
-WiFiManager wifiManager;
-
-BartOsWifiManager::BartOsWifiManager() {
+BartOsWifiManager::BartOsWifiManager(WiFiManager &wifiManager) : _wifiManager(wifiManager) {
 }
 
 void BartOsWifiManager::begin() {
     setWifiManager();
 }
 
+WiFiManager &BartOsWifiManager::getWiFiManager() {
+    return _wifiManager;
+}
+
 void BartOsWifiManager::setWifiManager() {
+    char ssid[SSID_SIZE];
+    char password[PASSWORD_SIZE];
+
     string label("<h3> WiFi Manager</h3>");
     WiFiManagerParameter ssid_parameter("ssid", "SSID", ssid, SSID_SIZE);
     WiFiManagerParameter password_parameter("password", "Password", password, PASSWORD_SIZE);
 
-    wifiManager.addParameter(&ssid_parameter);
-    wifiManager.addParameter(&password_parameter);
+    getWiFiManager().addParameter(&ssid_parameter);
+    getWiFiManager().addParameter(&password_parameter);
 
     string WIFI_NAME("SmartHome BartOS");
 
-    if (!wifiManager.autoConnect(WIFI_NAME.c_str())) {
+    if (!getWiFiManager().autoConnect(WIFI_NAME.c_str())) {
         reset();
     }
 
@@ -48,6 +45,5 @@ bool BartOsWifiManager::shouldSaveConfig() {
 }
 
 void BartOsWifiManager::reset() {
-    LittleFS.format();
-    wifiManager.resetSettings();
+    getWiFiManager().resetSettings();
 }

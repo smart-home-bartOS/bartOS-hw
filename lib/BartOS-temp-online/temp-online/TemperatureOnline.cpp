@@ -1,19 +1,24 @@
 #include "TemperatureOnline.h"
 
-TemperatureOnline::TemperatureOnline(const string &name,
-                                     const uint8_t &pin,
-                                     const unsigned sampleTime,
-                                     shared_ptr<DataConnector> dataConnector) : TemperatureCap(name, pin, sampleTime),
-                                                                                OnlineCapability(dataConnector, getTypeID()) {}
+#include <utility>
 
-TemperatureOnline::TemperatureOnline(const string &name,
-                                     const uint8_t &pin,
-                                     shared_ptr<DataConnector> dataConnector) : TemperatureOnline(name, pin, 0, dataConnector) {
+TemperatureOnline::TemperatureOnline(const uint8_t &pin,
+                                     const string &name,
+                                     unsigned sampleTime,
+                                     shared_ptr<DataConnector> dataConnector)
+        : TemperatureCap(pin, name, sampleTime),
+          OnlineCapability(move(dataConnector), CapabilityType::TEMPERATURE) {
+}
+
+TemperatureOnline::TemperatureOnline(const uint8_t &pin,
+                                     const string &name,
+                                     shared_ptr<DataConnector> dataConnector)
+        : TemperatureOnline(pin, name, 0, move(dataConnector)) {
 }
 
 void TemperatureOnline::sendData() {
     DynamicJsonDocument data(100);
-    data[CapabilityWithValue::VALUE_FIELD] = getValue();
+    data[CapabilityType::TEMPERATURE] = getTemperature();
 
     data.shrinkToFit();
     sendDataToDefault(data);

@@ -9,18 +9,20 @@
 using namespace std;
 
 class TemperatureOnline : public TemperatureCap, public OnlineCapability {
-   public:
-    TemperatureOnline(const string &name,
-                      const uint8_t &pin,
-                      const unsigned sampleTime,
+public:
+    TemperatureOnline(const uint8_t &pin,
+                      const string &name,
+                      unsigned sampleTime,
                       shared_ptr<DataConnector> dataConnector);
-    TemperatureOnline(const string &name,
-                      const uint8_t &pin,
+
+    TemperatureOnline(const uint8_t &pin,
+                      const string &name,
                       shared_ptr<DataConnector> dataConnector);
 
     ~TemperatureOnline() = default;
 
     void handleData(const JsonObject &obj) override {}
+
     void sendData() override;
 };
 

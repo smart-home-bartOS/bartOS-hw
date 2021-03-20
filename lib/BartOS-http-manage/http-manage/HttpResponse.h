@@ -2,25 +2,30 @@
 #define HTTP_RESPONSE_H
 
 using namespace std;
+
 #include <string>
 
 class HttpResponse {
-   private:
+private:
     int _code;
     string _payload;
 
-   public:
+public:
     HttpResponse() = default;
-    HttpResponse(const int& code, const string& payload);
+
+    HttpResponse(const int &code, const string &payload);
+
     ~HttpResponse() = default;
 
     int getResponseCode();
+
     void setResponseCode(int code);
 
-    string& getPayload();
+    string &getPayload();
 
-    void setPayload(const string& payload);
-    void setPayload(const char* payload);
+    void setPayload(const string &payload);
+
+    void setPayload(const char *payload);
 };
 
 #endif  //HTTP_RESPONSE_H

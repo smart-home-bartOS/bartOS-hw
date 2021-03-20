@@ -1,6 +1,6 @@
 #include "HttpResponse.h"
 
-HttpResponse::HttpResponse(const int& code, const string& payload) : _code(code), _payload(payload) {
+HttpResponse::HttpResponse(const int &code, const string &payload) : _code(code), _payload(payload) {
 }
 
 int HttpResponse::getResponseCode() {
@@ -11,14 +11,14 @@ void HttpResponse::setResponseCode(int code) {
     _code = code;
 }
 
-string& HttpResponse::getPayload() {
+string &HttpResponse::getPayload() {
     return _payload;
 }
 
-void HttpResponse::setPayload(const string& payload) {
+void HttpResponse::setPayload(const string &payload) {
     _payload = payload;
 }
 
-void HttpResponse::setPayload(const char* payload) {
+void HttpResponse::setPayload(const char *payload) {
     _payload = string(payload);
 }

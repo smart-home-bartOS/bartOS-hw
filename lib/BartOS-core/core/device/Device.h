@@ -20,10 +20,11 @@ private:
 
     bool _initialized = false;
 
-    vector<reference_wrapper<Capability>> _capabilities;
+    vector<shared_ptr<Capability>> _capabilities;
 
+    void printCapabilityInfo(const shared_ptr<Capability>& cap);
 public:
-    Device(vector<Capability &> &capabilities);
+    Device(vector<shared_ptr<Capability>> capabilities);
 
     ~Device() = default;
 
@@ -50,15 +51,10 @@ public:
     void setInitialized(bool initialized);
 
     /* CAPS */
-    vector<Capability &> getCapabilities();
+    vector<shared_ptr<Capability>> getCapabilities();
+    void setCapabilities(vector<shared_ptr<Capability>> &caps);
 
-    auto getCapByPin(const uint8_t &pin);
-
-    void addCapability(Capability &cap);
-
-    void removeCapability(long id);
-
-    void removeCapabilityByPin(const uint8_t &pin);
+    auto getCapByPin(const uint8_t &pin) -> shared_ptr<Capability>;
 
     void initAllCapabilities();
 

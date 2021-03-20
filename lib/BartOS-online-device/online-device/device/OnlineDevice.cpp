@@ -9,17 +9,20 @@
 
 extern FsManager fsManager;
 
-OnlineDevice::OnlineDevice(ManageConnector &manageConn,
+OnlineDevice::OnlineDevice(const vector<shared_ptr<Capability>> &capabilities,
+                           ManageConnector &manageConn,
                            DataConnector &dataConn,
-                           bool storeToFileSystem) : _manageConnector(manageConn),
+                           bool storeToFileSystem) : Device(capabilities),
+                                                     _manageConnector(manageConn),
                                                      _dataConnector(dataConn) {
     setConnectionType(ConnectionType::ONLINE);
     _manageConnector.setDevice(shared_from_this());
     _dataConnector.setDevice(shared_from_this());
 }
 
-OnlineDevice::OnlineDevice(ManageConnector &manageConn,
-                           DataConnector &dataConn) : OnlineDevice(manageConn, dataConn, false) {
+OnlineDevice::OnlineDevice(const vector<shared_ptr<Capability>> &capabilities,
+                           ManageConnector &manageConn,
+                           DataConnector &dataConn) : OnlineDevice(capabilities, manageConn, dataConn, false) {
 }
 
 void OnlineDevice::init() {
@@ -102,9 +105,9 @@ void OnlineDevice::setUpCapabilities(const JsonObject &capsData) {
         for (JsonObject capData : caps) {
             if (capData.containsKey(CapabilityFields::PIN)) {
                 auto p_cap = getCapByPin(capData[CapabilityFields::PIN]);
-                if (p_cap != nullptr) {
+                /*if (p_cap != nullptr) {
                     OnlineCapability::setUpCapabilityWithActualData(capData, p_cap);
-                }
+                }*/
             }
         }
     }
