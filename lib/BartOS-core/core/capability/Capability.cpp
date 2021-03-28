@@ -100,3 +100,9 @@ bool Capability::isSampleTimeAchieved() {
     }
     return false;
 }
+
+template<class Class>
+shared_ptr<Class> Capability::cast() {
+    Class *clazz = static_pointer_cast<Class>(this);
+    return clazz ? clazz : nullptr;
+}

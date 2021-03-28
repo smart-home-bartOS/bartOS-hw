@@ -3,7 +3,7 @@
 #include <cstring>
 #include <memory>
 #include <core/storage/FsManager.h>
-#include <online-device/capability/OnlineCapability.h>
+#include <online-device/capability/DataTransceiver.h>
 
 #include "OnlineDeviceFields.h"
 
@@ -53,7 +53,7 @@ DynamicJsonDocument OnlineDevice::getCreateJSON() {
     for (auto &item : getCapabilities()) {
         if (item->getConnectionType() == ConnectionType::ONLINE) {
             JsonObject obj = caps.createNestedObject();
-            OnlineCapability::setRepresentation(obj, item);
+            DataTransceiver::setRepresentation(obj, item);
         }
     }
 
@@ -106,7 +106,7 @@ void OnlineDevice::setUpCapabilities(const JsonObject &capsData) {
             if (capData.containsKey(CapabilityFields::PIN)) {
                 auto p_cap = getCapByPin(capData[CapabilityFields::PIN]);
                 /*if (p_cap != nullptr) {
-                    OnlineCapability::setUpCapabilityWithActualData(capData, p_cap);
+                    DataTransceiver::setUpCapabilityWithActualData(capData, p_cap);
                 }*/
             }
         }

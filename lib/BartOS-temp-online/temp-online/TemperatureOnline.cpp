@@ -7,7 +7,7 @@ TemperatureOnline::TemperatureOnline(const uint8_t &pin,
                                      unsigned sampleTime,
                                      shared_ptr<DataConnector> dataConnector)
         : TemperatureCap(pin, name, sampleTime),
-          OnlineCapability(move(dataConnector), CapabilityType::TEMPERATURE) {
+          DataTransceiver(move(dataConnector), CapabilityType::TEMPERATURE) {
 }
 
 TemperatureOnline::TemperatureOnline(const uint8_t &pin,

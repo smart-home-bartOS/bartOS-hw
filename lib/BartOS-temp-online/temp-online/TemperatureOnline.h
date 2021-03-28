@@ -3,12 +3,12 @@
 
 #include <string>
 
-#include "online-device/capability/OnlineCapability.h"
+#include "online-device/capability/DataTransceiver.h"
 #include "temp/TemperatureCap.h"
 
 using namespace std;
 
-class TemperatureOnline : public TemperatureCap, public OnlineCapability {
+class TemperatureOnline : public TemperatureCap, public DataTransceiver {
 public:
     TemperatureOnline(const uint8_t &pin,
                       const string &name,

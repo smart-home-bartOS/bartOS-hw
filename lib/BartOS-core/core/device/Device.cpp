@@ -75,7 +75,7 @@ auto Device::getCapByPin(const uint8_t &pin) -> shared_ptr<Capability> {
     return nullptr;
 }
 
-void Device::printCapabilityInfo(const shared_ptr<Capability>& cap) {
+void Device::printCapabilityInfo(const shared_ptr<Capability> &cap) {
     Serial.print("INIT: type: '");
     Serial.print(cap->getType().c_str());
     Serial.print("', name:'");

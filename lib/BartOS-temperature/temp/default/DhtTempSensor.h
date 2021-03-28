@@ -1,0 +1,40 @@
+//
+// Created by mabartos on 3/20/21.
+//
+
+#ifndef BARTOS_HW_DHTTEMPSENSOR_H
+#define BARTOS_HW_DHTTEMPSENSOR_H
+
+#include <temp/TemperatureCap.h>
+#include <memory>
+#include <Adafruit_Sensor.h>
+#include <DHT.h>
+#include <humidity/HumidityCap.h>
+#include <online-device/capability/DataTransceiver.h>
+
+using namespace std;
+
+class DhtTempSensor : public TemperatureCap {
+private:
+    shared_ptr<DHT> _dht;
+    uint8_t _dhtType;
+public:
+    static const char *DEFAULT_NAME;
+
+    DhtTempSensor(const uint8_t &pin, const uint8_t &dhtType);
+
+    DhtTempSensor(const uint8_t &pin, const uint8_t &dhtType, const string &name);
+
+    ~DhtTempSensor() = default;
+
+    void init() override;
+
+    void execute() override;
+
+    uint8_t getDhtType();
+
+    template<class Condition, class Callback>
+    void handleCallbacks(Condition condition, Callback callback);
+};
+
+#endif //BARTOS_HW_DHTTEMPSENSOR_H

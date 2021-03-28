@@ -42,11 +42,11 @@ public:
 
     ~Capability() = default;
 
-    virtual void init();
+    virtual void init() = 0;
 
     void preExecute();
 
-    virtual void execute();
+    virtual void execute() = 0;
 
     long getID();
 
@@ -73,6 +73,9 @@ public:
     shared_ptr<Device> getDevice();
 
     void setDevice(shared_ptr<Device> device);
+
+    template<class Class>
+    shared_ptr<Class> cast();
 };
 
 #endif  // CAPABILITY_H

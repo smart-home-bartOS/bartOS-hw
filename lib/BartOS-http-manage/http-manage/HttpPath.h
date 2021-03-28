@@ -10,15 +10,15 @@ static const string& DISCONNECT_PATH = "disconnect";
 static const string& CREATE_PATH = "create";
 
 static string getConnectPath(const long homeID, const long deviceID) {
-    getHomeDevicePath(homeID, deviceID) + "/" + CONNECT_PATH;
+    return getHomeDevicePath(homeID, deviceID) + "/" + CONNECT_PATH;
 }
 
 static string getDisconnectPath(const long homeID, const long deviceID) {
-    getHomeDevicePath(homeID, deviceID) + "/" + DISCONNECT_PATH;
+    return getHomeDevicePath(homeID, deviceID) + "/" + DISCONNECT_PATH;
 }
 
 static string getCreatePath(const long homeID) {
-    getHomePath(homeID) + "/" + CREATE_PATH;
+    return getHomePath(homeID) + "/" + CREATE_PATH;
 }
 
 #endif  //HTTP_PATH_H

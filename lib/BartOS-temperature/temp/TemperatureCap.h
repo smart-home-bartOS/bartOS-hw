@@ -14,7 +14,7 @@ private:
     float _temp = 0.0f;
     string _units = "°C";
 public:
-    TemperatureCap(const uint8_t &pin);
+    explicit TemperatureCap(const uint8_t &pin);
 
     TemperatureCap(const uint8_t &pin, const string &name);
 
@@ -23,10 +23,6 @@ public:
     TemperatureCap(const uint8_t &pin, const string &name, unsigned sampleTime);
 
     ~TemperatureCap() = default;
-
-    void init() override;
-
-    void execute() override;
 
     float getTemperature();
 

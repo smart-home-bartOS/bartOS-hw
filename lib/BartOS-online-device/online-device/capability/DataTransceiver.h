@@ -9,17 +9,17 @@
 
 using namespace std;
 
-class OnlineCapability {
+class DataTransceiver {
 private:
     shared_ptr<DataConnector> _dataConnector;
     string _defaultPath;
 
 public:
-    explicit OnlineCapability(shared_ptr<DataConnector> dataConnector);
+    explicit DataTransceiver(shared_ptr<DataConnector> dataConnector);
 
-    OnlineCapability(shared_ptr<DataConnector> dataConnector, const string &defaultPath);
+    DataTransceiver(shared_ptr<DataConnector> dataConnector, const string &defaultPath);
 
-    ~OnlineCapability() = default;
+    ~DataTransceiver() = default;
 
     virtual void handleData(const JsonObject &obj);
 

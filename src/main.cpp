@@ -8,29 +8,29 @@ using namespace std;
 #include <wifi-manager/BartOsWifiManager.h>
 #include <http-manage/HttpManageDeviceConn.h>
 #include <online-device/device/OnlineDevice.h>
-#include "capabilities.h"
+#include <temp/default/DhtTempSensor.h>
+#include "Capabilities.h"
 
 WiFiClient espClient;
 PubSubClient clientPub(espClient);
 
-// Connectors
+/* Connectors */
 HttpManageDeviceConn httpDeviceConnector("serverURL");
 MqttClient mqttDataConnector(clientPub);
 
+/* WiFi Management */
 WiFiManager externalWifiManager;
 BartOsWifiManager wifiManager(externalWifiManager);
 
-const char *CONFIG_FILE = "/config.json";
-
-OnlineDevice onlineDevice(CAPABILITIES, httpDeviceConnector, mqttDataConnector);
+OnlineDevice onlineDevice(capabilities, httpDeviceConnector, mqttDataConnector);
 
 void setup() {
     Serial.begin(9600);
-
     wifiManager.begin();
     onlineDevice.initAllCapabilities();
 }
 
 void loop() {
     onlineDevice.executeAllCapabilities();
+    handleAllCallbacks();
 }

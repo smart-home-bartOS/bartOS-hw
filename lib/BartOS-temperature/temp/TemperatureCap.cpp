@@ -3,32 +3,22 @@
 
 TemperatureCap::TemperatureCap(const uint8_t &pin) : Capability(pin) {
     setType(CapabilityType::TEMPERATURE);
-}
-TemperatureCap::TemperatureCap(const uint8_t &pin,
-                               const string &name) : Capability(pin, name) {
-
+    setSampleTime(DEFAULT_SAMPLE_TIME_MS);
 }
 
-TemperatureCap::TemperatureCap(const uint8_t &pin,
-                               unsigned sampleTime) : Capability(pin,
-                                                                 CapabilityType::TEMPERATURE,
-                                                                 sampleTime) {
-
+TemperatureCap::TemperatureCap(const uint8_t &pin, const string &name) :
+        TemperatureCap(pin) {
+    setName(name);
 }
 
-TemperatureCap::TemperatureCap(const uint8_t &pin,
-                               const string &name,
-                               unsigned sampleTime) : Capability(pin,
-                                                                 CapabilityType::TEMPERATURE,
-                                                                 name,
-                                                                 sampleTime) {
-
+TemperatureCap::TemperatureCap(const uint8_t &pin, unsigned sampleTime) :
+        TemperatureCap(pin) {
+    setSampleTime(sampleTime);
 }
 
-void TemperatureCap::init() {
-}
-
-void TemperatureCap::execute() {
+TemperatureCap::TemperatureCap(const uint8_t &pin, const string &name, unsigned sampleTime) :
+        TemperatureCap(pin, name) {
+    setSampleTime(sampleTime);
 }
 
 float TemperatureCap::getTemperature() {
