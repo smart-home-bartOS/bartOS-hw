@@ -30,10 +30,3 @@ void DhtTempSensor::execute() {
 uint8_t DhtTempSensor::getDhtType() {
     return _dhtType;
 }
-
-template<class Condition, class Callback>
-void handleCallbacks(Condition condition, Callback callback) {
-    if (condition) {
-        callback();
-    }
-}

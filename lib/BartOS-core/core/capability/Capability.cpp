@@ -53,7 +53,9 @@ void Capability::init() {}
 void Capability::preExecute() {
     if (isSampleTimeAchieved()) {
         execute();
+        eventHandlerExecute().executeAll();
     }
+    eventHandlerLive().executeAll();
 }
 
 void Capability::execute() {}
@@ -101,8 +103,10 @@ bool Capability::isSampleTimeAchieved() {
     return false;
 }
 
-template<class Class>
-shared_ptr<Class> Capability::cast() {
-    Class *clazz = static_pointer_cast<Class>(this);
-    return clazz ? clazz : nullptr;
+CallbackMap Capability::eventHandlerExecute() {
+    return _execCallbackMap;
+}
+
+CallbackMap Capability::eventHandlerLive() {
+    return _liveCallbackMap;
 }

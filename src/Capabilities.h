@@ -7,34 +7,28 @@
 
 #include <vector>
 #include <memory>
+#include <core/callback/CallbackUtils.h>
 
-shared_ptr<DhtTempSensor> temp = make_shared<DhtTempSensor>(D7, 22);
-shared_ptr<DhtTempSensor> temp2 = make_shared<DhtTempSensor>(D8, 22);
-
-template<class Callback>
-void handleCallback(bool condition, Callback callback) {
-    if (condition) {
-        callback();
-    }
-}
+auto tempLivingRoom = make_shared<DhtTempSensor>(D7, 22);
+auto tempKitchen = make_shared<DhtTempSensor>(D8, 22);
 
 /* Capabilities */
-vector<shared_ptr<Capability>> capabilities{
-        temp,
-        temp2,
+const vector<shared_ptr<Capability>> CAPABILITIES{
+        tempLivingRoom,
+        tempKitchen,
 };
 
-void handleAllCallbacks() {
-    handleCallback(temp->getTemperature() >= 25.0, []() -> void {
-        //TEST1
+void setupCapabilityEvent() {
+    tempLivingRoom->eventHandlerExecute().add("MAIN", []() -> void {
+        handleCallback(tempLivingRoom->getTemperature() >= 25.0, []() -> void {
+            //TEST
+        });
     });
 
-    handleCallback(temp->getTemperature() >= 15.0, []() -> void {
-        //TEST2
-    });
-
-    handleCallback(temp->getTemperature() <= 25.0, []() -> void {
-        //TEST3
+    tempLivingRoom->eventHandlerExecute().add("LESS_TEMP", []() -> void {
+        handleCallback(tempLivingRoom->getTemperature() <= 20.0, []() -> void {
+            // Execute something
+        });
     });
 }
 

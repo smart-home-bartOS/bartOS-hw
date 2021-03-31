@@ -32,9 +32,6 @@ public:
     void execute() override;
 
     uint8_t getDhtType();
-
-    template<class Condition, class Callback>
-    void handleCallbacks(Condition condition, Callback callback);
 };
 
 #endif //BARTOS_HW_DHTTEMPSENSOR_H

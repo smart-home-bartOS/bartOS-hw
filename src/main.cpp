@@ -22,15 +22,15 @@ MqttClient mqttDataConnector(clientPub);
 WiFiManager externalWifiManager;
 BartOsWifiManager wifiManager(externalWifiManager);
 
-OnlineDevice onlineDevice(capabilities, httpDeviceConnector, mqttDataConnector);
+OnlineDevice onlineDevice(CAPABILITIES, httpDeviceConnector, mqttDataConnector);
 
 void setup() {
     Serial.begin(9600);
     wifiManager.begin();
     onlineDevice.initAllCapabilities();
+    setupCapabilityEvent();
 }
 
 void loop() {
     onlineDevice.executeAllCapabilities();
-    handleAllCallbacks();
 }

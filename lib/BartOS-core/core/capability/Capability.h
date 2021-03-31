@@ -9,6 +9,8 @@
 #include <memory>
 #include <core/StateConnection.h>
 #include <core/device/Device.h>
+#include <core/callback/CallbackUtils.h>
+#include <core/callback/CallbackMap.h>
 
 using namespace std;
 
@@ -22,6 +24,8 @@ private:
     string _name = "";
     string _type = CapabilityType::OTHER;
     shared_ptr<Device> _device;
+    CallbackMap _execCallbackMap;
+    CallbackMap _liveCallbackMap;
 
     unsigned _sampleTime = 0;
     unsigned long _lastExecution = 0;
@@ -74,8 +78,9 @@ public:
 
     void setDevice(shared_ptr<Device> device);
 
-    template<class Class>
-    shared_ptr<Class> cast();
+    CallbackMap eventHandlerExecute();
+
+    CallbackMap eventHandlerLive();
 };
 
 #endif  // CAPABILITY_H

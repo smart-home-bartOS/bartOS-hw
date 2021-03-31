@@ -96,6 +96,7 @@ bool OnlineDevice::connectDevice() {
 
 bool OnlineDevice::disconnectDevice() {
     getManageConnector().disconnectDevice();
+    return true;
 }
 
 void OnlineDevice::setUpCapabilities(const JsonObject &capsData) {
