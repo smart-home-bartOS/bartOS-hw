@@ -1,65 +1,35 @@
 using namespace std;
-#include <SPI.h>
 
-#include "GeneralDeps.h"
-#include "capabilities.h"
-#include "http/HttpClient.h"
-#include "mqtt/MessageForwarder.h"
-#include "wifiUtils/WifiUtils.h"
+#include <Arduino.h>
+
+#include <PubSubClient.h>
+#include <WiFiClient.h>
+#include <mqtt-data/MqttClient.h>
+#include <wifi-manager/BartOsWifiManager.h>
+#include <http-manage/HttpManageDeviceConn.h>
+#include <online-device/device/OnlineDevice.h>
+#include "Capabilities.h"
 
 WiFiClient espClient;
 PubSubClient clientPub(espClient);
-MqttClient client(clientPub);
-WiFiManager wifiManager;
-WifiUtils wifiUtils(wifiManager);
-HttpClient httpClient;
 
-const char *CONFIG_FILE = "/config.json";
+/* Connectors */
+HttpManageDeviceConn httpDeviceConnector("serverURL");
+MqttClient mqttDataConnector(clientPub);
 
-Device device;
-MessageForwarder forwarder;
+/* WiFi Management */
+WiFiManager externalWifiManager;
+BartOsWifiManager wifiManager(externalWifiManager);
 
-void saveConfigCallback() {
-    wifiUtils.setShouldSaveConfig(true);
-}
-
-void forwardMessages(char *topic, byte *payload, unsigned int length) {
-    DynamicJsonDocument doc(1024);
-    DeserializationError err = deserializeJson(doc, payload, length);
-    if (err) {
-        Serial.println(err.c_str());
-        return;
-    }
-
-    forwarder.forwardMessage(topic, doc);
-    doc.garbageCollect();
-}
+OnlineDevice onlineDevice(CAPABILITIES, httpDeviceConnector, mqttDataConnector);
 
 void setup() {
     Serial.begin(9600);
-
-    wifiUtils.shouldClearStates(shouldClearState);
-    wifiManager.setSaveConfigCallback(saveConfigCallback);
-    wifiUtils.begin();
-
-    client.init(device.getBrokerURL());
-    client.getMQTT().setCallback(forwardMessages);
-
-    httpClient.setServerURL(device.getServerURL());
-
-    device.setCapabilities(createdCaps);
-    device.initAllCapabilities();
-
-    if (!wifiUtils.alreadyDeviceCreated()) {
-        device.publishCreateMessage();
-        wifiUtils.setShouldSaveConfig(false);
-    } else {
-        device.publishConnectMessage();
-    }
+    wifiManager.begin();
+    onlineDevice.initAllCapabilities();
+    setupCapabilityEvent();
 }
 
 void loop() {
-    client.checkAvailability();
-    device.executeAllCapabilities();
-    delay(10);
+    onlineDevice.executeAllCapabilities();
 }
