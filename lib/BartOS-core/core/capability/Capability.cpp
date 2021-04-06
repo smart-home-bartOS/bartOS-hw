@@ -2,25 +2,15 @@
 
 #include <utility>
 
-Capability::Capability(const uint8_t &pin) : StateConnection(ConnectionType::OFFLINE),
-                                             _pin(pin) {
-}
-
-Capability::Capability(const uint8_t &pin, const string &type) : Capability(pin) {
-    setType(type);
-}
-
-Capability::Capability(const uint8_t &pin, const string &type, const unsigned sampleTime) : Capability(pin, type) {
-    setSampleTime(sampleTime);
-}
-
-Capability::Capability(const uint8_t &pin, const string &type, const string &name) : Capability(pin, type) {
-    setName(name);
-}
-
-Capability::Capability(const uint8_t &pin, const string &type, const string &name, const unsigned sampleTime)
-        : Capability(pin, type, name) {
-    setSampleTime(sampleTime);
+Capability::Capability(const uint8_t &pin,
+                       const string &type,
+                       const string &name,
+                       const unsigned sampleTime) :
+        StateConnection(ConnectionType::OFFLINE),
+        _pin(pin),
+        _type(type),
+        _name(name),
+        _sampleTime(sampleTime) {
 }
 
 long Capability::getID() {
@@ -55,7 +45,7 @@ void Capability::preExecute() {
         execute();
         eventHandlerExecute().executeAll();
     }
-    eventHandlerLive().executeAll();
+    eventHandlerLoop().executeAll();
 }
 
 void Capability::execute() {}
@@ -107,6 +97,6 @@ CallbackMap Capability::eventHandlerExecute() {
     return _execCallbackMap;
 }
 
-CallbackMap Capability::eventHandlerLive() {
-    return _liveCallbackMap;
+CallbackMap Capability::eventHandlerLoop() {
+    return _loopCallbackMap;
 }

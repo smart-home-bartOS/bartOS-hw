@@ -14,13 +14,9 @@ private:
     float _temp = 0.0f;
     string _units = "°C";
 public:
-    explicit TemperatureCap(const uint8_t &pin);
-
-    TemperatureCap(const uint8_t &pin, const string &name);
-
-    TemperatureCap(const uint8_t &pin, unsigned sampleTime);
-
-    TemperatureCap(const uint8_t &pin, const string &name, unsigned sampleTime);
+    TemperatureCap(const uint8_t &pin,
+                   const string &name = "Temp-cap",
+                   unsigned sampleTime = DEFAULT_SAMPLE_TIME_MS);
 
     ~TemperatureCap() = default;
 

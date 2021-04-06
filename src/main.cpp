@@ -8,7 +8,6 @@ using namespace std;
 #include <wifi-manager/BartOsWifiManager.h>
 #include <http-manage/HttpManageDeviceConn.h>
 #include <online-device/device/OnlineDevice.h>
-#include <temp/default/DhtTempSensor.h>
 #include "Capabilities.h"
 
 WiFiClient espClient;

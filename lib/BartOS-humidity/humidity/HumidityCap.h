@@ -3,17 +3,13 @@
 
 #include <core/capability/Capability.h>
 
+#define DEFAULT_SAMPLE_TIME_MS 300
+
 class HumidityCap : public Capability {
 private:
     uint8_t _humidity;
 public:
-    explicit HumidityCap(const uint8_t &pin);
-
-    HumidityCap(const uint8_t &pin, const string &name);
-
-    HumidityCap(const uint8_t &pin, unsigned sampleTime);
-
-    HumidityCap(const uint8_t &pin, const string &name, unsigned sampleTime);
+    HumidityCap(const uint8_t &pin, const string &name = "HUM_CAP", unsigned sampleTime = DEFAULT_SAMPLE_TIME_MS);
 
     ~HumidityCap() = default;
 

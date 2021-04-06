@@ -7,7 +7,7 @@
 #include "CapabilityType.h"
 #include <string>
 #include <memory>
-#include <core/StateConnection.h>
+#include "core/StateConnection.h"
 #include <core/device/Device.h>
 #include <core/callback/CallbackUtils.h>
 #include <core/callback/CallbackMap.h>
@@ -17,15 +17,15 @@ using namespace std;
 class Device;
 
 class Capability : public StateConnection {
-private:
+protected:
     long _ID = -1;
     uint8_t _pin;
     bool _enable = true;
-    string _name = "";
-    string _type = CapabilityType::OTHER;
+    string _name;
+    string _type;
     shared_ptr<Device> _device;
     CallbackMap _execCallbackMap;
-    CallbackMap _liveCallbackMap;
+    CallbackMap _loopCallbackMap;
 
     unsigned _sampleTime = 0;
     unsigned long _lastExecution = 0;
@@ -34,23 +34,18 @@ protected:
     bool isSampleTimeAchieved();
 
 public:
-    Capability(const uint8_t &pin);
-
-    Capability(const uint8_t &pin, const string &type);
-
-    Capability(const uint8_t &pin, const string &type, const unsigned sampleTime);
-
-    Capability(const uint8_t &pin, const string &type, const string &name);
-
-    Capability(const uint8_t &pin, const string &type, const string &name, const unsigned sampleTime);
+    Capability(const uint8_t &pin,
+               const string &type = CapabilityType::OTHER,
+               const string &name = "Cap-unknown",
+               const unsigned sampleTime = 0);
 
     ~Capability() = default;
 
-    virtual void init() = 0;
+    virtual void init();
 
     void preExecute();
 
-    virtual void execute() = 0;
+    virtual void execute();
 
     long getID();
 
@@ -80,7 +75,7 @@ public:
 
     CallbackMap eventHandlerExecute();
 
-    CallbackMap eventHandlerLive();
+    CallbackMap eventHandlerLoop();
 };
 
 #endif  // CAPABILITY_H

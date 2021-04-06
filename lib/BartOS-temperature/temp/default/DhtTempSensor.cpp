@@ -6,13 +6,10 @@
 
 const char *DhtTempSensor::DEFAULT_NAME = "DHT_TEMP";
 
-DhtTempSensor::DhtTempSensor(const uint8_t &pin, const uint8_t &dhtType, const string &name) :
-        TemperatureCap(pin, name) {
-    _dhtType = dhtType;
-}
-
-DhtTempSensor::DhtTempSensor(const uint8_t &pin, const uint8_t &dhtType) :
-        DhtTempSensor(pin, dhtType, DEFAULT_NAME) {
+DhtTempSensor::DhtTempSensor(const uint8_t &pin,
+                             const uint8_t &dhtType,
+                             const string &name) :
+        TemperatureCap(pin, name), _dhtType(dhtType) {
 }
 
 void DhtTempSensor::init() {
