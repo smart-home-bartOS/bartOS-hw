@@ -28,7 +28,7 @@ public:
 
     ~Device() = default;
 
-    virtual void init() = 0;
+    virtual void init();
 
     string getName();
 

@@ -3,6 +3,7 @@
 //
 
 #include "CallbackMap.h"
+#include <Arduino.h>
 
 void CallbackMap::execute(const string &name) {
     auto it = _callbacks.find(name);
@@ -22,9 +23,13 @@ void CallbackMap::clearAll() {
 }
 
 void CallbackMap::add(const string &name, Callback callback) {
-    _callbacks[name] = callback;
+    _callbacks.insert({name, callback});
 }
 
 void CallbackMap::remove(const string &name) {
     _callbacks.erase(name);
+}
+
+uint32_t CallbackMap::getSize() {
+    return _callbacks.size();
 }

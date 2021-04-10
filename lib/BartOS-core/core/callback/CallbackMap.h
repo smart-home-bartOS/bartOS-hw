@@ -28,6 +28,8 @@ public:
     void add(const string &name, Callback callback);
 
     void remove(const string &name);
+
+    uint32_t getSize();
 };
 
 

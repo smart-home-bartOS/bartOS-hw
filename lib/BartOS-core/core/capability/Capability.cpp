@@ -1,6 +1,7 @@
 #include "Capability.h"
 
 #include <utility>
+#include <Arduino.h>
 
 Capability::Capability(const uint8_t &pin,
                        const string &type,
@@ -97,6 +98,6 @@ CallbackMap Capability::eventHandlerExecute() {
     return _execCallbackMap;
 }
 
-CallbackMap Capability::eventHandlerLoop() {
+CallbackMapTime Capability::eventHandlerLoop() {
     return _loopCallbackMap;
 }

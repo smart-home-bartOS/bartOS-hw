@@ -10,7 +10,8 @@ using namespace std;
 class LightsCap : public Capability {
 protected:
     uint8_t _intensity;
-    uint32_t _pwm_range;
+    uint32_t _pwmRange;
+    bool _isTurnedOn;
 public:
     LightsCap(const uint8_t &pin,
               const string &name = "Lights-cap",
@@ -29,6 +30,10 @@ public:
     uint32_t getPwmRange();
 
     void setPwmRange(uint32_t range);
+
+    bool isTurnedOn();
+
+    void setIsTurnedOn(bool state);
 };
 
 #endif  //LIGHTS_CAP_H

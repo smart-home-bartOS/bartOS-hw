@@ -10,8 +10,10 @@ DefaultLightsCap::DefaultLightsCap(const uint8_t &pin, const string &name, uint3
 }
 
 void DefaultLightsCap::init() {
+    Serial.println("Init default light cap");
     pinMode(_pin, OUTPUT);
     digitalWrite(_pin, LOW);
+    setIsTurnedOn(false);
 }
 
 void DefaultLightsCap::turnOn() {
