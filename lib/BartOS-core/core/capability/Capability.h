@@ -28,9 +28,8 @@ protected:
     string _type;
     shared_ptr<Device> _device;
 
-    CallbackMap _execCallbackMap;
-    CallbackMapTime _loopCallbackMap;
-
+    shared_ptr<CallbackMap> _execCallbackMap;
+    shared_ptr<CallbackMapTime> _loopCallbackMap;
 
     unsigned _sampleTime = 0;
     unsigned long _lastExecution = 0;
@@ -40,6 +39,7 @@ protected:
 
 public:
     unordered_map<string, string> _test;
+
     Capability(const uint8_t &pin,
                const string &type = CapabilityType::OTHER,
                const string &name = "Cap-unknown",
@@ -79,9 +79,9 @@ public:
 
     void setDevice(shared_ptr<Device> device);
 
-    CallbackMap eventHandlerExecute();
+    shared_ptr<CallbackMap> executeEventHandler();
 
-    CallbackMapTime eventHandlerLoop();
+    shared_ptr<CallbackMapTime> loopEventHandler();
 };
 
 #endif  // CAPABILITY_H

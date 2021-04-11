@@ -20,3 +20,15 @@ bool LightsCap::isTurnedOn() {
 void LightsCap::setIsTurnedOn(bool state) {
     _isTurnedOn = state;
 }
+
+void LightsCap::turnOn() {
+    setIsTurnedOn(true);
+}
+
+void LightsCap::turnOff() {
+    setIsTurnedOn(false);
+}
+
+void LightsCap::switchState() {
+    isTurnedOn() ? turnOff() : turnOn();
+}

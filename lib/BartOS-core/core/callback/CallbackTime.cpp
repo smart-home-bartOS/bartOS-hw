@@ -6,7 +6,8 @@
 #include <Arduino.h>
 
 CallbackTime::CallbackTime(uint32_t time, Callback callback) :
-        _time(time), _callback(callback) {}
+        _time(time), _callback(callback), _lastExec(getSystemTime()) {
+}
 
 uint32_t CallbackTime::getTime() {
     return _time;
@@ -14,7 +15,6 @@ uint32_t CallbackTime::getTime() {
 
 void CallbackTime::setTime(uint32_t time) {
     _time = time;
-    setNewResultExecuteTime(time);
 }
 
 void CallbackTime::setCallback(Callback callback) {
@@ -29,25 +29,20 @@ void CallbackTime::setEnabled(bool state) {
     _enabled = state;
 }
 
-void CallbackTime::checkAndExecute(unsigned long systemTime) {
-    Serial.println("CHECK AND EXEC");
-    if (isEnabled() && systemTime >= _resultMillis) {
-        Serial.println("HERE1");
-        _callback();
-        Serial.println("HERE2");
+bool CallbackTime::isTimeAchieved() {
+    if ((getSystemTime() - _lastExec) >= _time) {
+        _lastExec = getSystemTime();
+        return true;
+    }
+    return false;
+}
 
-        setNewResultExecuteTime(systemTime);
+void CallbackTime::checkAndExecute() {
+    if (isEnabled() && isTimeAchieved()) {
+        _callback();
     }
 }
 
-unsigned long CallbackTime::getSystemTime() {
+uint32_t CallbackTime::getSystemTime() {
     return millis();
-}
-
-void CallbackTime::setNewResultExecuteTime(unsigned long systemTime) {
-    _resultMillis = systemTime + _time;
-}
-
-void CallbackTime::setNewResultExecuteTime(uint32_t time) {
-    _resultMillis = getSystemTime() + time;
 }

@@ -3,36 +3,34 @@
 //
 
 #include "CallbackMapTime.h"
-#include <Arduino.h>
 
 CallbackMapTime::CallbackMapTime() : CallbackMap() {
 }
 
 void CallbackMapTime::executeAll() {
     CallbackMap::executeAll();
-    unsigned long now = getSystemTime();
 
     for (auto item:_timeCallbacks) {
-        item.second.checkAndExecute(now);
+        item.second->checkAndExecute();
     }
 }
 
 void CallbackMapTime::period(const string &name, uint32_t time, Callback callback) {
-    CallbackTime callbackTime(time, callback);
+    shared_ptr<CallbackTime> callbackTime = make_shared<CallbackTime>(time, callback);
     _timeCallbacks.insert({name, callbackTime});
 }
 
 void CallbackMapTime::changePeriodTime(const string &name, uint32_t time) {
     auto it = _timeCallbacks.find(name);
     if (it != _timeCallbacks.end()) {
-        it->second.setTime(time);
+        it->second->setTime(time);
     }
 }
 
 void CallbackMapTime::changeEnableState(const string &name, bool state) {
     auto it = _timeCallbacks.find(name);
     if (it != _timeCallbacks.end()) {
-        it->second.setEnabled(state);
+        it->second->setEnabled(state);
     }
 }
 
@@ -46,10 +44,6 @@ void CallbackMapTime::resumePeriod(const string &name) {
 
 void CallbackMapTime::removePeriod(const string &name) {
     _timeCallbacks.erase(name);
-}
-
-unsigned long CallbackMapTime::getSystemTime() {
-    return millis();
 }
 
 uint32_t CallbackMapTime::getSize() {

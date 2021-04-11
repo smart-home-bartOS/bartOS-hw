@@ -19,9 +19,9 @@ public:
 
     ~LightsCap() = default;
 
-    virtual void turnOn() = 0;
+    virtual void turnOn();
 
-    virtual void turnOff() = 0;
+    virtual void turnOff();
 
     virtual void changeIntensity(uint8_t intensity) = 0;
 
@@ -31,9 +31,11 @@ public:
 
     void setPwmRange(uint32_t range);
 
-    bool isTurnedOn();
+    virtual bool isTurnedOn();
 
     void setIsTurnedOn(bool state);
+
+    void switchState();
 };
 
 #endif  //LIGHTS_CAP_H

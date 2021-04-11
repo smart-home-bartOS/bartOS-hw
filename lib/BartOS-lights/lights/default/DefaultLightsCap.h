@@ -23,6 +23,8 @@ public:
 
     void turnOff();
 
+    bool isTurnedOn();
+
     void changeIntensity(uint8_t intensity);
 };
 

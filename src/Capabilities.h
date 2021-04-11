@@ -13,7 +13,7 @@
 
 /* KITCHEN */
 auto tempKitchen = make_shared<DhtTempSensor>(D8, 22);
-auto kitchenMainLights = make_shared<DefaultLightsCap>(D2, "kitchenMain");
+auto kitchenMainLights = make_shared<DefaultLightsCap>(LED_BUILTIN, "kitchenMain");
 
 /* LIVING ROOM */
 auto tempLivingRoom = make_shared<DhtTempSensor>(D7, 22);
@@ -27,31 +27,39 @@ const vector<shared_ptr<Capability>> CAPABILITIES{
         kitchenMainLights
 };
 
-void tempKitchenRules() {
-    tempKitchen->eventHandlerExecute().add("MAIN", []() -> void {
+/* Rules for kitchen */
+void kitchenRules() {
+    tempKitchen->executeEventHandler()->add("MAIN", []() -> void {
         handleCallback(tempKitchen->getTemperature() >= 25.0, []() -> void {
             kitchenMainLights->turnOn();
         });
     });
+
+    kitchenMainLights->loopEventHandler()->period("period", 2000, []() -> void {
+        kitchenMainLights->switchState();
+    });
 }
 
-void tempLivingRoomRules() {
-    tempLivingRoom->eventHandlerExecute().add("MAIN", []() -> void {
+/* Callback */
+void turnOffLivingRoomLights() {
+    livingRoomLights->turnOff();
+}
+
+void livingRoomRules() {
+    tempLivingRoom->executeEventHandler()->add("MAIN", []() -> void {
         handleCallback(tempLivingRoom->getTemperature() >= 25.0, []() -> void {
             livingRoomLights->changeIntensity(75);
         });
     });
 
-    tempLivingRoom->eventHandlerLoop().add("LESS_TEMP", []() -> void {
-        handleCallback(tempLivingRoom->getTemperature() <= 20.0, []() -> void {
-            livingRoomLights->turnOff();
-        });
+    tempLivingRoom->loopEventHandler()->add("LESS_TEMP", []() -> void {
+        handleCallback(tempLivingRoom->getTemperature() <= 20.0, turnOffLivingRoomLights);
     });
 }
 
 void setupCapabilityEvent() {
-    tempKitchenRules();
-    tempLivingRoomRules();
+    kitchenRules();
+    livingRoomRules();
 }
 
 #endif //BARTOS_HW_CAPABILITIES_H

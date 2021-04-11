@@ -9,9 +9,11 @@ Capability::Capability(const uint8_t &pin,
                        const unsigned sampleTime) :
         StateConnection(ConnectionType::OFFLINE),
         _pin(pin),
-        _type(type),
         _name(name),
+        _type(type),
         _sampleTime(sampleTime) {
+    _loopCallbackMap = make_shared<CallbackMapTime>();
+    _execCallbackMap = make_shared<CallbackMap>();
 }
 
 long Capability::getID() {
@@ -44,9 +46,9 @@ void Capability::init() {}
 void Capability::preExecute() {
     if (isSampleTimeAchieved()) {
         execute();
-        eventHandlerExecute().executeAll();
+        eventHandlerExecute()->executeAll();
     }
-    eventHandlerLoop().executeAll();
+    eventHandlerLoop()->executeAll();
 }
 
 void Capability::execute() {}
@@ -94,10 +96,10 @@ bool Capability::isSampleTimeAchieved() {
     return false;
 }
 
-CallbackMap Capability::eventHandlerExecute() {
+shared_ptr<CallbackMap> Capability::executeEventHandler() {
     return _execCallbackMap;
 }
 
-CallbackMapTime Capability::eventHandlerLoop() {
+shared_ptr<CallbackMapTime> Capability::loopEventHandler() {
     return _loopCallbackMap;
 }

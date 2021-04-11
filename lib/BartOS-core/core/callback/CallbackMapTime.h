@@ -9,15 +9,15 @@
 #include <iostream>
 #include <unordered_map>
 #include <string>
+#include <memory>
 #include "CallbackMap.h"
 #include "CallbackTime.h"
 
 class CallbackMapTime : public CallbackMap {
 private:
-    unordered_map<string, CallbackTime> _timeCallbacks;
+    unordered_map<string, shared_ptr<CallbackTime>> _timeCallbacks;
 
     void changeEnableState(const string &name, bool state);
-
 public:
     CallbackMapTime();
 
@@ -34,8 +34,6 @@ public:
     void resumePeriod(const string &name);
 
     void removePeriod(const string &name);
-
-    unsigned long getSystemTime();
 
     uint32_t getSize();
 };

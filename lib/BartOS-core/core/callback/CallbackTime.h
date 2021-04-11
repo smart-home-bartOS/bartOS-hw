@@ -12,11 +12,10 @@ class CallbackTime {
 private:
     uint32_t _time;
     Callback _callback;
-    bool _enabled=true;
-    unsigned long _resultMillis;
+    bool _enabled = true;
+    uint32_t _lastExec = 0;
 
-    void setNewResultExecuteTime(unsigned long systemTime);
-    void setNewResultExecuteTime(uint32_t time);
+    bool isTimeAchieved();
 
 public:
     CallbackTime(uint32_t time, Callback callback);
@@ -27,7 +26,7 @@ public:
 
     void setTime(uint32_t time);
 
-    void checkAndExecute(unsigned long systemTime);
+    void checkAndExecute();
 
     void setCallback(Callback callback);
 
@@ -35,7 +34,7 @@ public:
 
     void setEnabled(bool state);
 
-    unsigned long getSystemTime();
+    uint32_t getSystemTime();
 };
 
 
