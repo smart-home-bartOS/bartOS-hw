@@ -7,6 +7,8 @@
 
 typedef void (*Callback)();
 
+typedef unsigned long (*CallbackGetTime)();
+
 template<class CallbackType>
 void handleCallback(bool condition, CallbackType callback) {
     if (condition) {

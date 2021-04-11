@@ -8,14 +8,13 @@
 
 #include "DeviceFields.h"
 #include "core/generator/NumberGenerator.h"
-#include "core/storage/FsManager.h"
-
-FsManager fsManager;
 
 Device::Device(vector<shared_ptr<Capability>> capabilities) : StateConnection(ConnectionType::OFFLINE),
                                                               _capabilities(move(capabilities)) {
     setName("Dev_" + NumberGenerator::generateIntToString(2000, 9999));
 }
+
+void Device::init() {}
 
 string Device::getName() {
     return _name;
@@ -80,10 +79,14 @@ void Device::printCapabilityInfo(const shared_ptr<Capability> &cap) {
     Serial.print(cap->getType().c_str());
     Serial.print("', name:'");
     Serial.print(cap->getName().c_str());
-    Serial.print("'.");
+    Serial.println("'.");
 }
 
 void Device::initAllCapabilities() {
+    Serial.println("Init All capabilities");
+    Serial.print("Number of caps:");
+    Serial.println(getCapabilities().size());
+
     for (auto &item : getCapabilities()) {
         printCapabilityInfo(item);
         item->init();

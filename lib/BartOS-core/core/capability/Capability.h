@@ -11,6 +11,9 @@
 #include <core/device/Device.h>
 #include <core/callback/CallbackUtils.h>
 #include <core/callback/CallbackMap.h>
+#include <core/callback/CallbackMapTime.h>
+#include <iostream>
+#include <unordered_map>
 
 using namespace std;
 
@@ -24,8 +27,9 @@ protected:
     string _name;
     string _type;
     shared_ptr<Device> _device;
-    CallbackMap _execCallbackMap;
-    CallbackMap _loopCallbackMap;
+
+    shared_ptr<CallbackMap> _execCallbackMap;
+    shared_ptr<CallbackMapTime> _loopCallbackMap;
 
     unsigned _sampleTime = 0;
     unsigned long _lastExecution = 0;
@@ -34,6 +38,8 @@ protected:
     bool isSampleTimeAchieved();
 
 public:
+    unordered_map<string, string> _test;
+
     Capability(const uint8_t &pin,
                const string &type = CapabilityType::OTHER,
                const string &name = "Cap-unknown",
@@ -73,9 +79,9 @@ public:
 
     void setDevice(shared_ptr<Device> device);
 
-    CallbackMap eventHandlerExecute();
+    shared_ptr<CallbackMap> executeEventHandler();
 
-    CallbackMap eventHandlerLoop();
+    shared_ptr<CallbackMapTime> loopEventHandler();
 };
 
 #endif  // CAPABILITY_H

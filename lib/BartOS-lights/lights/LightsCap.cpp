@@ -2,13 +2,33 @@
 
 LightsCap::LightsCap(const uint8_t &pin, const string &name, uint32_t pwmRange) :
         Capability(pin, name, CapabilityType::LIGHT),
-        _pwm_range(pwmRange) {
+        _pwmRange(pwmRange) {
 }
 
 uint32_t LightsCap::getPwmRange() {
-    return _pwm_range;
+    return _pwmRange;
 }
 
 void LightsCap::setPwmRange(uint32_t range) {
-    _pwm_range = range;
+    _pwmRange = range;
+}
+
+bool LightsCap::isTurnedOn() {
+    return _isTurnedOn;
+}
+
+void LightsCap::setIsTurnedOn(bool state) {
+    _isTurnedOn = state;
+}
+
+void LightsCap::turnOn() {
+    setIsTurnedOn(true);
+}
+
+void LightsCap::turnOff() {
+    setIsTurnedOn(false);
+}
+
+void LightsCap::switchState() {
+    isTurnedOn() ? turnOff() : turnOn();
 }
