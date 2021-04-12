@@ -15,9 +15,12 @@
 using namespace std;
 
 class DhtTempSensor : public TemperatureCap {
-private:
+protected:
     shared_ptr<DHT> _dht;
     uint8_t _dhtType;
+
+    bool isValidDHT();
+
 public:
     static const char *DEFAULT_NAME;
 

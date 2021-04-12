@@ -17,29 +17,23 @@
 
 using namespace std;
 
-class Device;
-
 class Capability : public StateConnection {
 protected:
     long _ID = -1;
     uint8_t _pin;
-    bool _enable = true;
+    bool _enabled = true;
     string _name;
     string _type;
-    shared_ptr<Device> _device;
 
     shared_ptr<CallbackMap> _execCallbackMap;
     shared_ptr<CallbackMapTime> _loopCallbackMap;
 
-    unsigned _sampleTime = 0;
+    unsigned long _sampleTime = 0;
     unsigned long _lastExecution = 0;
 
-protected:
     bool isSampleTimeAchieved();
 
 public:
-    unordered_map<string, string> _test;
-
     Capability(const uint8_t &pin,
                const string &type = CapabilityType::OTHER,
                const string &name = "Cap-unknown",
@@ -71,17 +65,17 @@ public:
 
     bool isEnabled();
 
-    unsigned getSampleTime();
+    void setEnabled(bool enabled);
+
+    unsigned long getSampleTime();
 
     void setSampleTime(unsigned millis);
-
-    shared_ptr<Device> getDevice();
-
-    void setDevice(shared_ptr<Device> device);
 
     shared_ptr<CallbackMap> executeEventHandler();
 
     shared_ptr<CallbackMapTime> loopEventHandler();
+
+    unsigned long getActualMillis();
 };
 
 #endif  // CAPABILITY_H

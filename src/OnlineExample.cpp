@@ -1,3 +1,4 @@
+/*
 using namespace std;
 
 #include <Arduino.h>
@@ -13,11 +14,15 @@ using namespace std;
 WiFiClient espClient;
 PubSubClient clientPub(espClient);
 
-/* Connectors */
+*/
+/* Connectors *//*
+
 HttpManageDeviceConn httpDeviceConnector("serverURL");
 MqttClient mqttDataConnector(clientPub);
 
-/* WiFi Management */
+*/
+/* WiFi Management *//*
+
 WiFiManager externalWifiManager;
 BartOsWifiManager wifiManager(externalWifiManager);
 
@@ -33,4 +38,4 @@ void setup() {
 
 void loop() {
     onlineDevice.executeAllCapabilities();
-}
+}*/

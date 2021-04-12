@@ -4,7 +4,6 @@
 #include <Arduino.h>
 
 #include <string>
-#include <utility>
 
 #include "DeviceFields.h"
 #include "core/generator/NumberGenerator.h"
@@ -89,13 +88,17 @@ void Device::initAllCapabilities() {
 
     for (auto &item : getCapabilities()) {
         printCapabilityInfo(item);
-        item->init();
+        if (item->isEnabled()) {
+            item->init();
+        }
     }
 }
 
 void Device::executeAllCapabilities() {
     for (auto &item : getCapabilities()) {
-        item->preExecute();
+        if (item->isEnabled()) {
+            item->preExecute();
+        }
     }
 }
 

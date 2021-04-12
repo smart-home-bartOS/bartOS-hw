@@ -13,8 +13,8 @@ OnlineDevice::OnlineDevice(const vector<shared_ptr<Capability>> &capabilities,
                            ManageConnector &manageConn,
                            DataConnector &dataConn,
                            bool storeToFileSystem) : Device(capabilities),
-                                                     _manageConnector(manageConn),
-                                                     _dataConnector(dataConn) {
+                                                     _dataConnector(dataConn),
+                                                     _manageConnector(manageConn) {
     setConnectionType(ConnectionType::ONLINE);
     _manageConnector.setDevice(shared_from_this());
     _dataConnector.setDevice(shared_from_this());

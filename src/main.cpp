@@ -8,6 +8,7 @@ Device device(CAPABILITIES);
 
 void setup() {
     Serial.begin(9600);
+    delay(100);
 
     device.initAllCapabilities();
     setupCapabilityEvent();

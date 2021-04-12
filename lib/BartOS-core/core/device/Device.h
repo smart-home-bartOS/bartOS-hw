@@ -22,7 +22,8 @@ private:
 
     vector<shared_ptr<Capability>> _capabilities;
 
-    void printCapabilityInfo(const shared_ptr<Capability>& cap);
+    void printCapabilityInfo(const shared_ptr<Capability> &cap);
+
 public:
     Device(vector<shared_ptr<Capability>> capabilities);
 
@@ -52,6 +53,7 @@ public:
 
     /* CAPS */
     vector<shared_ptr<Capability>> getCapabilities();
+
     void setCapabilities(vector<shared_ptr<Capability>> &caps);
 
     auto getCapByPin(const uint8_t &pin) -> shared_ptr<Capability>;
