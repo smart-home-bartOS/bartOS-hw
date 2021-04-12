@@ -1,65 +1,50 @@
 //
-// Created by mabartos on 3/28/21.
+// Created by mabartos on 4/19/21.
 //
 
-#ifndef BARTOS_HW_CAPABILITIES_H
-#define BARTOS_HW_CAPABILITIES_H
+#ifndef BARTOS_HW_CAPABILITIES_INIT_H
+#define BARTOS_HW_CAPABILITIES_INIT_H
 
-#include <vector>
+using namespace std;
+
 #include <memory>
-#include <core/callback/CallbackUtils.h>
+#include <core/callback/utils/CallbackType.h>
+#include <core/callback/utils/CallbackUtils.h>
+
 #include <temp/default/DhtTempSensor.h>
+#include <mqtt-data/MqttClient.h>
+#include <http-manage/HttpManageDeviceConn.h>
 #include <lights/default/DefaultLightsCap.h>
+#include <button/default/two-way-button/TwoWayButton.h>
+#include <powerAble/default/DefaultPowerCap.h>
+#include <lights/default/DefaultLightsCap.h>
+#include <temp-online/default/DhtTempOnline.h>
 
 /* KITCHEN */
-auto tempKitchen = make_shared<DhtTempSensor>(D8, 22);
-auto kitchenMainLights = make_shared<DefaultLightsCap>(LED_BUILTIN, "kitchenMain");
+extern shared_ptr<DhtTempSensor> KitchenTemp;
+extern shared_ptr<DefaultLightsCap> KitchenMainLights;
+extern shared_ptr<TwoWayButton> KitchenMainSwitch;
+extern shared_ptr<DhtTempOnline> KitchenOnlineTemp;
+
+void setupKitchenRules();
 
 /* LIVING ROOM */
-auto tempLivingRoom = make_shared<DhtTempSensor>(D7, 22);
-auto livingRoomLights = make_shared<DefaultLightsCap>(D3);
+extern shared_ptr<DhtTempSensor> LivingRoomTemp;
+extern shared_ptr<DefaultLightsCap> LivingRoomLights;
+extern shared_ptr<DefaultPowerCap> LivingRoomRelay;
 
-/* Capabilities */
-const vector<shared_ptr<Capability>> CAPABILITIES{
-        tempLivingRoom,
-        livingRoomLights,
-        tempKitchen,
-        kitchenMainLights
-};
+void setupLivingRoomRules();
 
-/* Rules for kitchen */
-void kitchenRules() {
-    tempKitchen->executeEventHandler()->add("MAIN", []() -> void {
-        handleCallback(tempKitchen->getTemperature() >= 25.0, []() -> void {
-            kitchenMainLights->turnOn();
-        });
-    });
+/* CONNECTOR */
+extern shared_ptr<HttpManageDeviceConn> HttpDeviceConnector;
+extern shared_ptr<MqttClient> MqttDataConnector;
 
-    kitchenMainLights->loopEventHandler()->period("period", 2000, []() -> void {
-        kitchenMainLights->switchState();
-    });
+/* CAPABILITIES */
+extern vector<shared_ptr<Capability>> Capabilities;
+
+inline void setupAllCapabilities() {
+    setupKitchenRules();
+    setupLivingRoomRules();
 }
 
-/* Callback */
-void turnOffLivingRoomLights() {
-    livingRoomLights->turnOff();
-}
-
-void livingRoomRules() {
-    tempLivingRoom->executeEventHandler()->add("MAIN", []() -> void {
-        handleCallback(tempLivingRoom->getTemperature() >= 25.0, []() -> void {
-            livingRoomLights->changeIntensity(75);
-        });
-    });
-
-    tempLivingRoom->loopEventHandler()->add("LESS_TEMP", []() -> void {
-        handleCallback(tempLivingRoom->getTemperature() <= 20.0, turnOffLivingRoomLights);
-    });
-}
-
-void setupCapabilityEvent() {
-    kitchenRules();
-    livingRoomRules();
-}
-
-#endif //BARTOS_HW_CAPABILITIES_H
+#endif //BARTOS_HW_CAPABILITIES_INIT_H

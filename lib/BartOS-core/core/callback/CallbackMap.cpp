@@ -22,7 +22,7 @@ void CallbackMap::clearAll() {
     _callbacks.clear();
 }
 
-void CallbackMap::add(const string &name, Callback callback) {
+void CallbackMap::add(const string &name, SimpleCallback callback) {
     _callbacks.insert({name, callback});
 }
 

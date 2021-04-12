@@ -49,6 +49,10 @@ static bool containKeys(const JsonObject &obj, const vector<string> &keys) {
     return true;
 }
 
+static bool containKeys(DynamicJsonDocument &doc, const vector<string> &keys) {
+    return containKeys(doc.to<JsonObject>(), keys);
+}
+
 static DynamicJsonDocument reduceToAllowedKeys(DynamicJsonDocument &doc, const vector<string> &keys) {
     JsonObject obj = doc.as<JsonObject>();
     if (containOnlyAllowedKey(obj, keys)) {

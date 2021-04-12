@@ -5,7 +5,7 @@
 #include "CallbackTime.h"
 #include <Arduino.h>
 
-CallbackTime::CallbackTime(uint32_t time, Callback callback) :
+CallbackTime::CallbackTime(uint32_t time, SimpleCallback callback) :
         _time(time), _callback(callback), _lastExec(getSystemTime()) {
 }
 
@@ -17,7 +17,7 @@ void CallbackTime::setTime(uint32_t time) {
     _time = time;
 }
 
-void CallbackTime::setCallback(Callback callback) {
+void CallbackTime::setCallback(SimpleCallback callback) {
     _callback = callback;
 }
 

@@ -4,7 +4,6 @@
 
 #include <ArduinoJson.h>
 #include <online-device/utils/JsonUtils.h>
-#include <core/device/Device.h>
 #include <online-device/device/OnlineDeviceFields.h>
 
 HttpClient httpClient;
@@ -66,31 +65,26 @@ DynamicJsonDocument getJsonFromResponse(HttpResponse &response, const vector<int
     return getJsonFromResponse(response, allowedResponseCodes, emptyVector);
 }
 
-DynamicJsonDocument HttpManageDeviceConn::createDevice(const DynamicJsonDocument &data) {
+DynamicJsonDocument HttpManageDeviceConn::createDevice(long homeID, const DynamicJsonDocument &data) {
     char buffer[2048];
     serializeJson(data, buffer);
-    Device *device = getDevice().get();
 
-    HttpResponse resp = httpClient.doPost(getCreatePath(device->getHomeID()), string(buffer));
+    HttpResponse resp = httpClient.doPost(getCreatePath(homeID), string(buffer));
     const vector<int> allowedResponseCodes = {200, 201};
 
     return getJsonFromResponse(resp, allowedResponseCodes, OnlineDeviceFields::getCreateFields());
 }
 
-DynamicJsonDocument HttpManageDeviceConn::connectDevice() {
-    Device *device = getDevice().get();
-
-    HttpResponse resp = httpClient.doGet(getConnectPath(device->getHomeID(), device->getID()));
+DynamicJsonDocument HttpManageDeviceConn::connectDevice(long homeID, long deviceID) {
+    HttpResponse resp = httpClient.doGet(getConnectPath(homeID, deviceID));
 
     const vector<int> allowedResponseCodes = {200};
 
     return getJsonFromResponse(resp, allowedResponseCodes, OnlineDeviceFields::getConnectFields());
 }
 
-DynamicJsonDocument HttpManageDeviceConn::disconnectDevice() {
-    Device *device = getDevice().get();
-
-    HttpResponse resp = httpClient.doGet(getDisconnectPath(device->getHomeID(), device->getID()));
+DynamicJsonDocument HttpManageDeviceConn::disconnectDevice(long homeID, long deviceID) {
+    HttpResponse resp = httpClient.doGet(getDisconnectPath(homeID, deviceID));
 
     const vector<int> allowedResponseCodes = {200};
 
@@ -98,4 +92,4 @@ DynamicJsonDocument HttpManageDeviceConn::disconnectDevice() {
 }
 
 //TODO
-DynamicJsonDocument HttpManageDeviceConn::getRoom() {}
+DynamicJsonDocument HttpManageDeviceConn::getRoom(long homeID, long deviceID) {}

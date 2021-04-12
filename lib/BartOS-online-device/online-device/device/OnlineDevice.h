@@ -6,24 +6,28 @@
 #include <online-device/device/connector/DataConnector.h>
 #include <online-device/device/connector/ManageConnector.h>
 #include <online-device/WifiCredentials.h>
+#include "core/generator/NumberGenerator.h"
 
-class OnlineDevice : public Device, enable_shared_from_this<OnlineDevice> {
+class OnlineDevice : public Device {
 private:
-    DataConnector &_dataConnector;
-    ManageConnector &_manageConnector;
+    long _id = -1;
+    long _homeID = -1;
+    long _roomID = -1;
+    shared_ptr<DataConnector> _dataConnector;
+    shared_ptr<ManageConnector> _manageConnector;
 
     WifiCredentials _wifiCredentials;
+    bool _storeToFileSystem;
+protected:
+    DynamicJsonDocument getCreateJSON();
 
 public:
-    OnlineDevice(const vector<shared_ptr<Capability>>& capabilities,
-                 ManageConnector &manageConn,
-                 DataConnector &dataConn
+    OnlineDevice(const vector<shared_ptr<Capability>> &capabilities,
+                 shared_ptr<ManageConnector> manageConn,
+                 shared_ptr<DataConnector> dataConn,
+                 const string name = "Dev_" + NumberGenerator::generateIntToString(2000, 9999),
+                 bool storeToFileSystem = false
     );
-
-    OnlineDevice(const vector<shared_ptr<Capability>>& capabilities,
-                 ManageConnector &manageConn,
-                 DataConnector &dataConn,
-                 bool storeToFileSystem);
 
     ~OnlineDevice() = default;
 
@@ -35,17 +39,27 @@ public:
 
     bool disconnectDevice();
 
-    ManageConnector &getManageConnector();
+    shared_ptr<ManageConnector> getManageConnector();
 
-    DataConnector &getDataConnector();
+    shared_ptr<DataConnector> getDataConnector();
 
     void setUpCapabilities(const JsonObject &capsData);
-
-    DynamicJsonDocument getCreateJSON();
 
     WifiCredentials getWifiCredentials();
 
     void setWifiCredentials(const WifiCredentials &credentials);
+
+    long getID();
+
+    void setID(const long &id);
+
+    long getHomeID();
+
+    void setHomeID(const long &homeID);
+
+    long getRoomID();
+
+    void setRoomID(const long &roomID);
 };
 
 #endif  //ONLINE_DEVICE_H

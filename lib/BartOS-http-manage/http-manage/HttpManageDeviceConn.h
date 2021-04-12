@@ -23,13 +23,13 @@ public:
 
     string getServerURL();
 
-    DynamicJsonDocument createDevice(const DynamicJsonDocument &data) override;
+    DynamicJsonDocument createDevice(long homeID, const DynamicJsonDocument &data) override;
 
-    DynamicJsonDocument connectDevice() override;
+    DynamicJsonDocument connectDevice(long homeID, long deviceID) override;
 
-    DynamicJsonDocument disconnectDevice() override;
+    DynamicJsonDocument disconnectDevice(long homeID, long deviceID) override;
 
-    DynamicJsonDocument getRoom() override;
+    DynamicJsonDocument getRoom(long homeID, long deviceID) override;
 };
 
 #endif  //HTTP_MANAGE_DEVICE_CONNECTOR_H

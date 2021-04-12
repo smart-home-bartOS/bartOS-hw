@@ -14,17 +14,15 @@ class Capability;
 class Device : public StateConnection {
 private:
     string _name;
-    long _id = -1;
-    long _homeID = -1;
-    long _roomID = -1;
-
     bool _initialized = false;
-
     vector<shared_ptr<Capability>> _capabilities;
 
-    void printCapabilityInfo(const shared_ptr<Capability>& cap);
+    void printCapabilityInfo(const shared_ptr<Capability> &cap);
+
 public:
-    Device(vector<shared_ptr<Capability>> capabilities);
+    Device(vector<shared_ptr<Capability>> capabilities,
+           const string &name = "Device",
+           ConnectionType connectionType = ConnectionType::OFFLINE);
 
     ~Device() = default;
 
@@ -34,24 +32,13 @@ public:
 
     void setName(const string &name);
 
-    long getID();
-
-    void setID(const long &id);
-
-    long getHomeID();
-
-    void setHomeID(const long &homeID);
-
-    long getRoomID();
-
-    void setRoomID(const long &roomID);
-
     bool isInitialized();
 
     void setInitialized(bool initialized);
 
     /* CAPS */
     vector<shared_ptr<Capability>> getCapabilities();
+
     void setCapabilities(vector<shared_ptr<Capability>> &caps);
 
     auto getCapByPin(const uint8_t &pin) -> shared_ptr<Capability>;

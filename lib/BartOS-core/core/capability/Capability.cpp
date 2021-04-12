@@ -1,6 +1,5 @@
 #include "Capability.h"
 
-#include <utility>
 #include <Arduino.h>
 
 Capability::Capability(const uint8_t &pin,
@@ -32,23 +31,15 @@ void Capability::setName(const string &name) {
     _name = name;
 }
 
-shared_ptr<Device> Capability::getDevice() {
-    return _device;
-}
-
-void Capability::setDevice(shared_ptr<Device> device) {
-    _device = move(device);
-}
-
 //VIRTUAL
 void Capability::init() {}
 
 void Capability::preExecute() {
     if (isSampleTimeAchieved()) {
         execute();
-        eventHandlerExecute()->executeAll();
+        executeEventHandler()->executeAll();
     }
-    eventHandlerLoop()->executeAll();
+    loopEventHandler()->executeAll();
 }
 
 void Capability::execute() {}
@@ -62,7 +53,11 @@ void Capability::setPin(const uint8_t &pin) {
 }
 
 bool Capability::isEnabled() {
-    return _enable;
+    return _enabled;
+}
+
+void Capability::setEnabled(bool enabled) {
+    _enabled = enabled;
 }
 
 string Capability::getType() {
@@ -73,7 +68,7 @@ void Capability::setType(const string &type) {
     _type = type;
 }
 
-unsigned Capability::getSampleTime() {
+unsigned long Capability::getSampleTime() {
     return _sampleTime;
 }
 
@@ -81,16 +76,19 @@ void Capability::setSampleTime(unsigned millis) {
     _sampleTime = millis;
 }
 
-bool Capability::isSampleTimeAchieved() {
-    Device *device = getDevice().get();
-    const unsigned sampleTime = getSampleTime();
+unsigned long Capability::getActualMillis() {
+    return millis();
+}
 
-    if (sampleTime == 0 || device == nullptr) {
+bool Capability::isSampleTimeAchieved() {
+    const unsigned long sampleTime = getSampleTime();
+
+    if (sampleTime == 0) {
         return true;
     }
 
-    if ((device->getDeviceMillis() - _lastExecution) >= sampleTime) {
-        _lastExecution = device->getDeviceMillis();
+    if ((getActualMillis() - _lastExecution) >= sampleTime) {
+        _lastExecution = getActualMillis();
         return true;
     }
     return false;

@@ -12,11 +12,19 @@ DhtTempSensor::DhtTempSensor(const uint8_t &pin,
         TemperatureCap(pin, name), _dhtType(dhtType) {
 }
 
+bool DhtTempSensor::isValidDHT() {
+    return _dht != nullptr;
+}
+
 void DhtTempSensor::init() {
+    if (!isValidDHT()) return;
+
     _dht->begin();
 }
 
 void DhtTempSensor::execute() {
+    if (!isValidDHT()) return;
+
     float temp = _dht->readTemperature();
 
     if (!isnan(temp)) {

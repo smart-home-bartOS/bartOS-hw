@@ -9,11 +9,11 @@ using namespace std;
 #include <iostream>
 #include <unordered_map>
 #include <string>
-#include "CallbackUtils.h"
+#include "core/callback/utils/CallbackType.h"
 
 class CallbackMap {
 private:
-    unordered_map<string, Callback> _callbacks;
+    unordered_map<string, SimpleCallback> _callbacks;
 public:
     CallbackMap() = default;
 
@@ -25,7 +25,7 @@ public:
 
     void clearAll();
 
-    void add(const string &name, Callback callback);
+    void add(const string &name, SimpleCallback callback);
 
     void remove(const string &name);
 

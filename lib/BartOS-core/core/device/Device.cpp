@@ -4,17 +4,20 @@
 #include <Arduino.h>
 
 #include <string>
-#include <utility>
 
 #include "DeviceFields.h"
-#include "core/generator/NumberGenerator.h"
 
-Device::Device(vector<shared_ptr<Capability>> capabilities) : StateConnection(ConnectionType::OFFLINE),
-                                                              _capabilities(move(capabilities)) {
-    setName("Dev_" + NumberGenerator::generateIntToString(2000, 9999));
+Device::Device(vector<shared_ptr<Capability>> capabilities,
+               const string &name,
+               ConnectionType connectionType) :
+        StateConnection(connectionType),
+        _name(name),
+        _capabilities(move(capabilities)) {
 }
 
-void Device::init() {}
+void Device::init() {
+    initAllCapabilities();
+}
 
 string Device::getName() {
     return _name;
@@ -24,29 +27,6 @@ void Device::setName(const string &name) {
     _name = name;
 }
 
-long Device::getID() {
-    return _id;
-}
-
-void Device::setID(const long &id) {
-    _id = id;
-}
-
-long Device::getHomeID() {
-    return _homeID;
-}
-
-void Device::setHomeID(const long &homeID) {
-    _homeID = homeID;
-}
-
-long Device::getRoomID() {
-    return _roomID;
-}
-
-void Device::setRoomID(const long &roomID) {
-    _roomID = roomID;
-}
 
 bool Device::isInitialized() {
     return _initialized;
@@ -83,19 +63,23 @@ void Device::printCapabilityInfo(const shared_ptr<Capability> &cap) {
 }
 
 void Device::initAllCapabilities() {
-    Serial.println("Init All capabilities");
+    Serial.println("Init All rules");
     Serial.print("Number of caps:");
     Serial.println(getCapabilities().size());
 
     for (auto &item : getCapabilities()) {
         printCapabilityInfo(item);
-        item->init();
+        if (item->isEnabled()) {
+            item->init();
+        }
     }
 }
 
 void Device::executeAllCapabilities() {
     for (auto &item : getCapabilities()) {
-        item->preExecute();
+        if (item->isEnabled()) {
+            item->preExecute();
+        }
     }
 }
 

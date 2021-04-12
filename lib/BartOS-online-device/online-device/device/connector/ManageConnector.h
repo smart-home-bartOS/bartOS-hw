@@ -8,15 +8,15 @@ using namespace std;
 
 class ManageConnector : public DeviceConnector {
 public:
-    ~ManageConnector() override = default;
+    ~ManageConnector() = default;
 
-    virtual DynamicJsonDocument createDevice(const DynamicJsonDocument &data) = 0;
+    virtual DynamicJsonDocument createDevice(long homeID, const DynamicJsonDocument &data) = 0;
 
-    virtual DynamicJsonDocument connectDevice() = 0;
+    virtual DynamicJsonDocument connectDevice(long homeID, long deviceID) = 0;
 
-    virtual DynamicJsonDocument disconnectDevice() = 0;
+    virtual DynamicJsonDocument disconnectDevice(long homeID, long deviceID) = 0;
 
-    virtual DynamicJsonDocument getRoom() = 0;
+    virtual DynamicJsonDocument getRoom(long homeID, long deviceID) = 0;
 };
 
 #endif  //MANAGE_CONNECTOR_H

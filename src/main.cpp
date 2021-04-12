@@ -1,16 +1,19 @@
 using namespace std;
 
 #include <Arduino.h>
-#include <core/device/Device.h>
+#include <online-device/device/OnlineDevice.h>
 #include "Capabilities.h"
 
-Device device(CAPABILITIES);
+vector<shared_ptr<Capability>> Capabilities;
+
+OnlineDevice device(Capabilities, HttpDeviceConnector, MqttDataConnector);
 
 void setup() {
     Serial.begin(9600);
+    delay(100);
 
     device.initAllCapabilities();
-    setupCapabilityEvent();
+    setupAllCapabilities();
 }
 
 void loop() {

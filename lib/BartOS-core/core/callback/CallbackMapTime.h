@@ -5,7 +5,7 @@
 #ifndef BARTOS_HW_CALLBACK_MAP_TIME_H
 #define BARTOS_HW_CALLBACK_MAP_TIME_H
 
-#include "CallbackUtils.h"
+#include "core/callback/utils/CallbackType.h"
 #include <iostream>
 #include <unordered_map>
 #include <string>
@@ -25,7 +25,7 @@ public:
 
     void executeAll();
 
-    void period(const string &name, uint32_t time, Callback callback);
+    void period(const string &name, uint32_t time, SimpleCallback callback);
 
     void changePeriodTime(const string &name, uint32_t time);
 

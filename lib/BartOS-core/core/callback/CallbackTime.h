@@ -6,19 +6,19 @@
 #define BARTOS_HW_CALLBACKTIME_H
 
 #include <stdint.h>
-#include "CallbackUtils.h"
+#include "core/callback/utils/CallbackType.h"
 
 class CallbackTime {
 private:
     uint32_t _time;
-    Callback _callback;
+    SimpleCallback _callback;
     bool _enabled = true;
     uint32_t _lastExec = 0;
 
     bool isTimeAchieved();
 
 public:
-    CallbackTime(uint32_t time, Callback callback);
+    CallbackTime(uint32_t time, SimpleCallback callback);
 
     ~CallbackTime() = default;
 
@@ -28,7 +28,7 @@ public:
 
     void checkAndExecute();
 
-    void setCallback(Callback callback);
+    void setCallback(SimpleCallback callback);
 
     bool isEnabled();
 

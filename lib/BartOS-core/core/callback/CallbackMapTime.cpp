@@ -15,7 +15,7 @@ void CallbackMapTime::executeAll() {
     }
 }
 
-void CallbackMapTime::period(const string &name, uint32_t time, Callback callback) {
+void CallbackMapTime::period(const string &name, uint32_t time, SimpleCallback callback) {
     shared_ptr<CallbackTime> callbackTime = make_shared<CallbackTime>(time, callback);
     _timeCallbacks.insert({name, callbackTime});
 }

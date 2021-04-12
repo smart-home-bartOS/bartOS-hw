@@ -7,34 +7,28 @@
 
 #include "OnlineDeviceFields.h"
 
-extern FsManager fsManager;
-
 OnlineDevice::OnlineDevice(const vector<shared_ptr<Capability>> &capabilities,
-                           ManageConnector &manageConn,
-                           DataConnector &dataConn,
-                           bool storeToFileSystem) : Device(capabilities),
-                                                     _manageConnector(manageConn),
-                                                     _dataConnector(dataConn) {
-    setConnectionType(ConnectionType::ONLINE);
-    _manageConnector.setDevice(shared_from_this());
-    _dataConnector.setDevice(shared_from_this());
-}
-
-OnlineDevice::OnlineDevice(const vector<shared_ptr<Capability>> &capabilities,
-                           ManageConnector &manageConn,
-                           DataConnector &dataConn) : OnlineDevice(capabilities, manageConn, dataConn, false) {
+                           shared_ptr<ManageConnector> manageConn,
+                           shared_ptr<DataConnector> dataConn,
+                           const string name,
+                           bool storeToFileSystem) :
+        Device(capabilities, name, ConnectionType::ONLINE),
+        _dataConnector(dataConn),
+        _manageConnector(manageConn),
+        _storeToFileSystem(storeToFileSystem) {
 }
 
 void OnlineDevice::init() {
-    getManageConnector().connect();
-    getDataConnector().connect();
+    Device::initAllCapabilities();
+    getManageConnector()->connect();
+    getDataConnector()->connect();
 }
 
-ManageConnector &OnlineDevice::getManageConnector() {
+shared_ptr<ManageConnector> OnlineDevice::getManageConnector() {
     return _manageConnector;
 }
 
-DataConnector &OnlineDevice::getDataConnector() {
+shared_ptr<DataConnector> OnlineDevice::getDataConnector() {
     return _dataConnector;
 }
 
@@ -53,7 +47,7 @@ DynamicJsonDocument OnlineDevice::getCreateJSON() {
     for (auto &item : getCapabilities()) {
         if (item->getConnectionType() == ConnectionType::ONLINE) {
             JsonObject obj = caps.createNestedObject();
-            DataTransceiver::setRepresentation(obj, item);
+            DataTransceiver<DataConnector>::setRepresentation(obj, item);
         }
     }
 
@@ -61,7 +55,7 @@ DynamicJsonDocument OnlineDevice::getCreateJSON() {
 }
 
 bool OnlineDevice::createDevice() {
-    DynamicJsonDocument doc = getManageConnector().createDevice(getCreateJSON());
+    DynamicJsonDocument doc = getManageConnector()->createDevice(getHomeID(), getCreateJSON());
 
     setID(doc[DeviceFields::ID]);
     setUpCapabilities(doc.as<JsonObject>());
@@ -73,7 +67,7 @@ bool OnlineDevice::createDevice() {
 }
 
 bool OnlineDevice::connectDevice() {
-    DynamicJsonDocument doc = getManageConnector().connectDevice();
+    DynamicJsonDocument doc = getManageConnector()->connectDevice(getHomeID(), getID());
 
     const char *name = doc[DeviceFields::NAME];
     if (strcmp(name, getName().c_str()) != 0) {
@@ -95,7 +89,7 @@ bool OnlineDevice::connectDevice() {
 }
 
 bool OnlineDevice::disconnectDevice() {
-    getManageConnector().disconnectDevice();
+    getManageConnector()->disconnectDevice(getHomeID(), getID());
     return true;
 }
 
@@ -106,9 +100,9 @@ void OnlineDevice::setUpCapabilities(const JsonObject &capsData) {
         for (JsonObject capData : caps) {
             if (capData.containsKey(CapabilityFields::PIN)) {
                 auto p_cap = getCapByPin(capData[CapabilityFields::PIN]);
-                /*if (p_cap != nullptr) {
-                    DataTransceiver::setUpCapabilityWithActualData(capData, p_cap);
-                }*/
+                if (p_cap != nullptr) {
+                    DataTransceiver<DataConnector>::setUpCapabilityWithActualData(capData, p_cap);
+                }
             }
         }
     }
@@ -120,4 +114,28 @@ WifiCredentials OnlineDevice::getWifiCredentials() {
 
 void OnlineDevice::setWifiCredentials(const WifiCredentials &credentials) {
     _wifiCredentials = credentials;
+}
+
+long OnlineDevice::getID() {
+    return _id;
+}
+
+void OnlineDevice::setID(const long &id) {
+    _id = id;
+}
+
+long OnlineDevice::getHomeID() {
+    return _homeID;
+}
+
+void OnlineDevice::setHomeID(const long &homeID) {
+    _homeID = homeID;
+}
+
+long OnlineDevice::getRoomID() {
+    return _roomID;
+}
+
+void OnlineDevice::setRoomID(const long &roomID) {
+    _roomID = roomID;
 }

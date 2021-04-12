@@ -6,40 +6,63 @@
 #include <ArduinoJson.h>
 #include <online-device/device/connector/DataConnector.h>
 #include <core/capability/Capability.h>
+#include <online-device/utils/JsonUtils.h>
 
 using namespace std;
 
+template<class Connector>
 class DataTransceiver {
 private:
-    shared_ptr<DataConnector> _dataConnector;
+    shared_ptr<Connector> _dataConnector;
     string _defaultPath;
-
 public:
-    explicit DataTransceiver(shared_ptr<DataConnector> dataConnector);
-
-    DataTransceiver(shared_ptr<DataConnector> dataConnector, const string &defaultPath);
+    DataTransceiver(shared_ptr<Connector> dataConnector,
+                    const string &defaultPath = "") :
+            _dataConnector(dataConnector), _defaultPath(defaultPath) {
+    }
 
     ~DataTransceiver() = default;
 
-    virtual void handleData(const JsonObject &obj);
+    template<class SpecificCapability>
+    void sendData(SpecificCapability *capability) {};
 
-    virtual void sendData() = 0;
+    void sendDataToDefault(DynamicJsonDocument &data) {
+        sendDataToPath(getDefaultPath(), data);
+    }
 
-    void sendDataToDefault(DynamicJsonDocument &data);
+    void sendDataToPath(const string &path, DynamicJsonDocument &data) {
+        getDataConnector()->sendData(path, data);
+    }
 
-    void sendData(const string &path, DynamicJsonDocument &data);
+    shared_ptr<Connector> getDataConnector() {
+        return _dataConnector;
+    }
 
-    shared_ptr<DataConnector> getDataConnector();
+    void setDataConnector(shared_ptr<Connector> dataConnector) {
+        _dataConnector = dataConnector;
+    }
 
-    void setDataConnector(shared_ptr<DataConnector> dataConnector);
+    string getDefaultPath() {
+        return _defaultPath;
+    }
 
-    string getDefaultPath();
+    void setDefaultPath(const string &path) {
+        _defaultPath = path;
+    }
 
-    void setDefaultPath(const string &path);
+    static void setRepresentation(JsonObject &obj, const shared_ptr<Capability> &capability) {
+        obj.clear();
+        obj[CapabilityFields::PIN] = capability->getPin();
+        obj[CapabilityFields::TYPE] = capability->getType().c_str();
+    }
 
-    static void setRepresentation(JsonObject &obj, const shared_ptr<Capability>& capability);
-
-    static void setUpCapabilityWithActualData(JsonObject &obj, const shared_ptr<Capability>& capability);
+    static void setUpCapabilityWithActualData(JsonObject &obj, const shared_ptr<Capability> &capability) {
+        const vector<string> KEYS{CapabilityFields::ID, CapabilityFields::NAME};
+        if (containKeys(obj, KEYS)) {
+            capability->setID(obj[CapabilityFields::ID].as<long>());
+            capability->setName(obj[CapabilityFields::NAME].as<char *>());
+        }
+    }
 };
 
 #endif  //ONLINE_CAPABILITY_H
