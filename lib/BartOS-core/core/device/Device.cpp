@@ -17,6 +17,11 @@ Device::Device(vector<shared_ptr<Capability>> capabilities,
 
 void Device::init() {
     initAllCapabilities();
+    setInitialized(true);
+}
+
+void Device::loop() {
+    executeAllCapabilities();
 }
 
 string Device::getName() {
@@ -26,7 +31,6 @@ string Device::getName() {
 void Device::setName(const string &name) {
     _name = name;
 }
-
 
 bool Device::isInitialized() {
     return _initialized;
@@ -68,8 +72,8 @@ void Device::initAllCapabilities() {
     Serial.println(getCapabilities().size());
 
     for (auto &item : getCapabilities()) {
-        printCapabilityInfo(item);
         if (item->isEnabled()) {
+            printCapabilityInfo(item);
             item->init();
         }
     }

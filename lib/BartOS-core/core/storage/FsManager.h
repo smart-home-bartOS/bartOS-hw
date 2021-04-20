@@ -7,25 +7,31 @@
 
 using namespace std;
 
-static const string READ_MODE = "r";
-static const string WRITE_MODE = "w";
-
-static const char *CONFIG_FILE = "/config.json";
-static const int32_t DEFAULT_FILE_SIZE = 1520;
-
 class FsManager {
+private:
+    string _configFile;
+
 public:
-    FsManager();
+    static const string READ_MODE;
+    static const string WRITE_MODE;
+    static const int32_t DEFAULT_FILE_SIZE;
+
+    FsManager(const string &configFileName = "config.json");
 
     ~FsManager() = default;
 
-    DynamicJsonDocument readConfigFile();
+    string getConfigFileName();
 
-    DynamicJsonDocument readStorage(const string &filePath);
+    void setConfigFileName(const string &configFileName);
 
-    bool saveToStorage(const string &filePath, const DynamicJsonDocument &doc);
+    virtual DynamicJsonDocument readConfigFile();
 
-    bool saveToConfigFile(const DynamicJsonDocument &doc);
+    virtual bool saveToConfigFile(const DynamicJsonDocument &doc);
+
+    virtual DynamicJsonDocument readStorage(const string &filePath) = 0;
+
+    virtual bool saveToStorage(const string &filePath, const DynamicJsonDocument &doc) = 0;
+
 };
 
 #endif  //FILE_SYSTEM_MANAGER_H

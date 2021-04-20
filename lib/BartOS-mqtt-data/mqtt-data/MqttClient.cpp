@@ -1,7 +1,7 @@
 #include "MqttClient.h"
 
 #include "ESP8266TrueRandom.h"
-#include "MqttTopics.h"
+#include <online-device/utils/PubSubTopics.h>
 
 MqttClient::MqttClient(PubSubClient &mqttClient) : PubSubDataConnector(), _mqttClient(mqttClient) {
     _lastReconnectAttempt = 0;

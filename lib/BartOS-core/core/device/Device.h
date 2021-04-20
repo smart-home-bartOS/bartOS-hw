@@ -12,12 +12,16 @@ using namespace std;
 class Capability;
 
 class Device : public StateConnection {
-private:
+protected:
     string _name;
     bool _initialized = false;
     vector<shared_ptr<Capability>> _capabilities;
 
+    virtual void initAllCapabilities();
+
     void printCapabilityInfo(const shared_ptr<Capability> &cap);
+
+    virtual void executeAllCapabilities();
 
 public:
     Device(vector<shared_ptr<Capability>> capabilities,
@@ -27,6 +31,8 @@ public:
     ~Device() = default;
 
     virtual void init();
+
+    virtual void loop();
 
     string getName();
 
@@ -42,10 +48,6 @@ public:
     void setCapabilities(vector<shared_ptr<Capability>> &caps);
 
     auto getCapByPin(const uint8_t &pin) -> shared_ptr<Capability>;
-
-    void initAllCapabilities();
-
-    void executeAllCapabilities();
 
     void eraseAll();
 

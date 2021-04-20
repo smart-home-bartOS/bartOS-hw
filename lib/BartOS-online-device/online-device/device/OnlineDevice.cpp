@@ -19,9 +19,13 @@ OnlineDevice::OnlineDevice(const vector<shared_ptr<Capability>> &capabilities,
 }
 
 void OnlineDevice::init() {
-    Device::initAllCapabilities();
     getManageConnector()->connect();
     getDataConnector()->connect();
+    Device::init();
+}
+
+void OnlineDevice::setUpOnline() {
+    //TODO
 }
 
 shared_ptr<ManageConnector> OnlineDevice::getManageConnector() {
@@ -108,11 +112,11 @@ void OnlineDevice::setUpCapabilities(const JsonObject &capsData) {
     }
 }
 
-WifiCredentials OnlineDevice::getWifiCredentials() {
+shared_ptr<WifiCredentials> OnlineDevice::getCredentials() {
     return _wifiCredentials;
 }
 
-void OnlineDevice::setWifiCredentials(const WifiCredentials &credentials) {
+void OnlineDevice::setCredentials(shared_ptr<WifiCredentials> credentials) {
     _wifiCredentials = credentials;
 }
 

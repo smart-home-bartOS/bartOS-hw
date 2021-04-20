@@ -38,6 +38,22 @@ static bool containOnlyAllowedKey(const JsonObject &obj, const vector<string> &k
     return true;
 }
 
+static bool containKeys(const JsonObject &obj, const string keys[]) {
+    if (keys->empty()) {
+        return false;
+    }
+
+    for (uint8_t i = 0; i < keys->length(); i++) {
+        if (!obj.containsKey(keys[i].c_str()))
+            return false;
+    }
+    return true;
+}
+
+static bool containKeys(DynamicJsonDocument &doc, const string keys[]) {
+    return containKeys(doc.to<JsonObject>(), keys);
+}
+
 static bool containKeys(const JsonObject &obj, const vector<string> &keys) {
     if (keys.empty())
         return false;

@@ -11,6 +11,7 @@ using namespace std;
 #include <core/callback/utils/CallbackType.h>
 #include <core/callback/utils/CallbackUtils.h>
 
+#include <online-device/device/OnlineDevice.h>
 #include <temp/default/DhtTempSensor.h>
 #include <mqtt-data/MqttClient.h>
 #include <http-manage/HttpManageDeviceConn.h>
@@ -19,6 +20,9 @@ using namespace std;
 #include <powerAble/default/DefaultPowerCap.h>
 #include <lights/default/DefaultLightsCap.h>
 #include <temp-online/default/DhtTempOnline.h>
+
+/* DEVICE */
+extern shared_ptr<OnlineDevice> Device;
 
 /* KITCHEN */
 extern shared_ptr<DhtTempSensor> KitchenTemp;
@@ -42,7 +46,7 @@ extern shared_ptr<MqttClient> MqttDataConnector;
 /* CAPABILITIES */
 extern vector<shared_ptr<Capability>> Capabilities;
 
-inline void setupAllCapabilities() {
+inline void addAllRules() {
     setupKitchenRules();
     setupLivingRoomRules();
 }

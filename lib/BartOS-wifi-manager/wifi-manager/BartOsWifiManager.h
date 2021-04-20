@@ -5,27 +5,34 @@
 #include <WiFiManager.h>
 
 #include <string>
-#include <online-device/WifiCredentials.h>
+#include <online-device/credentials/AccessWifiCredentials.h>
+#include <memory>
 
 using namespace std;
 
-class BartOsWifiManager : public WifiCredentials {
+class BartOsWifiManager {
 private:
-    WiFiManager &_wifiManager;
+    shared_ptr<WiFiManager> _wifiManager;
+    shared_ptr<AccessWifiCredentials> _wifiCredentials;
     bool _shouldSaveConfig = false;
+    long _homeID = -1;
 
-    WiFiManager &getWiFiManager();
-
-    void setWifiManager();
+    void initWifiManager();
 
 public:
-    explicit BartOsWifiManager(WiFiManager &wifiManager);
+    BartOsWifiManager();
 
     ~BartOsWifiManager() = default;
 
     void begin();
 
+    shared_ptr<WiFiManager> getWiFiManager();
+
+    shared_ptr<AccessWifiCredentials> getCredentials();
+
     bool shouldSaveConfig();
+
+    long getHomeID();
 
     void reset();
 };

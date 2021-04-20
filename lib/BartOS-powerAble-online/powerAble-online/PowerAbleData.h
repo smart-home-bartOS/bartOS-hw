@@ -17,6 +17,11 @@ public:
     ~PowerAbleData() = default;
 
     void sendData(PowerAbleCap *cap);
+
+    void initDataHandler(PowerAbleCap *cap,
+                         long deviceID = -1,
+                         long homeID = -1,
+                         long roomID = -1);
 };
 
 

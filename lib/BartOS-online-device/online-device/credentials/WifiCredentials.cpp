@@ -4,7 +4,8 @@
 
 WifiCredentials::WifiCredentials() = default;
 
-WifiCredentials::WifiCredentials(string ssid, string pass) : _ssid(std::move(ssid)), _pass(std::move(pass)) {}
+WifiCredentials::WifiCredentials(const string &ssid, const string &pass) :
+        _ssid(std::move(ssid)), _pass(std::move(pass)) {}
 
 string WifiCredentials::getSSID() {
     return _ssid;

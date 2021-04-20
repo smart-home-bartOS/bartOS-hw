@@ -5,8 +5,9 @@
 #include <core/device/Device.h>
 #include <online-device/device/connector/DataConnector.h>
 #include <online-device/device/connector/ManageConnector.h>
-#include <online-device/WifiCredentials.h>
+#include <online-device/credentials/WifiCredentials.h>
 #include "core/generator/NumberGenerator.h"
+#include <unordered_map>
 
 class OnlineDevice : public Device {
 private:
@@ -16,10 +17,12 @@ private:
     shared_ptr<DataConnector> _dataConnector;
     shared_ptr<ManageConnector> _manageConnector;
 
-    WifiCredentials _wifiCredentials;
+    shared_ptr<WifiCredentials> _wifiCredentials;
     bool _storeToFileSystem;
 protected:
     DynamicJsonDocument getCreateJSON();
+
+    shared_ptr<WifiCredentials> getCredentials();
 
 public:
     OnlineDevice(const vector<shared_ptr<Capability>> &capabilities,
@@ -33,6 +36,9 @@ public:
 
     void init() override;
 
+    //TODO
+    void setUpOnline();
+
     bool createDevice();
 
     bool connectDevice();
@@ -45,9 +51,7 @@ public:
 
     void setUpCapabilities(const JsonObject &capsData);
 
-    WifiCredentials getWifiCredentials();
-
-    void setWifiCredentials(const WifiCredentials &credentials);
+    void setCredentials(shared_ptr<WifiCredentials> credentials);
 
     long getID();
 

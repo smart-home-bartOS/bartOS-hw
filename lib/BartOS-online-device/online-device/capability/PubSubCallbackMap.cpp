@@ -5,6 +5,8 @@
 #include "PubSubCallbackMap.h"
 
 void PubSubCallbackMap::handle(const string &topic, DynamicJsonDocument &doc) {
+    if (topic.empty()) return;
+
     auto it = _callbacks.find(topic);
     if (it != _callbacks.end()) {
         it->second(doc);
@@ -16,10 +18,12 @@ void PubSubCallbackMap::clearAll() {
 }
 
 void PubSubCallbackMap::add(const string &name, PubSubCallback callback) {
+    if (name.empty()) return;
     _callbacks.insert({name, callback});
 }
 
 void PubSubCallbackMap::remove(const string &name) {
+    if (name.empty()) return;
     _callbacks.erase(name);
 }
 

@@ -4,9 +4,11 @@
 
 #ifndef BARTOS_HW_ONLINECALLBACKUTILS_H
 #define BARTOS_HW_ONLINECALLBACKUTILS_H
+using namespace std;
 
 #include <ArduinoJson.h>
+#include <functional>
 
-typedef void (*PubSubCallback)(DynamicJsonDocument);
+typedef function<void(DynamicJsonDocument &)> PubSubCallback;
 
 #endif //BARTOS_HW_ONLINECALLBACKUTILS_H

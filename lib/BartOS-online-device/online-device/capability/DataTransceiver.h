@@ -23,6 +23,9 @@ public:
 
     ~DataTransceiver() = default;
 
+    template<class SpecificCapability=Capability>
+    void initDataHandler(SpecificCapability *capability, long homeID, long roomID) {};
+
     template<class SpecificCapability>
     void sendData(SpecificCapability *capability) {};
 

@@ -20,3 +20,16 @@ void PowerAbleData::sendData(PowerAbleCap *cap) {
     sendDataToDefault(data);
     data.garbageCollect();
 }
+
+void PowerAbleData::initDataHandler(PowerAbleCap *cap, long deviceID, long homeID, long roomID) {
+    if (cap == nullptr) return;
+
+    auto setValues = [&](DynamicJsonDocument doc) -> void {
+        if (containKeys(doc, {STATE})) {
+            const bool state = doc[STATE];
+            cap->changeState(state);
+        }
+    };
+
+    addSameCallbackForBasicTopics(cap, setValues, deviceID, homeID, roomID);
+}

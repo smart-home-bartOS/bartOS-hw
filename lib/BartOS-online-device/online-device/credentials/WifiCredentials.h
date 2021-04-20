@@ -13,7 +13,7 @@ private:
 public:
     WifiCredentials();
 
-    WifiCredentials(string ssid, string pass);
+    WifiCredentials(const string &ssid, const string &pass);
 
     ~WifiCredentials() = default;
 

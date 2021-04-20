@@ -23,6 +23,10 @@ public:
     void sendData() {
         LightsData::sendData(this);
     }
+
+    void initDataHandler(LightsCap *cap){
+
+    }
 };
 
 
