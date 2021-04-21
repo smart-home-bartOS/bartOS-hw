@@ -15,8 +15,6 @@ public:
     virtual DynamicJsonDocument connectDevice(long homeID, long deviceID) = 0;
 
     virtual DynamicJsonDocument disconnectDevice(long homeID, long deviceID) = 0;
-
-    virtual DynamicJsonDocument getRoom(long homeID, long deviceID) = 0;
 };
 
 #endif  //MANAGE_CONNECTOR_H

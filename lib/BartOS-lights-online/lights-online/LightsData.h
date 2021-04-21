@@ -6,7 +6,7 @@
 #define BARTOS_HW_LIGHTSDATA_H
 
 #include <lights/LightsCap.h>
-#include <online-device/capability/PubSubDataTransceiver.h>
+#include <online-device/transceiver/PubSubDataTransceiver.h>
 
 class LightsData : public PubSubDataTransceiver {
 public:

@@ -4,7 +4,7 @@
 #include <string>
 
 #include <temp/TemperatureCap.h>
-#include <online-device/capability/PubSubDataTransceiver.h>
+#include <online-device/transceiver/PubSubDataTransceiver.h>
 
 using namespace std;
 

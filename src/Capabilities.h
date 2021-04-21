@@ -20,9 +20,16 @@ using namespace std;
 #include <powerAble/default/DefaultPowerCap.h>
 #include <lights/default/DefaultLightsCap.h>
 #include <temp-online/default/DhtTempOnline.h>
+#include <fs/BartFS.h>
+#include <online-device/device/OnlineDevice.h>
+#include <wifi-manager/default/DefaultWifiManager.h>
 
 /* DEVICE */
 extern shared_ptr<OnlineDevice> Device;
+extern shared_ptr<BartFS> StorageManager;
+extern shared_ptr<DefaultWifiManager> WifiManager;
+
+void setUpWifiManager();
 
 /* KITCHEN */
 extern shared_ptr<DhtTempSensor> KitchenTemp;

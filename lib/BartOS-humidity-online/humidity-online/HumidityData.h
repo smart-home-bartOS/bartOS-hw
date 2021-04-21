@@ -5,7 +5,7 @@
 #ifndef BARTOS_HW_HUMIDITYDATA_H
 #define BARTOS_HW_HUMIDITYDATA_H
 
-#include <online-device/capability/PubSubDataTransceiver.h>
+#include <online-device/transceiver/PubSubDataTransceiver.h>
 #include <humidity/HumidityCap.h>
 
 class HumidityData : public PubSubDataTransceiver {

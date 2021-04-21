@@ -9,7 +9,6 @@
 #include <memory>
 #include <Adafruit_Sensor.h>
 #include <DHT.h>
-#include <humidity/HumidityCap.h>
 
 using namespace std;
 

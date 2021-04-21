@@ -49,9 +49,9 @@ void Device::setCapabilities(vector<shared_ptr<Capability>> &caps) {
     _capabilities = caps;
 }
 
-auto Device::getCapByPin(const uint8_t &pin) -> shared_ptr<Capability> {
+shared_ptr<Capability> Device::getCapByPinAndType(const uint8_t &pin, const string &type) {
     for (auto &item : getCapabilities()) {
-        if (item->getPin() == pin) {
+        if (item->getPin() == pin && item->getType() == type) {
             return item;
         }
     }

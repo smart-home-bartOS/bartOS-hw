@@ -28,8 +28,6 @@ public:
     DynamicJsonDocument connectDevice(long homeID, long deviceID) override;
 
     DynamicJsonDocument disconnectDevice(long homeID, long deviceID) override;
-
-    DynamicJsonDocument getRoom(long homeID, long deviceID) override;
 };
 
 #endif  //HTTP_MANAGE_DEVICE_CONNECTOR_H

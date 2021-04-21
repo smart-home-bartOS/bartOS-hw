@@ -19,6 +19,9 @@ private:
 
     shared_ptr<WifiCredentials> _wifiCredentials;
     bool _storeToFileSystem;
+
+    void changeCapAvailability(bool state);
+
 protected:
     DynamicJsonDocument getCreateJSON();
 
@@ -36,14 +39,15 @@ public:
 
     void init() override;
 
-    //TODO
-    void setUpOnline();
-
     bool createDevice();
 
     bool connectDevice();
 
     bool disconnectDevice();
+
+    void disableAllCapabilities();
+
+    void enableAllCapabilities();
 
     shared_ptr<ManageConnector> getManageConnector();
 

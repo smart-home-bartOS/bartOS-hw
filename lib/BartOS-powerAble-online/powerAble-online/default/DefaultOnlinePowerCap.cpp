@@ -11,6 +11,11 @@ DefaultOnlinePowerCap::DefaultOnlinePowerCap(shared_ptr <PubSubDataConnector> da
         PowerAbleData(dataConnector) {
 }
 
+void DefaultOnlinePowerCap::init() {
+    DefaultPowerCap::init();
+    PowerAbleData::initDataHandler(this);
+}
+
 void DefaultOnlinePowerCap::execute() {
     DefaultPowerCap::execute();
     sendData();

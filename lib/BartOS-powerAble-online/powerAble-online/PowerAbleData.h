@@ -5,7 +5,7 @@
 #ifndef BARTOS_HW_POWERABLEDATA_H
 #define BARTOS_HW_POWERABLEDATA_H
 
-#include <online-device/capability/PubSubDataTransceiver.h>
+#include <online-device/transceiver/PubSubDataTransceiver.h>
 #include <powerAble/PowerAbleCap.h>
 
 class PowerAbleData : public PubSubDataTransceiver {

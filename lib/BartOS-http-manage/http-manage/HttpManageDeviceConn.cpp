@@ -90,6 +90,3 @@ DynamicJsonDocument HttpManageDeviceConn::disconnectDevice(long homeID, long dev
 
     return getJsonFromResponse(resp, allowedResponseCodes);
 }
-
-//TODO
-DynamicJsonDocument HttpManageDeviceConn::getRoom(long homeID, long deviceID) {}

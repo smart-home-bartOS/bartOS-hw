@@ -18,14 +18,12 @@ public:
 
     ~DefaultOnlineLightsCap() = default;
 
+    void init() override;
+
     void execute() override;
 
     void sendData() {
         LightsData::sendData(this);
-    }
-
-    void initDataHandler(LightsCap *cap){
-
     }
 };
 

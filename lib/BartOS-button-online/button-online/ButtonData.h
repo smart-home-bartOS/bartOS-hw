@@ -5,7 +5,7 @@
 #ifndef BARTOS_HW_BUTTONDATA_H
 #define BARTOS_HW_BUTTONDATA_H
 
-#include <online-device/capability/PubSubDataTransceiver.h>
+#include <online-device/transceiver/PubSubDataTransceiver.h>
 #include <button/ButtonCap.h>
 
 class ButtonData : public PubSubDataTransceiver {

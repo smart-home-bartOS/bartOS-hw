@@ -7,7 +7,7 @@
 
 using namespace std;
 
-#include <online-device/device/connector/OnlineCallbackUtils.h>
+#include <online-device/utils/OnlineCallbackUtils.h>
 #include <string>
 #include <unordered_map>
 

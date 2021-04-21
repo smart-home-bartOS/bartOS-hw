@@ -13,7 +13,7 @@
 shared_ptr<DhtTempSensor> KitchenTemp = make_shared<DhtTempSensor>(D8, 22);
 shared_ptr<DefaultLightsCap> KitchenMainLights = make_shared<DefaultLightsCap>(LED_BUILTIN, "kitchenMain");
 shared_ptr<TwoWayButton> KitchenMainSwitch = make_shared<TwoWayButton>(D2, "kitchenMainSwitch");
-shared_ptr<DhtTempOnline> KitchenOnlineTemp = make_shared<DhtTempOnline>(MqttDataConnector, D9, 22);
+shared_ptr<DhtTempOnline> KitchenOnlineTemp = make_shared<DhtTempOnline>(MqttDataConnector, D5, 22);
 
 void setupKitchenRules() {
     KitchenTemp->setEnabled(false);
@@ -45,7 +45,7 @@ void setupKitchenRules() {
     KitchenOnlineTemp->loopEventHandler()->period("periodicSending", 1000, []() -> void {
         KitchenOnlineTemp->sendData();
         DynamicJsonDocument doc(100);
-        MqttDataConnector->sendData("ahoj", doc);
+        Device->getDataConnector()->sendData("ahoj", doc);
     });
 
     // Add capabilities

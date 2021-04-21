@@ -16,7 +16,9 @@ public:
 
     ~DefaultOnlinePowerCap() = default;
 
-    void execute();
+    void init() override;
+
+    void execute() override;
 
     void sendData() {
         PowerAbleData::sendData(this);

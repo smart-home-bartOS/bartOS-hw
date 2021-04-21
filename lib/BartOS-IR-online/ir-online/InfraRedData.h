@@ -5,7 +5,7 @@
 #ifndef BARTOS_HW_IRONLINEREMOTECAP_H
 #define BARTOS_HW_IRONLINEREMOTECAP_H
 
-#include <online-device/capability/PubSubDataTransceiver.h>
+#include <online-device/transceiver/PubSubDataTransceiver.h>
 #include <ir/InfraRedCap.h>
 
 class InfraRedData : public PubSubDataTransceiver {

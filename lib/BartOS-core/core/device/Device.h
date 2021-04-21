@@ -47,7 +47,7 @@ public:
 
     void setCapabilities(vector<shared_ptr<Capability>> &caps);
 
-    auto getCapByPin(const uint8_t &pin) -> shared_ptr<Capability>;
+    shared_ptr<Capability> getCapByPinAndType(const uint8_t &pin, const string &type);
 
     void eraseAll();
 

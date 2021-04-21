@@ -12,6 +12,11 @@ DefaultOnlineLightsCap::DefaultOnlineLightsCap(shared_ptr<PubSubDataConnector> d
         LightsData(dataConnector) {
 }
 
+void DefaultOnlineLightsCap::init() {
+    DefaultLightsCap::init();
+    LightsData::initDataHandler(this);
+}
+
 void DefaultOnlineLightsCap::execute() {
     DefaultLightsCap::execute();
     sendData();

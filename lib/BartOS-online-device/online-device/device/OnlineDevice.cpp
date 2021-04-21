@@ -3,7 +3,7 @@
 #include <cstring>
 #include <memory>
 #include <core/storage/FsManager.h>
-#include <online-device/capability/DataTransceiver.h>
+#include <online-device/transceiver/DataTransceiver.h>
 
 #include "OnlineDeviceFields.h"
 
@@ -22,10 +22,8 @@ void OnlineDevice::init() {
     getManageConnector()->connect();
     getDataConnector()->connect();
     Device::init();
-}
 
-void OnlineDevice::setUpOnline() {
-    //TODO
+    getID() != -1 ? connectDevice() : createDevice();
 }
 
 shared_ptr<ManageConnector> OnlineDevice::getManageConnector() {
@@ -102,8 +100,11 @@ void OnlineDevice::setUpCapabilities(const JsonObject &capsData) {
         JsonArray caps = capsData[CapabilityFields::CAPABILITIES];
 
         for (JsonObject capData : caps) {
-            if (capData.containsKey(CapabilityFields::PIN)) {
-                auto p_cap = getCapByPin(capData[CapabilityFields::PIN]);
+            if (containKeys(capData, {CapabilityFields::PIN, CapabilityFields::TYPE})) {
+                uint8_t pin = capData[CapabilityFields::PIN];
+                const char *type = capData[CapabilityFields::TYPE];
+
+                auto p_cap = getCapByPinAndType(pin, type);
                 if (p_cap != nullptr) {
                     DataTransceiver<DataConnector>::setUpCapabilityWithActualData(capData, p_cap);
                 }
@@ -142,4 +143,18 @@ long OnlineDevice::getRoomID() {
 
 void OnlineDevice::setRoomID(const long &roomID) {
     _roomID = roomID;
+}
+
+void OnlineDevice::changeCapAvailability(bool state) {
+    for (auto &item : getCapabilities()) {
+        item->setEnabled(state);
+    }
+}
+
+void OnlineDevice::disableAllCapabilities() {
+    changeCapAvailability(false);
+}
+
+void OnlineDevice::enableAllCapabilities() {
+    changeCapAvailability(true);
 }

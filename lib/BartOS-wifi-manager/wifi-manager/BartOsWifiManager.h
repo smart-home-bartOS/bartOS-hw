@@ -11,30 +11,21 @@
 using namespace std;
 
 class BartOsWifiManager {
-private:
+protected:
     shared_ptr<WiFiManager> _wifiManager;
     shared_ptr<AccessWifiCredentials> _wifiCredentials;
-    bool _shouldSaveConfig = false;
-    long _homeID = -1;
-
-    void initWifiManager();
-
 public:
     BartOsWifiManager();
 
     ~BartOsWifiManager() = default;
 
-    void begin();
+    virtual void begin() = 0;
 
-    shared_ptr<WiFiManager> getWiFiManager();
+    virtual shared_ptr<WiFiManager> getWiFiManager();
 
-    shared_ptr<AccessWifiCredentials> getCredentials();
+    virtual shared_ptr<AccessWifiCredentials> getCredentials();
 
-    bool shouldSaveConfig();
-
-    long getHomeID();
-
-    void reset();
+    virtual void reset();
 };
 
 #endif

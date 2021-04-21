@@ -10,7 +10,7 @@
 
 using namespace std;
 
-template<class Connector>
+template<class Connector=DataConnector>
 class DataTransceiver {
 private:
     shared_ptr<Connector> _dataConnector;
