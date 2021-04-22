@@ -4,7 +4,7 @@
 
 #include "PubSubDataConnector.h"
 
-void PubSubDataConnector::executeTopicContext(char *topic, DynamicJsonDocument doc) {
+void PubSubDataConnector::executeTopicContext(char *topic, JsonObject &doc) {
     auto it = _topicCallbacks.find(topic);
     if (it != _topicCallbacks.end()) {
         it->second(doc);

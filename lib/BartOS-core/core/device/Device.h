@@ -24,8 +24,7 @@ protected:
     virtual void executeAllCapabilities();
 
 public:
-    Device(vector<shared_ptr<Capability>> capabilities,
-           const string &name = "Device",
+    Device(const string &name = "Device",
            ConnectionType connectionType = ConnectionType::OFFLINE);
 
     ~Device() = default;

@@ -10,27 +10,36 @@ using namespace std;
 #include <functional>
 #include <core/callback/utils/CallbackType.h>
 
+#define MQTT_MESSAGE_SIZE 200
+
 class MqttClient : public PubSubDataConnector {
 private:
     string _uuid;
 
-    string _brokerURL;
-    uint16_t _port;
+    uint16_t _port = 1883;
 
     string _lastWillTopic = "";
     uint8_t _lastWillQos = 1;
     bool _lastWillRetain = false;
     string _lastWillMessage = "";
 
-    unsigned long _lastReconnectAttempt;
+    unsigned long _lastReconnectAttempt = 0;
+    unsigned long _tryConnectPeriodMs = 2000;
     PubSubClient &_mqttClient;
+
 protected:
-    void executeTopicContext(char *topic, DynamicJsonDocument doc);
+    void executeTopicContext(char *topic, JsonObject &doc);
+
+    void printMqttInfo();
 
 public:
     explicit MqttClient(PubSubClient &mqttClient);
 
     ~MqttClient() = default;
+
+    void init() override;
+
+    void loop() override;
 
     void connect() override;
 
@@ -42,15 +51,9 @@ public:
 
     void setUUID(const string &UUID);
 
-    void init(const string &brokerURL, const uint16_t &port = 1883);
-
     bool reconnect();
 
     void checkAvailability();
-
-    string getBrokerURL();
-
-    void setBrokerURL(const string &brokerURL);
 
     PubSubClient &getMqttClient();
 
@@ -74,6 +77,10 @@ public:
     void addTopicContext(const string &topic, PubSubCallback callback) override;
 
     void removeTopicContext(const string &topic) override;
+
+    unsigned long getTryConnectPeriodMs();
+
+    void setTryConnectPeriodMs(unsigned long period);
 };
 
 #endif  //MQTT_CLIENT_H

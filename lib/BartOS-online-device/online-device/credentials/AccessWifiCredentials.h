@@ -11,7 +11,7 @@ class AccessWifiCredentials : public WifiCredentials {
 private:
     string _accessToken;
 public:
-    AccessWifiCredentials() = default;
+    AccessWifiCredentials();
 
     AccessWifiCredentials(const string &accessToken, const string &ssid, const string &pass);
 

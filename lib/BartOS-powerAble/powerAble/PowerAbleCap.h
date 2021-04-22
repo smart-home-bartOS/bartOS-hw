@@ -21,9 +21,9 @@ public:
 
     ~PowerAbleCap() = default;
 
-    virtual void turnOn() = 0;
+    virtual void turnOn();
 
-    virtual void turnOff() = 0;
+    virtual void turnOff();
 
     virtual bool isTurnedOn();
 

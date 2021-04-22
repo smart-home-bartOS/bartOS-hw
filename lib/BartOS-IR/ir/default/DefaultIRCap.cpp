@@ -4,7 +4,7 @@
 
 #include "DefaultIRCap.h"
 
-DefaultIRCap::IrRemoteCap(const uint8_t &pin, const string &name) :
+DefaultIRCap::DefaultIRCap(const uint8_t &pin, const string &name) :
         InfraRedCap(pin, name) {
     _irRecv = make_shared<IRrecv>(pin);
     _results = make_shared<decode_results>();

@@ -11,26 +11,17 @@
 #include <online-device/utils/PubSubTopics.h>
 
 class PubSubDataTransceiver : public DataTransceiver<PubSubDataConnector> {
-private:
-    shared_ptr<PubSubCallbackMap> _topicCallbackMap;
 public:
-    PubSubDataTransceiver(shared_ptr<PubSubDataConnector> connector) : DataTransceiver<PubSubDataConnector>(connector) {
-    };
+    PubSubDataTransceiver(shared_ptr<PubSubDataConnector> connector) :
+            DataTransceiver<PubSubDataConnector>(connector) {};
 
     ~PubSubDataTransceiver() = default;
-
-    shared_ptr<PubSubCallbackMap> topicCallbacks() {
-        return _topicCallbackMap;
-    }
-
-    void setTopicCallbacks(shared_ptr<PubSubCallbackMap> callbacks) {
-        _topicCallbackMap = callbacks;
-    }
 
     /**
      * Add Data handler callback for default topics
      *
      * f.e
+     * /cap/temp/myOwnTemp
      * /devices/8/temp/4
      * /homes/2/temp/4
      * /homes/2/rooms/16/temp/4
@@ -44,18 +35,32 @@ public:
                                        long roomID = -1) {
         if (cap == nullptr) return;
 
+        Serial.printf("Add callback to topics for capability '%s' with type '%s':\n",
+                      cap->getName().c_str(),
+                      cap->getType().c_str());
+
+        getDataConnector()->addTopicContext(PubSubTopics::getCapabilityNameTopic(cap), callback);
+        Serial.printf("Topic '%s'\n", PubSubTopics::getCapabilityNameTopic(cap).c_str());
+        Serial.println(getDataConnector()->getTopicContext().size());
         if (deviceID != -1) {
-            topicCallbacks()->add(PubSubTopics::getCapabilityDeviceTopic(deviceID, cap), callback);
+            getDataConnector()->addTopicContext(PubSubTopics::getCapabilityDeviceTopic(deviceID, cap), callback);
+            Serial.printf("Topic '%s'\n", PubSubTopics::getCapabilityDeviceTopic(deviceID, cap).c_str());
         }
 
         if (homeID != -1) {
-            topicCallbacks()->add(PubSubTopics::getCapabilityHomeTopic(homeID, cap), callback);
+            getDataConnector()->addTopicContext(PubSubTopics::getCapabilityHomeTopic(homeID, cap), callback);
+            Serial.printf("Topic '%s'\n", PubSubTopics::getCapabilityHomeTopic(homeID, cap).c_str());
             if (roomID != -1) {
-                topicCallbacks()->add(PubSubTopics::getCapabilityHomeRoomTopic(homeID, roomID, cap), callback);
+                getDataConnector()->addTopicContext(PubSubTopics::getCapabilityHomeRoomTopic(homeID, roomID, cap),
+                                                    callback);
+                Serial.printf("Topic '%s'\n", PubSubTopics::getCapabilityHomeRoomTopic(homeID, roomID, cap).c_str());
             }
             if (deviceID != -1) {
-                topicCallbacks()->add(PubSubTopics::getCapabilityRoomDeviceTopic(homeID, roomID, deviceID, cap),
-                                      callback);
+                getDataConnector()->addTopicContext(
+                        PubSubTopics::getCapabilityRoomDeviceTopic(homeID, roomID, deviceID, cap),
+                        callback);
+                Serial.printf("Topic '%s'\n",
+                              PubSubTopics::getCapabilityRoomDeviceTopic(homeID, roomID, deviceID, cap).c_str());
             }
         }
     }

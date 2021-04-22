@@ -9,6 +9,7 @@
 
 class DefaultWifiManager : public BartOsWifiManager {
 private:
+    string _accessToken;
     string _deviceName;
     string _serverUrl;
     string _brokerUrl;
@@ -21,6 +22,8 @@ public:
     ~DefaultWifiManager() = default;
 
     void begin() override;
+
+    string getAccessToken();
 
     string getDeviceName();
 

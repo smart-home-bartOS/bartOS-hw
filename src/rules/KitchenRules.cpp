@@ -11,13 +11,15 @@
 
 /* Capabilities */
 shared_ptr<DhtTempSensor> KitchenTemp = make_shared<DhtTempSensor>(D8, 22);
-shared_ptr<DefaultLightsCap> KitchenMainLights = make_shared<DefaultLightsCap>(LED_BUILTIN, "kitchenMain");
+shared_ptr<DefaultOnlineLightsCap> KitchenMainLights = make_shared<DefaultOnlineLightsCap>(MqttDataConnector,
+                                                                                           LED_BUILTIN, "kitchenMain");
 shared_ptr<TwoWayButton> KitchenMainSwitch = make_shared<TwoWayButton>(D2, "kitchenMainSwitch");
 shared_ptr<DhtTempOnline> KitchenOnlineTemp = make_shared<DhtTempOnline>(MqttDataConnector, D5, 22);
 
 void setupKitchenRules() {
     KitchenTemp->setEnabled(false);
     KitchenMainSwitch->setEnabled(false);
+    KitchenMainLights->setInverseOutput(true);
 
     KitchenTemp->executeEventHandler()->add("MAIN", []() -> void {
         handleCallback(KitchenTemp->getTemperature() >= 25.0, []() -> void {
@@ -26,7 +28,8 @@ void setupKitchenRules() {
     });
 
     KitchenMainLights->loopEventHandler()->period("period", 2000, []() -> void {
-        KitchenMainLights->switchState();
+        Serial.print("Lights state: ");
+        Serial.println(KitchenMainLights->isTurnedOn());
     });
 
     KitchenMainSwitch->setSampleTime(100);
@@ -34,23 +37,27 @@ void setupKitchenRules() {
         bool isTurnedOn = KitchenMainSwitch->isOn();
     });
 
-    KitchenOnlineTemp->topicCallbacks()->add("devices/12", [](DynamicJsonDocument doc) -> void {
+    KitchenOnlineTemp->getDataConnector()->addTopicContext("devices/12", [](JsonObject &doc) -> void {
         const vector<string> KEYS{TemperatureData::TEMPERATURE_FIELD, TemperatureData::UNITS_FIELD};
         if (containKeys(doc, KEYS)) {
             KitchenOnlineTemp->getTemperature();
             KitchenOnlineTemp->setTemperature(23.0);
+            Serial.println("Set temperature");
         }
     });
 
-    KitchenOnlineTemp->loopEventHandler()->period("periodicSending", 1000, []() -> void {
+    KitchenOnlineTemp->loopEventHandler()->period("periodicSending", 2000, []() -> void {
         KitchenOnlineTemp->sendData();
         DynamicJsonDocument doc(100);
+        doc["test"] = "ahoj";
+        doc.shrinkToFit();
         Device->getDataConnector()->sendData("ahoj", doc);
+        doc.garbageCollect();
     });
 
     // Add capabilities
     Capabilities.push_back(KitchenTemp);
-    Capabilities.push_back(KitchenOnlineTemp);
+    Capabilities.push_back(KitchenMainLights);
     Capabilities.push_back(KitchenMainSwitch);
     Capabilities.push_back(KitchenOnlineTemp);
 }

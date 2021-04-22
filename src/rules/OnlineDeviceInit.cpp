@@ -15,17 +15,16 @@ shared_ptr<DefaultWifiManager> WifiManager = make_shared<DefaultWifiManager>();
 
 shared_ptr<BartFS> StorageManager = make_shared<BartFS>();
 
-vector<shared_ptr<Capability>> Capabilities;
-shared_ptr<OnlineDevice> Device = make_shared<OnlineDevice>(Capabilities, HttpDeviceConnector, MqttDataConnector);
+shared_ptr<OnlineDevice> Device = make_shared<OnlineDevice>(HttpDeviceConnector, MqttDataConnector);
 
 void setUpWifiManager() {
     WifiManager->begin();
-/*
+
     Device->setCredentials(WifiManager->getCredentials());
     Device->getDataConnector()->setUrl(WifiManager->getBrokerUrl());
     Device->getManageConnector()->setUrl(WifiManager->getServerUrl());
 
     Device->setName(WifiManager->getDeviceName());
     Device->setHomeID(WifiManager->getHomeID());
-    Device->setRoomID(WifiManager->getRoomID());*/
+    Device->setRoomID(WifiManager->getRoomID());
 }

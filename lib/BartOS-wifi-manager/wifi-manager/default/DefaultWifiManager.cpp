@@ -11,8 +11,8 @@
 #define DEVICE_NAME_SIZE 50
 #define HOME_ID_SIZE 40
 #define ROOM_ID_SIZE 40
-#define SERVER_URL_SIZE 40
-#define BROKER_URL_SIZE 40
+#define SERVER_URL_SIZE 60
+#define BROKER_URL_SIZE 60
 
 DefaultWifiManager::DefaultWifiManager() : BartOsWifiManager() {
 }
@@ -67,9 +67,8 @@ void DefaultWifiManager::begin() {
     strcpy(serverUrl, server_parameter.getValue());
     strcpy(brokerUrl, broker_parameter.getValue());
 
-    /* Set values */
-    getCredentials()->setAccessToken(accessToken);
-
+    /*Set values*/
+    _accessToken = accessToken;
     _deviceName = deviceName;
     _homeID = strtol(home, nullptr, 10);
     _roomID = strtol(room, nullptr, 10);
@@ -77,10 +76,10 @@ void DefaultWifiManager::begin() {
     _serverUrl = serverUrl;
     _brokerUrl = brokerUrl;
 
+    Serial.println("Connected");
     Serial.println(WiFi.localIP());
     Serial.println(WiFi.gatewayIP());
     Serial.println(WiFi.subnetMask());
-
 }
 
 string DefaultWifiManager::getDeviceName() {

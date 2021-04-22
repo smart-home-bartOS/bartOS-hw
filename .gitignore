@@ -1,4 +1,5 @@
 .pio
 cmake-build-*/
 .idea/*
+.gradle
 CMakeListsPrivate.txt

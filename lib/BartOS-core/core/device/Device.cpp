@@ -7,12 +7,10 @@
 
 #include "DeviceFields.h"
 
-Device::Device(vector<shared_ptr<Capability>> capabilities,
-               const string &name,
+Device::Device(const string &name,
                ConnectionType connectionType) :
         StateConnection(connectionType),
-        _name(name),
-        _capabilities(move(capabilities)) {
+        _name(name){
 }
 
 void Device::init() {

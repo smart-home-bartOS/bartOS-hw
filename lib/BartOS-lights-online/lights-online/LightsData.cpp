@@ -27,11 +27,12 @@ void LightsData::sendData(LightsCap *cap) {
 void LightsData::initDataHandler(LightsCap *cap, long deviceID, long homeID, long roomID) {
     if (cap == nullptr) return;
 
-    auto setValues = [&](DynamicJsonDocument doc) -> void {
+    auto setValues = [cap](JsonObject &doc) -> void {
         if (containKeys(doc, {INTENSITY})) {
             const uint8_t intensity = doc[INTENSITY];
             cap->changeIntensity(intensity);
         }
+
         if (containKeys(doc, {STATE})) {
             const bool state = doc[STATE];
             cap->changeState(state);

@@ -17,6 +17,14 @@ void PowerAbleCap::setTurnedOn(bool state) {
     _isTurnedOn = state;
 }
 
+void PowerAbleCap::turnOn() {
+    _isTurnedOn = true;
+}
+
+void PowerAbleCap::turnOff() {
+    _isTurnedOn = false;
+}
+
 void PowerAbleCap::changeState(bool state) {
     state ? turnOn() : turnOff();
     setTurnedOn(state);

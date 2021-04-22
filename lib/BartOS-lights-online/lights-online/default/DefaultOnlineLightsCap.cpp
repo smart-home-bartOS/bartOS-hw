@@ -21,3 +21,7 @@ void DefaultOnlineLightsCap::execute() {
     DefaultLightsCap::execute();
     sendData();
 }
+
+void DefaultOnlineLightsCap::sendData() {
+    LightsData::sendData(this);
+}

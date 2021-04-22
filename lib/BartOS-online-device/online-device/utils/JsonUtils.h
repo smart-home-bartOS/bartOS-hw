@@ -50,23 +50,14 @@ static bool containKeys(const JsonObject &obj, const string keys[]) {
     return true;
 }
 
-static bool containKeys(DynamicJsonDocument &doc, const string keys[]) {
-    return containKeys(doc.to<JsonObject>(), keys);
-}
-
 static bool containKeys(const JsonObject &obj, const vector<string> &keys) {
     if (keys.empty())
         return false;
-
     for (const string &key : keys) {
         if (!obj.containsKey(key.c_str()))
             return false;
     }
     return true;
-}
-
-static bool containKeys(DynamicJsonDocument &doc, const vector<string> &keys) {
-    return containKeys(doc.to<JsonObject>(), keys);
 }
 
 static DynamicJsonDocument reduceToAllowedKeys(DynamicJsonDocument &doc, const vector<string> &keys) {

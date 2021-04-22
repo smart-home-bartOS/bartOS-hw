@@ -29,11 +29,6 @@ void setupLivingRoomRules() {
         LivingRoomRelay->switchState();
     });
 
-    LivingRoomRelay->loopEventHandler()->period("printRelayState", 1000, []() -> void {
-        Serial.println("State");
-        Serial.println(LivingRoomRelay->isTurnedOn());
-    });
-
     Capabilities.push_back(LivingRoomTemp);
     Capabilities.push_back(LivingRoomLights);
     Capabilities.push_back(LivingRoomRelay);

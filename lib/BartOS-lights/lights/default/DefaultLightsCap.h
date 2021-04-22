@@ -17,15 +17,13 @@ public:
 
     ~DefaultLightsCap() = default;
 
-    void init();
+    void init() override;
 
-    void turnOn();
+    void turnOn() override;
 
-    void turnOff();
+    void turnOff() override;
 
-    bool isTurnedOn();
-
-    void changeIntensity(uint8_t intensity);
+    void changeIntensity(uint8_t intensity) override;
 };
 
 

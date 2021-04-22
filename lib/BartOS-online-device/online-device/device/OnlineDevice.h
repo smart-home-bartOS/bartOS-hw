@@ -6,7 +6,7 @@
 #include <online-device/device/connector/DataConnector.h>
 #include <online-device/device/connector/ManageConnector.h>
 #include <online-device/credentials/WifiCredentials.h>
-#include "core/generator/NumberGenerator.h"
+#include "core/utils/RandomGenerator.h"
 #include <unordered_map>
 
 class OnlineDevice : public Device {
@@ -28,16 +28,17 @@ protected:
     shared_ptr<WifiCredentials> getCredentials();
 
 public:
-    OnlineDevice(const vector<shared_ptr<Capability>> &capabilities,
-                 shared_ptr<ManageConnector> manageConn,
+    OnlineDevice(shared_ptr<ManageConnector> manageConn,
                  shared_ptr<DataConnector> dataConn,
-                 const string name = "Dev_" + NumberGenerator::generateIntToString(2000, 9999),
+                 const string name = "Dev_" + RandomGenerator::randomAlphanum(6),
                  bool storeToFileSystem = false
     );
 
     ~OnlineDevice() = default;
 
     void init() override;
+
+    void loop() override;
 
     bool createDevice();
 

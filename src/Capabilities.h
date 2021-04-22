@@ -15,7 +15,7 @@ using namespace std;
 #include <temp/default/DhtTempSensor.h>
 #include <mqtt-data/MqttClient.h>
 #include <http-manage/HttpManageDeviceConn.h>
-#include <lights/default/DefaultLightsCap.h>
+#include <lights-online/default/DefaultOnlineLightsCap.h>
 #include <button/default/two-way-button/TwoWayButton.h>
 #include <powerAble/default/DefaultPowerCap.h>
 #include <lights/default/DefaultLightsCap.h>
@@ -33,7 +33,7 @@ void setUpWifiManager();
 
 /* KITCHEN */
 extern shared_ptr<DhtTempSensor> KitchenTemp;
-extern shared_ptr<DefaultLightsCap> KitchenMainLights;
+extern shared_ptr<DefaultOnlineLightsCap> KitchenMainLights;
 extern shared_ptr<TwoWayButton> KitchenMainSwitch;
 extern shared_ptr<DhtTempOnline> KitchenOnlineTemp;
 
@@ -56,6 +56,8 @@ extern vector<shared_ptr<Capability>> Capabilities;
 inline void addAllRules() {
     setupKitchenRules();
     setupLivingRoomRules();
+
+    //setUpWifiManager();
 }
 
 #endif //BARTOS_HW_CAPABILITIES_INIT_H

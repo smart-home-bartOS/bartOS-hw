@@ -22,9 +22,7 @@ public:
 
     void execute() override;
 
-    void sendData() {
-        LightsData::sendData(this);
-    }
+    void sendData();
 };
 
 

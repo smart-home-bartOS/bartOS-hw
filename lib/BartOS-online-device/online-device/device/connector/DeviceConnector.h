@@ -25,6 +25,10 @@ public:
     virtual void connect() = 0;
 
     virtual void disconnect() = 0;
+
+    virtual void init() {};
+
+    virtual void loop() {};
 };
 
 #endif  // DEVICE_CONNECTOR_H

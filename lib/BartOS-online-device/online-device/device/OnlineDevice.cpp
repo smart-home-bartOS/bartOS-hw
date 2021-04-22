@@ -7,23 +7,28 @@
 
 #include "OnlineDeviceFields.h"
 
-OnlineDevice::OnlineDevice(const vector<shared_ptr<Capability>> &capabilities,
-                           shared_ptr<ManageConnector> manageConn,
+OnlineDevice::OnlineDevice(shared_ptr<ManageConnector> manageConn,
                            shared_ptr<DataConnector> dataConn,
                            const string name,
                            bool storeToFileSystem) :
-        Device(capabilities, name, ConnectionType::ONLINE),
+        Device(name, ConnectionType::ONLINE),
         _dataConnector(dataConn),
         _manageConnector(manageConn),
         _storeToFileSystem(storeToFileSystem) {
 }
 
 void OnlineDevice::init() {
-    getManageConnector()->connect();
-    getDataConnector()->connect();
-    Device::init();
+    getManageConnector()->init();
+    getDataConnector()->init();
 
-    getID() != -1 ? connectDevice() : createDevice();
+    Device::init();
+    //getID() != -1 ? connectDevice() : createDevice();
+}
+
+void OnlineDevice::loop() {
+    Device::loop();
+    getManageConnector()->loop();
+    getDataConnector()->loop();
 }
 
 shared_ptr<ManageConnector> OnlineDevice::getManageConnector() {

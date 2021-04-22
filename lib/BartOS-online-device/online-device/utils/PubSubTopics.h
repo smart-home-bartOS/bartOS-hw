@@ -17,6 +17,7 @@ public:
     static const string &HOME_TOPIC;
     static const string &ROOM_TOPIC;
     static const string &DEVICE_TOPIC;
+    static const string &CAPS_BASIC_TOPIC;
     static const string &LOGOUT_TOPIC;
 
     /* HOME */
@@ -58,6 +59,12 @@ public:
     }
 
     /* CAPABILITY */
+    static string getCapabilityNameTopic(Capability *capability) {
+        if (capability == nullptr) return "";
+        string capTypeNameTopic = concatTwoTopics(capability->getType(), capability->getName());
+        return concatTwoTopics(CAPS_BASIC_TOPIC, capTypeNameTopic);
+    }
+
     static string getCapabilityTopic(Capability *capability) {
         if (capability == nullptr) return "";
         return concatTopicWithLong(capability->getType(), capability->getID());

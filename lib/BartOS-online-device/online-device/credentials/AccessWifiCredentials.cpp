@@ -4,6 +4,8 @@
 
 #include "AccessWifiCredentials.h"
 
+AccessWifiCredentials::AccessWifiCredentials() : WifiCredentials() {
+}
 
 AccessWifiCredentials::AccessWifiCredentials(const string &accessToken,
                                              const string &ssid,

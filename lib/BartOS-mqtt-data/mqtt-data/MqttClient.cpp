@@ -1,17 +1,25 @@
 #include "MqttClient.h"
 
-#include "ESP8266TrueRandom.h"
 #include <online-device/utils/PubSubTopics.h>
+#include <core/utils/RandomGenerator.h>
 
-MqttClient::MqttClient(PubSubClient &mqttClient) : PubSubDataConnector(), _mqttClient(mqttClient) {
-    _lastReconnectAttempt = 0;
+MqttClient::MqttClient(PubSubClient &mqttClient) : PubSubDataConnector(),
+                                                   _mqttClient(mqttClient) {
+    _uuid = "MqttClient-" + RandomGenerator::randomNumber(6);
 }
 
-void MqttClient::init(const string &brokerURL, const uint16_t &port) {
-    _brokerURL = brokerURL;
-    _port = port;
-    _mqttClient.setServer(_brokerURL.c_str(), _port);
+void MqttClient::init() {
+    if (getUrl() == "") {
+        Serial.println("You have to define Broker URL");
+        return;
+    }
+    printMqttInfo();
+    _mqttClient.setServer(getUrl().c_str(), _port);
     reconnect();
+}
+
+void MqttClient::loop() {
+    checkAvailability();
 }
 
 void MqttClient::connect() {
@@ -42,27 +50,36 @@ void MqttClient::setUUID(const string &UUID) {
 }
 
 bool MqttClient::reconnect() {
-    if (!_mqttClient.connect(getUUID().c_str(),
+    Serial.printf("Attempting MQTT connection after %lu ms.\n", getTryConnectPeriodMs());
+    Serial.printf("Client UUID: %s\n", getUUID().c_str());
+
+    if (!_mqttClient.connect(getUUID().c_str()/*,       USE LATELY; DOESN'T WORK WITH MOSQUITTO
                              getLastWillMessage().c_str(),
                              getLastWillQos(),
                              isLastWillRetain(),
-                             getLastWillMessage().c_str())) {
+                             getLastWillMessage().c_str())*/)) {
         Serial.println("Cannot connect MQTT client");
         return false;
     }
-    Serial.print(".");
 
     _mqttClient.setCallback([this](char *topic, uint8_t *payload, unsigned int length) -> void {
-        DynamicJsonDocument doc(length + 50);
+        StaticJsonDocument<MQTT_MESSAGE_SIZE> doc;
         DeserializationError err = deserializeJson(doc, payload, length);
         if (err) {
             Serial.println(err.c_str());
             return;
         }
-
-        executeTopicContext(topic, doc);
-        doc.garbageCollect();
+        JsonObject obj = doc.as<JsonObject>();
+        executeTopicContext(topic, obj);
     });
+
+    Serial.print("MQTT Client Connected : ");
+    Serial.println(getUUID().c_str());
+
+    for (auto &topic:getTopicContext()) {
+        Serial.printf("Subscribe '%s'\n", topic.first.c_str());
+        _mqttClient.subscribe(topic.first.c_str());
+    }
 
     return _mqttClient.connected();
 }
@@ -70,25 +87,15 @@ bool MqttClient::reconnect() {
 void MqttClient::checkAvailability() {
     if (!_mqttClient.connected()) {
         unsigned long now = millis();
-        if (now - _lastReconnectAttempt > 3000) {
+        if (now - _lastReconnectAttempt > getTryConnectPeriodMs()) {
             _lastReconnectAttempt = now;
             if (reconnect()) {
                 _lastReconnectAttempt = 0;
-
-                //TODO check validity
             }
         }
     } else {
         _mqttClient.loop();
     }
-}
-
-string MqttClient::getBrokerURL() {
-    return _brokerURL;
-}
-
-void MqttClient::setBrokerURL(const string &brokerURL) {
-    _brokerURL = brokerURL;
 }
 
 PubSubClient &MqttClient::getMqttClient() {
@@ -127,7 +134,7 @@ void MqttClient::setLastWillMessage(const string &message) {
     _lastWillMessage = message;
 }
 
-void MqttClient::executeTopicContext(char *topic, DynamicJsonDocument doc) {
+void MqttClient::executeTopicContext(char *topic, JsonObject &doc) {
     PubSubDataConnector::executeTopicContext(topic, doc);
 }
 
@@ -139,4 +146,20 @@ void MqttClient::addTopicContext(const string &topic, PubSubCallback callback) {
 void MqttClient::removeTopicContext(const string &topic) {
     getMqttClient().unsubscribe(topic.c_str());
     PubSubDataConnector::removeTopicContext(topic);
+}
+
+unsigned long MqttClient::getTryConnectPeriodMs() {
+    return _tryConnectPeriodMs;
+}
+
+void MqttClient::setTryConnectPeriodMs(unsigned long period) {
+    _tryConnectPeriodMs = period;
+}
+
+void MqttClient::printMqttInfo() {
+    Serial.println("MQTT Info");
+    Serial.print("Broker URL: ");
+    Serial.println(getUrl().c_str());
+    Serial.print("Broker Port: ");
+    Serial.println(_port);
 }

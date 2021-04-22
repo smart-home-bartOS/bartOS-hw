@@ -9,6 +9,6 @@ using namespace std;
 #include <ArduinoJson.h>
 #include <functional>
 
-typedef function<void(DynamicJsonDocument &)> PubSubCallback;
+typedef function<void(JsonObject &)> PubSubCallback;
 
 #endif //BARTOS_HW_ONLINECALLBACKUTILS_H

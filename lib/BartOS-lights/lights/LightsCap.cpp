@@ -5,6 +5,10 @@ LightsCap::LightsCap(const uint8_t &pin, const string &name, uint32_t pwmRange) 
         _pwmRange(pwmRange) {
 }
 
+uint8_t LightsCap::getActualIntensity() {
+    return _intensity;
+}
+
 uint32_t LightsCap::getPwmRange() {
     return _pwmRange;
 }

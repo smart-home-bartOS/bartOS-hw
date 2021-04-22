@@ -24,9 +24,9 @@ void PowerAbleData::sendData(PowerAbleCap *cap) {
 void PowerAbleData::initDataHandler(PowerAbleCap *cap, long deviceID, long homeID, long roomID) {
     if (cap == nullptr) return;
 
-    auto setValues = [&](DynamicJsonDocument doc) -> void {
-        if (containKeys(doc, {STATE})) {
-            const bool state = doc[STATE];
+    auto setValues = [cap](JsonObject &obj) -> void {
+        if (containKeys(obj, {STATE})) {
+            const bool state = obj[STATE];
             cap->changeState(state);
         }
     };

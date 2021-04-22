@@ -4,7 +4,7 @@
 
 #include "PubSubCallbackMap.h"
 
-void PubSubCallbackMap::handle(const string &topic, DynamicJsonDocument &doc) {
+void PubSubCallbackMap::handle(const string &topic, JsonObject &doc) {
     if (topic.empty()) return;
 
     auto it = _callbacks.find(topic);

@@ -20,7 +20,7 @@ public:
 
     ~PubSubCallbackMap() = default;
 
-    void handle(const string &topic, DynamicJsonDocument &doc);
+    void handle(const string &topic, JsonObject &doc);
 
     void clearAll();
 

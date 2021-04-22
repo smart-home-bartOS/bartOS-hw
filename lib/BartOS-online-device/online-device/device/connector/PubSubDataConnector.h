@@ -17,7 +17,7 @@ class PubSubDataConnector : public DataConnector {
 private:
     unordered_map<string, PubSubCallback> _topicCallbacks;
 protected:
-    void executeTopicContext(char *topic, DynamicJsonDocument doc);
+    void executeTopicContext(char *topic, JsonObject &doc);
 
 public:
     explicit PubSubDataConnector() = default;
