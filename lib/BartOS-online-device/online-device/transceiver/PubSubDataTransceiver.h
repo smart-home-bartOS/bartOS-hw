@@ -7,7 +7,6 @@
 
 #include "DataTransceiver.h"
 #include <online-device/device/connector/PubSubDataConnector.h>
-#include "online-device/callback/PubSubCallbackMap.h"
 #include <online-device/utils/PubSubTopics.h>
 
 class PubSubDataTransceiver : public DataTransceiver<PubSubDataConnector> {

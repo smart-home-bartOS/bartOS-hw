@@ -8,6 +8,7 @@
 #include <string>
 #include <cstring>
 #include <online-device/utils/JsonUtils.h>
+#include <core/utils/ConvertUtils.h>
 #include <core/capability/Capability.h>
 
 using namespace std;
@@ -92,7 +93,7 @@ public:
 
     /* UTILS */
     static string concatTopicWithLong(const string &topic, const long id) {
-        return (id != -1) ? concatTwoTopics(topic, convertLongToString(id)) : "";
+        return (id != -1) ? concatTwoTopics(topic, ConvertUtils::convertLongToString(id)) : "";
     }
 
     static bool isEmptyTopic(const string &topic) {

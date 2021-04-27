@@ -18,6 +18,7 @@ private:
     unordered_map<string, shared_ptr<CallbackTime>> _timeCallbacks;
 
     void changeEnableState(const string &name, bool state);
+
 public:
     CallbackMapTime();
 
@@ -25,15 +26,15 @@ public:
 
     void executeAll();
 
+    void timer(const string &name, uint32_t time, SimpleCallback callback);
+
     void period(const string &name, uint32_t time, SimpleCallback callback);
 
-    void changePeriodTime(const string &name, uint32_t time);
+    void changeTime(const string &name, uint32_t time);
 
-    void stopPeriod(const string &name);
+    void enable(const string &name);
 
-    void resumePeriod(const string &name);
-
-    void removePeriod(const string &name);
+    void disable(const string &name);
 
     uint32_t getSize();
 };

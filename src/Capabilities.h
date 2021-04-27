@@ -23,6 +23,7 @@ using namespace std;
 #include <fs/BartFS.h>
 #include <online-device/device/OnlineDevice.h>
 #include <wifi-manager/default/DefaultWifiManager.h>
+#include <ir/default/DefaultIRCap.h>
 
 /* DEVICE */
 extern shared_ptr<OnlineDevice> Device;
@@ -43,6 +44,7 @@ void setupKitchenRules();
 extern shared_ptr<DhtTempSensor> LivingRoomTemp;
 extern shared_ptr<DefaultLightsCap> LivingRoomLights;
 extern shared_ptr<DefaultPowerCap> LivingRoomRelay;
+extern shared_ptr<DefaultIRCap> LivingRoomIrReceiver;
 
 void setupLivingRoomRules();
 

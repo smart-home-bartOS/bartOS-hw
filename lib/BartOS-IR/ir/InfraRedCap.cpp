@@ -6,8 +6,9 @@
 
 InfraRedCap::InfraRedCap(const uint8_t &pin, const string &name) :
         Capability(pin, CapabilityType::INFRA_RED, name) {
+    _callbacks = make_shared<IrCallbackMap>();
 }
 
-uint32_t InfraRedCap::getSignalValue() {
-    return _value;
+shared_ptr<IrCallbackMap> InfraRedCap::callbacks() {
+    return _callbacks;
 }

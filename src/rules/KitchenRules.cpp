@@ -27,6 +27,11 @@ void setupKitchenRules() {
         });
     });
 
+    Serial.println("STARTED");
+    KitchenMainLights->loopEventHandler()->timer("timer123", 3000, []() -> void {
+        Serial.print("FINISHED");
+    });
+
     KitchenMainLights->loopEventHandler()->period("period", 2000, []() -> void {
         Serial.print("Lights state: ");
         Serial.println(KitchenMainLights->isTurnedOn());

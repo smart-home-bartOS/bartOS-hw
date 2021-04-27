@@ -7,10 +7,10 @@ Capability::Capability(const uint8_t &pin,
                        const string &name,
                        const unsigned sampleTime) :
         StateConnection(ConnectionType::OFFLINE),
+        _sampleTime(sampleTime),
         _pin(pin),
         _name(name),
-        _type(type),
-        _sampleTime(sampleTime) {
+        _type(type) {
     _loopCallbackMap = make_shared<CallbackMapTime>();
     _execCallbackMap = make_shared<CallbackMap>();
 }
@@ -35,7 +35,7 @@ void Capability::setName(const string &name) {
 void Capability::init() {}
 
 void Capability::preExecute() {
-    if (isSampleTimeAchieved()) {
+    if (isSampleTimeAchieved() && isDelayTimeAchieved()) {
         execute();
         executeEventHandler()->executeAll();
     }
@@ -81,17 +81,32 @@ unsigned long Capability::getActualMillis() {
 }
 
 bool Capability::isSampleTimeAchieved() {
-    const unsigned long sampleTime = getSampleTime();
-
-    if (sampleTime == 0) {
+    if (getSampleTime() == 0) {
         return true;
     }
 
-    if ((getActualMillis() - _lastExecution) >= sampleTime) {
+    if ((getActualMillis() - _lastExecution) >= getSampleTime()) {
         _lastExecution = getActualMillis();
         return true;
     }
     return false;
+}
+
+bool Capability::isDelayTimeAchieved() {
+    if (_delayTime == 0) {
+        return true;
+    }
+
+    if ((getActualMillis() - _delayLastExecution) >= _delayTime) {
+        _delayLastExecution = getActualMillis();
+        _delayTime = 0;
+        return true;
+    }
+    return false;
+}
+
+void Capability::delayExecution(unsigned long time) {
+    _delayTime = time;
 }
 
 shared_ptr<CallbackMap> Capability::executeEventHandler() {

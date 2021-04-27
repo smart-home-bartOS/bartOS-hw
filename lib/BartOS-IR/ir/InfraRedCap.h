@@ -10,18 +10,18 @@ using namespace std;
 #include <string>
 #include <stdint.h>
 #include <core/capability/Capability.h>
+#include <unordered_map>
+#include <ir/callback/IrCallbackMap.h>
 
 class InfraRedCap : public Capability {
 protected:
-    uint32_t _value;
+    shared_ptr<IrCallbackMap> _callbacks;
 public:
     InfraRedCap(const uint8_t &pin, const string &name);
 
     ~InfraRedCap() = default;
 
-    virtual bool isSignalPresent() = 0;
-
-    uint32_t getSignalValue();
+    shared_ptr<IrCallbackMap> callbacks();
 };
 
 

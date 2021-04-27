@@ -11,12 +11,12 @@ InfraRedData::InfraRedData(shared_ptr<PubSubDataConnector> dataConnector) :
 }
 
 void InfraRedData::sendData(InfraRedCap *cap) {
-    if (cap == nullptr) return;
+    /*if (cap == nullptr) return;
 
     DynamicJsonDocument data(100);
     data[VALUE] = cap->getSignalValue();
 
     data.shrinkToFit();
     sendDataToDefault(data);
-    data.garbageCollect();
+    data.garbageCollect();*/
 }

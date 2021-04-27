@@ -19,15 +19,15 @@ public:
 
     ~CallbackMap() = default;
 
-    void executeAll();
+    virtual void executeAll();
 
-    void execute(const string &name);
+    virtual void execute(const string &name);
 
-    void clearAll();
+    virtual void clearAll();
 
-    void add(const string &name, SimpleCallback callback);
+    virtual void add(const string &name, SimpleCallback callback);
 
-    void remove(const string &name);
+    virtual void remove(const string &name);
 
     uint32_t getSize();
 };

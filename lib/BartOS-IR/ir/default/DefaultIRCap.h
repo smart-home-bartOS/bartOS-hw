@@ -17,19 +17,13 @@ private:
     shared_ptr <decode_results> _results;
 
 public:
-    DefaultIRCap(const uint8_t &pin, const string &name);
+    DefaultIRCap(const uint8_t &pin, const string &name="IR_Recv");
 
     ~DefaultIRCap() = default;
 
     void init();
 
     void execute();
-
-    bool isSignalPresent();
-
-    uint32_t getSignalValue();
-
-    shared_ptr <decode_results> getResults();
 };
 
 

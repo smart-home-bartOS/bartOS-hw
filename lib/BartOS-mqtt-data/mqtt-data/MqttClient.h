@@ -24,7 +24,7 @@ private:
     string _lastWillMessage = "";
 
     unsigned long _lastReconnectAttempt = 0;
-    unsigned long _tryConnectPeriodMs = 2000;
+    unsigned long _tryConnectPeriodMs = 200000;
     PubSubClient &_mqttClient;
 
 protected:

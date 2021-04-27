@@ -3,9 +3,12 @@
 //
 #include "Capabilities.h"
 
+static const string LG_TV_GREEN_BUTTON = "0x20dfc639";
+
 shared_ptr<DhtTempSensor> LivingRoomTemp = make_shared<DhtTempSensor>(D7, 22);
 shared_ptr<DefaultLightsCap> LivingRoomLights = make_shared<DefaultLightsCap>(D3);
 shared_ptr<DefaultPowerCap> LivingRoomRelay = make_shared<DefaultPowerCap>(D1, "relay");
+shared_ptr<DefaultIRCap> LivingRoomIrReceiver = make_shared<DefaultIRCap>(D6);
 
 void turnOffLivingRoomLights() {
     LivingRoomLights->turnOff();
@@ -14,6 +17,10 @@ void turnOffLivingRoomLights() {
 void setupLivingRoomRules() {
     LivingRoomTemp->setEnabled(false);
     LivingRoomLights->setEnabled(false);
+
+    LivingRoomIrReceiver->callbacks()->add(LG_TV_GREEN_BUTTON, []() -> void {
+        Serial.println("Heere");
+    });
 
     LivingRoomTemp->executeEventHandler()->add("MAIN", []() -> void {
         handleCallback(LivingRoomTemp->getTemperature() >= 25.0, []() -> void {
@@ -32,4 +39,5 @@ void setupLivingRoomRules() {
     Capabilities.push_back(LivingRoomTemp);
     Capabilities.push_back(LivingRoomLights);
     Capabilities.push_back(LivingRoomRelay);
+    Capabilities.push_back(LivingRoomIrReceiver);
 }

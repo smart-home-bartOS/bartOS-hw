@@ -3,19 +3,10 @@
 
 #include <ArduinoJson.h>
 
-#include <sstream>
 #include <string>
 #include <vector>
 
 using namespace std;
-
-static string convertLongToString(const long number) {
-    string result;
-    stringstream stream;
-    stream << 1L;
-    stream >> result;
-    return result;
-}
 
 static bool isAllowedKey(const string &key, const vector<string> &keys) {
     for (const string &item : keys) {

@@ -14,11 +14,12 @@ private:
     SimpleCallback _callback;
     bool _enabled = true;
     uint32_t _lastExec = 0;
+    bool _oneUseOnly=false;
 
     bool isTimeAchieved();
 
 public:
-    CallbackTime(uint32_t time, SimpleCallback callback);
+    CallbackTime(uint32_t time, SimpleCallback callback, bool oneUseOnly = false);
 
     ~CallbackTime() = default;
 
@@ -26,11 +27,13 @@ public:
 
     void setTime(uint32_t time);
 
-    void checkAndExecute();
+    bool checkAndExecute();
 
     void setCallback(SimpleCallback callback);
 
     bool isEnabled();
+
+    bool isOneUseOnly();
 
     void setEnabled(bool state);
 

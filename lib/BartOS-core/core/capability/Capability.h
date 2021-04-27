@@ -18,6 +18,17 @@
 using namespace std;
 
 class Capability : public StateConnection {
+private:
+    unsigned long _sampleTime = 0;
+    unsigned long _lastExecution = 0;
+
+    unsigned long _delayLastExecution = 0;
+    unsigned long _delayTime = 0;
+
+    bool isSampleTimeAchieved();
+
+    bool isDelayTimeAchieved();
+
 protected:
     long _ID = -1;
     uint8_t _pin;
@@ -28,10 +39,7 @@ protected:
     shared_ptr<CallbackMap> _execCallbackMap;
     shared_ptr<CallbackMapTime> _loopCallbackMap;
 
-    unsigned long _sampleTime = 0;
-    unsigned long _lastExecution = 0;
-
-    bool isSampleTimeAchieved();
+    void delayExecution(unsigned long time);
 
 public:
     Capability(const uint8_t &pin,
