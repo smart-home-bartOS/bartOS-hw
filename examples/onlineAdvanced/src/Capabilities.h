@@ -55,7 +55,7 @@ inline void addAllRules() {
     setupKitchenRules();
     setupLivingRoomRules();
 
-    //setUpWifiManager();
+    setUpWifiManager();
 }
 
 #endif //BARTOS_HW_CAPABILITIES_INIT_H

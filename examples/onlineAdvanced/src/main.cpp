@@ -11,10 +11,6 @@ void setup() {
     LivingRoomIrReceiver->setEnabled(true);
 
     addAllRules();
-    Device->getDataConnector()->setUrl("192.168.0.158");
-    Device->setName("MyDevice");
-    Device->setHomeID(10);
-    Device->setRoomID(25);
     Device->setCapabilities(Capabilities);
     Device->init();
 }
