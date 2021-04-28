@@ -24,7 +24,7 @@ protected:
     virtual void executeAllCapabilities();
 
 public:
-    Device(const string &name = "Device");
+    Device(const string &name);
 
     ~Device() = default;
 

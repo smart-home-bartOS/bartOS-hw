@@ -5,7 +5,7 @@
 using namespace std;
 
 vector<shared_ptr<Capability>> Capabilities;
-shared_ptr<Device> Device;
+shared_ptr<Device> Device=make_shared<Device>();
 
 void setup() {
     Serial.begin(9600);

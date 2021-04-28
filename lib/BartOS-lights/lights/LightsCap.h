@@ -20,6 +20,10 @@ public:
 
     virtual void changeIntensity(uint8_t intensity) = 0;
 
+    virtual void increaseIntensity();
+
+    virtual void decreaseIntensity();
+
     virtual uint8_t getActualIntensity();
 
     uint32_t getPwmRange();
