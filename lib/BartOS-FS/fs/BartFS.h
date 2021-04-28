@@ -6,7 +6,7 @@
 #define BARTOS_HW_BARTOS_FS_H
 using namespace std;
 
-#include <core/storage/FsManager.h>
+#include "../../BartOS-storage/storage/FsManager.h"
 #include <ArduinoJson.h>
 #include <string>
 

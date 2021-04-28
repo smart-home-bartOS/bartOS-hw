@@ -7,6 +7,11 @@ class StateConnection {
 private:
     ConnectionType _connectionType;
 
+protected:
+    void setConnectionType(ConnectionType type) {
+        _connectionType = type;
+    }
+
 public:
     explicit StateConnection(ConnectionType type) : _connectionType(type) {}
 
@@ -14,10 +19,6 @@ public:
 
     ConnectionType getConnectionType() {
         return _connectionType;
-    }
-
-    void setConnectionType(ConnectionType type) {
-        _connectionType = type;
     }
 };
 

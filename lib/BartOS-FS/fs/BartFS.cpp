@@ -4,7 +4,7 @@
 
 #include "BartFS.h"
 #include <Arduino.h>
-#include "LittleFS.h"
+#include <LittleFS.h>
 
 BartFS::BartFS(const string &configFileName) :
         FsManager(configFileName) {

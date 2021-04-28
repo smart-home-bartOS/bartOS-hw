@@ -7,10 +7,8 @@
 
 #include "DeviceFields.h"
 
-Device::Device(const string &name,
-               ConnectionType connectionType) :
-        StateConnection(connectionType),
-        _name(name){
+Device::Device(const string &name) : StateConnection(ConnectionType::OFFLINE),
+                                     _name(name) {
 }
 
 void Device::init() {

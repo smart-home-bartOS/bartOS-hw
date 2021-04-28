@@ -1,7 +1,3 @@
-//
-// Created by mabartos on 4/19/21.
-//
-
 #ifndef BARTOS_HW_CAPABILITIES_INIT_H
 #define BARTOS_HW_CAPABILITIES_INIT_H
 

@@ -24,8 +24,7 @@ protected:
     virtual void executeAllCapabilities();
 
 public:
-    Device(const string &name = "Device",
-           ConnectionType connectionType = ConnectionType::OFFLINE);
+    Device(const string &name = "Device");
 
     ~Device() = default;
 

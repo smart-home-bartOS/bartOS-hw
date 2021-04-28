@@ -2,7 +2,7 @@
 
 #include <cstring>
 #include <memory>
-#include <core/storage/FsManager.h>
+#include "../../../BartOS-storage/storage/FsManager.h"
 #include <online-device/transceiver/DataTransceiver.h>
 
 #include "OnlineDeviceFields.h"
@@ -11,10 +11,11 @@ OnlineDevice::OnlineDevice(shared_ptr<ManageConnector> manageConn,
                            shared_ptr<DataConnector> dataConn,
                            const string name,
                            bool storeToFileSystem) :
-        Device(name, ConnectionType::ONLINE),
+        Device(name),
         _dataConnector(dataConn),
         _manageConnector(manageConn),
         _storeToFileSystem(storeToFileSystem) {
+    setConnectionType(ConnectionType::ONLINE);
 }
 
 void OnlineDevice::init() {

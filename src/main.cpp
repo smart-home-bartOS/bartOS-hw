@@ -1,21 +1,16 @@
 #include <Arduino.h>
-#include "Capabilities.h"
+#include <memory>
+#include <core/device/Device.h>
+
+using namespace std;
 
 vector<shared_ptr<Capability>> Capabilities;
+shared_ptr<Device> Device;
 
 void setup() {
     Serial.begin(9600);
     delay(100);
-    //WifiManager->reset();
-    Device->disableAllCapabilities();
-    KitchenMainLights->setEnabled(true);
-    LivingRoomIrReceiver->setEnabled(true);
 
-    addAllRules();
-    Device->getDataConnector()->setUrl("192.168.0.158");
-    Device->setName("MyDevice");
-    Device->setHomeID(10);
-    Device->setRoomID(25);
     Device->setCapabilities(Capabilities);
     Device->init();
 }
