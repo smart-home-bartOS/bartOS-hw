@@ -20,17 +20,20 @@ void CallbackMapTime::executeAll() {
 }
 
 void CallbackMapTime::timer(const string &name, uint32_t time, SimpleCallback callback) {
+    if (existsCallback(name)) return;
     _timeCallbacks.insert({name, make_shared<CallbackTime>(time, callback, true)});
 }
 
 void CallbackMapTime::period(const string &name, uint32_t time, SimpleCallback callback) {
+    if (existsCallback(name)) return;
     _timeCallbacks.insert({name, make_shared<CallbackTime>(time, callback)});
 }
 
-void CallbackMapTime::changeTime(const string &name, uint32_t time) {
+void CallbackMapTime::update(const string &name, uint32_t time, SimpleCallback callback) {
     auto it = _timeCallbacks.find(name);
     if (it != _timeCallbacks.end()) {
         it->second->setTime(time);
+        it->second->setCallback(callback);
     }
 }
 
@@ -51,5 +54,15 @@ void CallbackMapTime::disable(const string &name) {
 
 uint32_t CallbackMapTime::getSize() {
     return CallbackMap::getSize() + _timeCallbacks.size();
+}
+
+bool CallbackMapTime::existsCallback(const string &name) {
+    bool existsSimple = CallbackMap::existsCallback(name);
+
+    if (name.empty()) return false;
+    auto it = _timeCallbacks.find(name);
+    bool exists = it != _timeCallbacks.end();
+
+    return existsSimple && exists;
 }
 

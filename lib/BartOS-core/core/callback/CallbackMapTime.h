@@ -30,13 +30,15 @@ public:
 
     void period(const string &name, uint32_t time, SimpleCallback callback);
 
-    void changeTime(const string &name, uint32_t time);
+    void update(const string &name, uint32_t time, SimpleCallback callback);
 
     void enable(const string &name);
 
     void disable(const string &name);
 
     uint32_t getSize();
+
+    bool existsCallback(const string &name) override;
 };
 
 

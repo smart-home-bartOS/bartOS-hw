@@ -20,7 +20,6 @@ shared_ptr<OnlineDevice> Device = make_shared<OnlineDevice>(HttpDeviceConnector,
 void setUpWifiManager() {
     WifiManager->begin();
 
-    Device->setCredentials(WifiManager->getCredentials());
     Device->getDataConnector()->setUrl(WifiManager->getBrokerUrl());
     Device->getManageConnector()->setUrl(WifiManager->getServerUrl());
 

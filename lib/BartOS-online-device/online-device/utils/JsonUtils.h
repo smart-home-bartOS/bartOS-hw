@@ -8,17 +8,18 @@
 
 using namespace std;
 
-static bool isAllowedKey(const string &key, const vector<string> &keys) {
-    for (const string &item : keys) {
-        if (strcmp(item.c_str(), key.c_str()) == 0) {
+static bool isAllowedKey(const string &key, const string keys[]) {
+    for (unsigned int i = 0; i < keys->size(); i++) {
+        if (strcmp(keys[i].c_str(), key.c_str()) == 0) {
             return true;
         }
     }
+
     return false;
 }
 
-static bool containOnlyAllowedKey(const JsonObject &obj, const vector<string> &keys) {
-    if (keys.empty())
+static bool containOnlyAllowedKey(const JsonObject &obj, const string keys[]) {
+    if (keys->size() == 0)
         return false;
 
     for (auto kvp : obj) {
@@ -27,6 +28,10 @@ static bool containOnlyAllowedKey(const JsonObject &obj, const vector<string> &k
         }
     }
     return true;
+}
+
+static bool containKey(const JsonObject &obj, const string key) {
+    return obj.containsKey(key.c_str());
 }
 
 static bool containKeys(const JsonObject &obj, const string keys[]) {
@@ -41,17 +46,7 @@ static bool containKeys(const JsonObject &obj, const string keys[]) {
     return true;
 }
 
-static bool containKeys(const JsonObject &obj, const vector<string> &keys) {
-    if (keys.empty())
-        return false;
-    for (const string &key : keys) {
-        if (!obj.containsKey(key.c_str()))
-            return false;
-    }
-    return true;
-}
-
-static DynamicJsonDocument reduceToAllowedKeys(DynamicJsonDocument &doc, const vector<string> &keys) {
+static DynamicJsonDocument reduceToAllowedKeys(DynamicJsonDocument &doc, const string keys[]) {
     JsonObject obj = doc.as<JsonObject>();
     if (containOnlyAllowedKey(obj, keys)) {
         return doc;

@@ -10,7 +10,7 @@ using namespace std;
 #include <functional>
 #include <core/callback/utils/CallbackType.h>
 
-class MqttClient : protected PubSubDataConnector {
+class MqttClient : public PubSubDataConnector {
 private:
     string _uuid;
 

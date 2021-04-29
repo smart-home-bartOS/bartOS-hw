@@ -37,7 +37,7 @@ bool isValidResponseCode(const int code, const vector<int> &allowedResponseCodes
 
 DynamicJsonDocument getJsonFromResponse(HttpResponse &response,
                                         const vector<int> &allowedResponseCodes,
-                                        const vector<string> &allowedKeys) {
+                                        const string allowedKeys[]) {
     DynamicJsonDocument empty(1024);
 
     DynamicJsonDocument doc(1024);
@@ -49,7 +49,7 @@ DynamicJsonDocument getJsonFromResponse(HttpResponse &response,
 
     JsonObject obj = doc.as<JsonObject>();
 
-    if (!allowedKeys.empty() && !containKeys(obj, allowedKeys)) {
+    if (!allowedKeys->size() == 0 && !containKeys(obj, allowedKeys)) {
         return empty;
     }
 
@@ -61,8 +61,8 @@ DynamicJsonDocument getJsonFromResponse(HttpResponse &response,
 }
 
 DynamicJsonDocument getJsonFromResponse(HttpResponse &response, const vector<int> &allowedResponseCodes) {
-    const vector<string> emptyVector = {};
-    return getJsonFromResponse(response, allowedResponseCodes, emptyVector);
+    const string empty[] = {};
+    return getJsonFromResponse(response, allowedResponseCodes, empty);
 }
 
 DynamicJsonDocument HttpManageDeviceConn::createDevice(long homeID, const DynamicJsonDocument &data) {

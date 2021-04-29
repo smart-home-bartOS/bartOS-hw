@@ -14,6 +14,7 @@ using namespace std;
 class CallbackMap {
 private:
     unordered_map<string, SimpleCallback> _callbacks;
+
 public:
     CallbackMap() = default;
 
@@ -30,6 +31,8 @@ public:
     virtual void remove(const string &name);
 
     uint32_t getSize();
+
+    virtual bool existsCallback(const string &name);
 };
 
 

@@ -25,7 +25,7 @@ void PowerAbleData::initDataHandler(PowerAbleCap *cap, long deviceID, long homeI
     if (cap == nullptr) return;
 
     auto setValues = [cap](JsonObject &obj) -> void {
-        if (containKeys(obj, {STATE})) {
+        if (containKey(obj, STATE)) {
             const bool state = obj[STATE];
             cap->changeState(state);
         }

@@ -60,8 +60,8 @@ public:
     }
 
     static void setUpCapabilityWithActualData(JsonObject &obj, const shared_ptr<Capability> &capability) {
-        const vector<string> KEYS{CapabilityFields::ID, CapabilityFields::NAME};
-        if (containKeys(obj, KEYS)) {
+        string keys[] = {CapabilityFields::ID, CapabilityFields::NAME};
+        if (containKeys(obj, keys)) {
             capability->setID(obj[CapabilityFields::ID].as<long>());
             capability->setName(obj[CapabilityFields::NAME].as<char *>());
         }

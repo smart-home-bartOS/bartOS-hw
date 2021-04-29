@@ -103,9 +103,10 @@ bool OnlineDevice::disconnectDevice() {
 void OnlineDevice::setUpCapabilities(const JsonObject &capsData) {
     if (capsData.containsKey(CapabilityFields::CAPABILITIES)) {
         JsonArray caps = capsData[CapabilityFields::CAPABILITIES];
+        const string KEYS[] = {CapabilityFields::PIN, CapabilityFields::TYPE};
 
         for (JsonObject capData : caps) {
-            if (containKeys(capData, {CapabilityFields::PIN, CapabilityFields::TYPE})) {
+            if (containKeys(capData, KEYS)) {
                 uint8_t pin = capData[CapabilityFields::PIN];
                 const char *type = capData[CapabilityFields::TYPE];
 

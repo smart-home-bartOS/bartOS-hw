@@ -19,11 +19,8 @@ public:
                 CAPABILITIES};
     }
 
-    static vector<string> getConnectFields() {
-        return vector<string>{
-                ID,
-                NAME,
-                CAPABILITIES};
+    static string[] getConnectFields() {
+        return {};
     }
 };
 

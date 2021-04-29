@@ -10,11 +10,11 @@
 #include <memory>
 
 /* Capabilities */
-shared_ptr<DhtTempSensor> KitchenTemp = make_shared<DhtTempSensor>(D8, 22);
-shared_ptr<DefaultOnlineLightsCap> KitchenMainLights = make_shared<DefaultOnlineLightsCap>(MqttDataConnector,
-                                                                                           LED_BUILTIN, "kitchenMain");
-shared_ptr<TwoWayButton> KitchenMainSwitch = make_shared<TwoWayButton>(D2, "kitchenMainSwitch");
-shared_ptr<DhtTempOnline> KitchenOnlineTemp = make_shared<DhtTempOnline>(MqttDataConnector, D5, 22);
+shared_ptr <DhtTempSensor> KitchenTemp = make_shared<DhtTempSensor>(D8, 22);
+shared_ptr <DefaultOnlineLightsCap> KitchenMainLights = make_shared<DefaultOnlineLightsCap>(MqttDataConnector,
+                                                                                            LED_BUILTIN, "kitchenMain");
+shared_ptr <TwoWayButton> KitchenMainSwitch = make_shared<TwoWayButton>(D2, "kitchenMainSwitch");
+shared_ptr <DhtTempOnline> KitchenOnlineTemp = make_shared<DhtTempOnline>(MqttDataConnector, D5, 22);
 
 void setupKitchenRules() {
     KitchenTemp->setEnabled(false);
@@ -43,7 +43,7 @@ void setupKitchenRules() {
     });
 
     KitchenOnlineTemp->getDataConnector()->addTopicContext("devices/12", [](JsonObject &doc) -> void {
-        const vector<string> KEYS{TemperatureData::TEMPERATURE_FIELD, TemperatureData::UNITS_FIELD};
+        const string KEYS[] = {TemperatureData::TEMPERATURE_FIELD, TemperatureData::UNITS_FIELD};
         if (containKeys(doc, KEYS)) {
             KitchenOnlineTemp->getTemperature();
             KitchenOnlineTemp->setTemperature(23.0);

@@ -33,3 +33,9 @@ void CallbackMap::remove(const string &name) {
 uint32_t CallbackMap::getSize() {
     return _callbacks.size();
 }
+
+bool CallbackMap::existsCallback(const string &name) {
+    if (name.empty()) return false;
+    auto it = _callbacks.find(name);
+    return it != _callbacks.end();
+}

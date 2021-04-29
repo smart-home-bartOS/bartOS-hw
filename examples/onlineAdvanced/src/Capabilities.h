@@ -16,7 +16,7 @@ using namespace std;
 #include <powerAble/default/DefaultPowerCap.h>
 #include <lights/default/DefaultLightsCap.h>
 #include <temp-online/default/DhtTempOnline.h>
-#include <fs/BartFS.h>
+#include <storage/default/BartFS.h>
 #include <online-device/device/OnlineDevice.h>
 #include <wifi-manager/default/DefaultWifiManager.h>
 #include <ir/default/DefaultIRCap.h>
