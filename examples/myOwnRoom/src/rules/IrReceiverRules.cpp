@@ -17,18 +17,32 @@ shared_ptr <DefaultIRCap> RoomIrReceiver = make_shared<DefaultIRCap>(IR_RECEIVER
 void changeIntensityUnderLights() {
     if (UnderLights->isTurnedOn()) {
         UnderLights->decreaseIntensity();
+        Serial.printf("Decrease Under lights. Intensity: %d\n", UnderLights->getActualIntensity());
     } else {
         UnderLights->turnOn();
+        Serial.printf("Turn on Under lights. State: %s\n", UnderLights->isTurnedOn() ? "ON" : "OFF");
     }
 }
 
 void setupIrReceiver() {
     RoomIrReceiver->callbacks()->add(LG_TV_GREEN_BUTTON, changeIntensityUnderLights);
-    RoomIrReceiver->callbacks()->add(LG_TV_YELLOW_BUTTON, []() { MainLights->switchState(); });
+
+    RoomIrReceiver->callbacks()->add(LG_TV_YELLOW_BUTTON, []() {
+        MainLights->switchState();
+        Serial.printf("LG TV Yellow; switch state. State: %s\n", MainLights->isTurnedOn() ? "ON" : "OFF");
+    });
 
     RoomIrReceiver->callbacks()->add(LG_DVD_ENTER, changeIntensityUnderLights);
-    RoomIrReceiver->callbacks()->add(LG_DVD_UP, []() { UnderLights->increaseIntensity(); });
-    RoomIrReceiver->callbacks()->add(LG_DVD_DOWN, []() { UnderLights->decreaseIntensity(); });
+
+    RoomIrReceiver->callbacks()->add(LG_DVD_UP, []() {
+        UnderLights->increaseIntensity();
+        Serial.printf("Increase Under lights. Intensity: %d\n", UnderLights->getActualIntensity());
+    });
+
+    RoomIrReceiver->callbacks()->add(LG_DVD_DOWN, []() {
+        UnderLights->decreaseIntensity();
+        Serial.printf("Decrease Under lights. Intensity: %d\n", UnderLights->getActualIntensity());
+    });
 
     Capabilities.push_back(RoomIrReceiver);
 }

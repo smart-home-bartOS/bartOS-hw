@@ -11,18 +11,21 @@
 #include <stdint.h>
 #include "online-device/utils/OnlineCallbackUtils.h"
 
+#define MESSAGE_SIZE 200
 using namespace std;
 
 class PubSubDataConnector : public DataConnector {
 private:
     unordered_map<string, PubSubCallback> _topicCallbacks;
 protected:
-    void executeTopicContext(char *topic, JsonObject &doc);
+    void executeTopicContext(const char *topic, JsonObject &doc);
 
 public:
     explicit PubSubDataConnector() = default;
 
     ~PubSubDataConnector() = default;
+
+    void handleData(const char *topic, const char *payload, unsigned int length);
 
     unordered_map<string, PubSubCallback> getTopicContext();
 

@@ -2,7 +2,6 @@
 
 #include <cstring>
 #include <memory>
-#include "../../../BartOS-FS/fs/FsManager.h"
 #include <online-device/transceiver/DataTransceiver.h>
 
 #include "OnlineDeviceFields.h"
@@ -119,14 +118,6 @@ void OnlineDevice::setUpCapabilities(const JsonObject &capsData) {
     }
 }
 
-shared_ptr<WifiCredentials> OnlineDevice::getCredentials() {
-    return _wifiCredentials;
-}
-
-void OnlineDevice::setCredentials(shared_ptr<WifiCredentials> credentials) {
-    _wifiCredentials = credentials;
-}
-
 long OnlineDevice::getID() {
     return _id;
 }
@@ -149,18 +140,4 @@ long OnlineDevice::getRoomID() {
 
 void OnlineDevice::setRoomID(const long &roomID) {
     _roomID = roomID;
-}
-
-void OnlineDevice::changeCapAvailability(bool state) {
-    for (auto &item : getCapabilities()) {
-        item->setEnabled(state);
-    }
-}
-
-void OnlineDevice::disableAllCapabilities() {
-    changeCapAvailability(false);
-}
-
-void OnlineDevice::enableAllCapabilities() {
-    changeCapAvailability(true);
 }

@@ -14,14 +14,20 @@ using namespace std;
 #include <ir/callback/IrCallbackMap.h>
 
 class InfraRedCap : public Capability {
+private:
+    bool _printCodes;
 protected:
     shared_ptr<IrCallbackMap> _callbacks;
 public:
-    InfraRedCap(const uint8_t &pin, const string &name);
+    InfraRedCap(const uint8_t &pin, const string &name, bool printCodes = false);
 
     ~InfraRedCap() = default;
 
     shared_ptr<IrCallbackMap> callbacks();
+
+    bool shouldPrintCodes();
+
+    void setPrintCodes(bool state);
 };
 
 

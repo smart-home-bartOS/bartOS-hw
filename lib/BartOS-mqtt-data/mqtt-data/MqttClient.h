@@ -10,9 +10,7 @@ using namespace std;
 #include <functional>
 #include <core/callback/utils/CallbackType.h>
 
-#define MQTT_MESSAGE_SIZE 200
-
-class MqttClient : public PubSubDataConnector {
+class MqttClient : protected PubSubDataConnector {
 private:
     string _uuid;
 

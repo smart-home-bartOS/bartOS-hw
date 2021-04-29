@@ -18,6 +18,10 @@ public:
 
     ~LightsCap() = default;
 
+    virtual void turnOn();
+
+    virtual void turnOff();
+
     virtual void changeIntensity(uint8_t intensity) = 0;
 
     virtual void increaseIntensity();

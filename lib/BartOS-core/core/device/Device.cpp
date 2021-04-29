@@ -54,22 +54,12 @@ shared_ptr<Capability> Device::getCapByPinAndType(const uint8_t &pin, const stri
     return nullptr;
 }
 
-void Device::printCapabilityInfo(const shared_ptr<Capability> &cap) {
-    Serial.print("INIT: type: '");
-    Serial.print(cap->getType().c_str());
-    Serial.print("', name:'");
-    Serial.print(cap->getName().c_str());
-    Serial.println("'.");
-}
-
 void Device::initAllCapabilities() {
-    Serial.println("Init All rules");
-    Serial.print("Number of caps:");
-    Serial.println(getCapabilities().size());
+    Serial.printf("Init all capabilities. Count: %d\n", getCapabilities().size());
 
     for (auto &item : getCapabilities()) {
         if (item->isEnabled()) {
-            printCapabilityInfo(item);
+            item->printInfo();
             item->init();
         }
     }
@@ -92,4 +82,18 @@ void Device::eraseAll() {
 
 unsigned long Device::getDeviceMillis() {
     return millis();
+}
+
+void Device::changeCapAvailability(bool state) {
+    for (auto &item : getCapabilities()) {
+        item->setEnabled(state);
+    }
+}
+
+void Device::disableAllCapabilities() {
+    changeCapAvailability(false);
+}
+
+void Device::enableAllCapabilities() {
+    changeCapAvailability(true);
 }

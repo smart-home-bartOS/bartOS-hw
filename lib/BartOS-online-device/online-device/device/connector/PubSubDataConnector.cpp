@@ -4,7 +4,18 @@
 
 #include "PubSubDataConnector.h"
 
-void PubSubDataConnector::executeTopicContext(char *topic, JsonObject &doc) {
+void PubSubDataConnector::handleData(const char *topic,const char *payload, unsigned int length) {
+    StaticJsonDocument<MESSAGE_SIZE> doc;
+    DeserializationError err = deserializeJson(doc, payload, length);
+    if (err) {
+        Serial.println(err.c_str());
+        return;
+    }
+    JsonObject obj = doc.as<JsonObject>();
+    executeTopicContext(topic, obj);
+}
+
+void PubSubDataConnector::executeTopicContext(const char *topic, JsonObject &doc) {
     if (strlen(topic) == 0) return;
 
     auto it = _topicCallbacks.find(topic);

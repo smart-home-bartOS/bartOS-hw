@@ -9,6 +9,16 @@ uint8_t LightsCap::getActualIntensity() {
     return _intensity;
 }
 
+void LightsCap::turnOn() {
+    PowerAbleCap::turnOn();
+    _intensity = 100;
+}
+
+void LightsCap::turnOff() {
+    PowerAbleCap::turnOff();
+    _intensity = 0;
+}
+
 void LightsCap::increaseIntensity() {
     if (_intensity <= 25) {
         changeIntensity(50);

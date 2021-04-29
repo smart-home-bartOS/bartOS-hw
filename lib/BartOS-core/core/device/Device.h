@@ -12,14 +12,15 @@ using namespace std;
 class Capability;
 
 class Device : public StateConnection {
-protected:
+private:
     string _name;
     bool _initialized = false;
     vector<shared_ptr<Capability>> _capabilities;
 
-    virtual void initAllCapabilities();
+    void changeCapAvailability(bool state);
 
-    void printCapabilityInfo(const shared_ptr<Capability> &cap);
+protected:
+    virtual void initAllCapabilities();
 
     virtual void executeAllCapabilities();
 
@@ -39,6 +40,10 @@ public:
     bool isInitialized();
 
     void setInitialized(bool initialized);
+
+    void disableAllCapabilities();
+
+    void enableAllCapabilities();
 
     /* CAPS */
     vector<shared_ptr<Capability>> getCapabilities();

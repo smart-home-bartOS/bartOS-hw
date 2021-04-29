@@ -9,6 +9,8 @@ class WifiCredentials {
 private:
     string _ssid;
     string _pass;
+protected:
+    string getPassword();
 
 public:
     WifiCredentials();
@@ -20,8 +22,6 @@ public:
     string getSSID();
 
     void setSSID(const string &ssid);
-
-    string getPassword();
 
     void setPassword(const string &pass);
 };

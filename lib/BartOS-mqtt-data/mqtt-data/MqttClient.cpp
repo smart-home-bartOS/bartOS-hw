@@ -63,14 +63,7 @@ bool MqttClient::reconnect() {
     }
 
     _mqttClient.setCallback([this](char *topic, uint8_t *payload, unsigned int length) -> void {
-        StaticJsonDocument<MQTT_MESSAGE_SIZE> doc;
-        DeserializationError err = deserializeJson(doc, payload, length);
-        if (err) {
-            Serial.println(err.c_str());
-            return;
-        }
-        JsonObject obj = doc.as<JsonObject>();
-        executeTopicContext(topic, obj);
+        PubSubDataConnector::handleData((const char *) topic, (char *) payload, length);
     });
 
     Serial.print("MQTT Client Connected : ");

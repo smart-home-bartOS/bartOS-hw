@@ -75,6 +75,10 @@ public:
 
     void setEnabled(bool enabled);
 
+    void enable();
+
+    void disable();
+
     unsigned long getSampleTime();
 
     void setSampleTime(unsigned millis);
@@ -84,6 +88,8 @@ public:
     shared_ptr<CallbackMapTime> loopEventHandler();
 
     unsigned long getActualMillis();
+
+    void printInfo();
 };
 
 #endif  // CAPABILITY_H

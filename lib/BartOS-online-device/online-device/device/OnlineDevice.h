@@ -5,7 +5,6 @@
 #include <core/device/Device.h>
 #include <online-device/device/connector/DataConnector.h>
 #include <online-device/device/connector/ManageConnector.h>
-#include <online-device/credentials/WifiCredentials.h>
 #include "core/utils/RandomGenerator.h"
 #include <unordered_map>
 
@@ -17,16 +16,9 @@ private:
     shared_ptr<DataConnector> _dataConnector;
     shared_ptr<ManageConnector> _manageConnector;
 
-    shared_ptr<WifiCredentials> _wifiCredentials;
     bool _storeToFileSystem;
-
-    void changeCapAvailability(bool state);
-
 protected:
     DynamicJsonDocument getCreateJSON();
-
-    shared_ptr<WifiCredentials> getCredentials();
-
 public:
     OnlineDevice(shared_ptr<ManageConnector> manageConn,
                  shared_ptr<DataConnector> dataConn,
@@ -46,17 +38,11 @@ public:
 
     bool disconnectDevice();
 
-    void disableAllCapabilities();
-
-    void enableAllCapabilities();
-
     shared_ptr<ManageConnector> getManageConnector();
 
     shared_ptr<DataConnector> getDataConnector();
 
     void setUpCapabilities(const JsonObject &capsData);
-
-    void setCredentials(shared_ptr<WifiCredentials> credentials);
 
     long getID();
 

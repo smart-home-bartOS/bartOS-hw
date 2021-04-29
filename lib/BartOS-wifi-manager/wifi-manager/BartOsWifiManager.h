@@ -5,7 +5,7 @@
 #include <WiFiManager.h>
 
 #include <string>
-#include <online-device/credentials/AccessWifiCredentials.h>
+#include <wifi-basic/credentials/AccessWifiCredentials.h>
 #include <memory>
 
 using namespace std;

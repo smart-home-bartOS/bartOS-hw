@@ -17,15 +17,15 @@ using namespace std;
 #include <core/device/Device.h>
 
 /* PINS */
-#define ROOM_TEMP_PIN       D0
-#define ROOM_HUM_PIN        D0
+#define ROOM_TEMP_PIN       D8
+#define ROOM_HUM_PIN        D8
 #define MAIN_LIGHTS_PIN     D5
 #define UNDER_LIGHTS_PIN    D6
 #define RELAY_1_PIN         D1
 #define RELAY_2_PIN         D2
-#define IR_RECEIVER_PIN     D8
+#define IR_RECEIVER_PIN     D4
 #define LEFT_MAIN_BTN_PIN   D3
-#define RIGHT_MAIN_BTN_PIN  D4
+#define RIGHT_MAIN_BTN_PIN  D0
 
 /* DEVICE */
 extern shared_ptr<Device> device;

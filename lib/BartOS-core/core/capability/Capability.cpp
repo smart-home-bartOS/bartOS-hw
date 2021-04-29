@@ -60,6 +60,14 @@ void Capability::setEnabled(bool enabled) {
     _enabled = enabled;
 }
 
+void Capability::enable() {
+    setEnabled(true);
+}
+
+void Capability::disable() {
+    setEnabled(false);
+}
+
 string Capability::getType() {
     return _type;
 }
@@ -115,4 +123,8 @@ shared_ptr<CallbackMap> Capability::executeEventHandler() {
 
 shared_ptr<CallbackMapTime> Capability::loopEventHandler() {
     return _loopCallbackMap;
+}
+
+void Capability::printInfo() {
+    Serial.printf("Cap = name:'%s', type:'%s', pin:'%d'.\n", getName().c_str(), getType().c_str(), getPin());
 }
