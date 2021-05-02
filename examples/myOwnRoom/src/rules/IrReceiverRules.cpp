@@ -18,9 +18,13 @@ void changeIntensityUnderLights() {
     if (UnderLights->isTurnedOn()) {
         UnderLights->decreaseIntensity();
         Serial.printf("Decrease Under lights. Intensity: %d\n", UnderLights->getActualIntensity());
+        if (!UnderLights->isTurnedOn()) {
+            RgbRelay->turnOff();
+        }
     } else {
         UnderLights->turnOn();
         Serial.printf("Turn on Under lights. State: %s\n", UnderLights->isTurnedOn() ? "ON" : "OFF");
+        RgbRelay->turnOn();
     }
 }
 
@@ -35,12 +39,18 @@ void setupIrReceiver() {
     RoomIrReceiver->callbacks()->add(LG_DVD_ENTER, changeIntensityUnderLights);
 
     RoomIrReceiver->callbacks()->add(LG_DVD_UP, []() {
+        if (!UnderLights->isTurnedOn()) {
+            RgbRelay->turnOn();
+        }
         UnderLights->increaseIntensity();
         Serial.printf("Increase Under lights. Intensity: %d\n", UnderLights->getActualIntensity());
     });
 
     RoomIrReceiver->callbacks()->add(LG_DVD_DOWN, []() {
         UnderLights->decreaseIntensity();
+        if (!UnderLights->isTurnedOn()) {
+            RgbRelay->turnOff();
+        }
         Serial.printf("Decrease Under lights. Intensity: %d\n", UnderLights->getActualIntensity());
     });
 

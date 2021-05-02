@@ -8,6 +8,9 @@ shared_ptr <DhtTempSensor> RoomTemp = make_shared<DhtTempSensor>(ROOM_TEMP_PIN, 
 shared_ptr <DhtHumSensor> RoomHum = make_shared<DhtHumSensor>(ROOM_HUM_PIN, 22);
 
 void setupTempHumRules() {
+    RoomTemp->disable();
+    RoomHum->disable();
+
     Capabilities.push_back(RoomTemp);
     Capabilities.push_back(RoomHum);
 }

@@ -8,18 +8,15 @@ shared_ptr <TwoWayButton> LeftMainButton = make_shared<TwoWayButton>(LEFT_MAIN_B
 shared_ptr <TwoWayButton> RightMainButton = make_shared<TwoWayButton>(RIGHT_MAIN_BTN_PIN, "RightMainButton");
 
 void setupLeftButton() {
-    LeftMainButton->executeEventHandler()->add("Check Left Button", []() {
-        if (LeftMainButton->isChanged()) {
-            MainLights->switchState();
-        }
+    LeftMainButton->onChange([]() {
+        UnderLights->switchState();
+        RgbRelay->switchState();
     });
 }
 
 void setupRightButton() {
-    RightMainButton->executeEventHandler()->add("Check Right Button", []() {
-        if (RightMainButton->isChanged()) {
-            UnderLights->switchState();
-        }
+    RightMainButton->onChange([]() {
+        MainLights->switchState();
     });
 }
 

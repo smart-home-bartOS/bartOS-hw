@@ -13,10 +13,7 @@ void TwoWayButton::updateState() {
 
 void TwoWayButton::init() {
     pinMode(_pin, INPUT_PULLUP);
-}
-
-void TwoWayButton::execute() {
-    updateState();
+    ButtonCap::init();
 }
 
 bool TwoWayButton::isOn() {
@@ -27,8 +24,4 @@ bool TwoWayButton::isOn() {
 bool TwoWayButton::isOff() {
     updateState();
     return !_state;
-}
-
-bool TwoWayButton::isChanged() {
-    return _state != digitalRead(_pin);
 }

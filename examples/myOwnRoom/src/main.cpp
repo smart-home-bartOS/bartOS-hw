@@ -14,8 +14,6 @@ void setup() {
 
     addAllRules();
     device->setCapabilities(Capabilities);
-    device->disableAllCapabilities();
-    RoomIrReceiver->enable();
 
     device->init();
 }

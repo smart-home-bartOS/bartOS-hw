@@ -19,13 +19,9 @@ public:
 
     void init();
 
-    void execute();
-
     bool isOn();
 
     bool isOff();
-
-    bool isChanged();
 };
 
 

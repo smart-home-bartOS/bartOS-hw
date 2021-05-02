@@ -1,5 +1,5 @@
 #include "LightsCap.h"
-
+#include <Arduino.h>
 LightsCap::LightsCap(const uint8_t &pin, const string &name, uint32_t pwmRange) :
         PowerAbleCap(pin, CapabilityType::LIGHT, name),
         _pwmRange(pwmRange) {

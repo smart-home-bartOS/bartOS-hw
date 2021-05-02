@@ -9,7 +9,7 @@
 
 class PowerAbleCap : public Capability {
 private:
-    bool _isTurnedOn;
+    bool _isTurnedOn = false;
     bool _isInverseOutput = false;
 protected:
     void setTurnedOn(bool state);

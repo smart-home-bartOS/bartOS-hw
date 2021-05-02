@@ -33,7 +33,7 @@ void DefaultLightsCap::changeIntensity(uint8_t intensity) {
         turnOff();
         return;
     }
-
+    setTurnedOn(true);
     float resultIntensity = (getPwmRange() / 100.0) * intensity;
     analogWrite(_pin, (uint16_t) resultIntensity);
     _intensity = intensity;
