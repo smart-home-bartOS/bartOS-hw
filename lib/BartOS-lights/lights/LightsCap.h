@@ -18,9 +18,9 @@ public:
 
     ~LightsCap() = default;
 
-    virtual void turnOn();
+    virtual void turnOn() override;
 
-    virtual void turnOff();
+    virtual void turnOff() override;
 
     virtual void changeIntensity(uint8_t intensity) = 0;
 
@@ -33,6 +33,8 @@ public:
     uint32_t getPwmRange();
 
     void setPwmRange(uint32_t range);
+
+    static bool validIntensity(uint8_t intensity);
 };
 
 #endif  //LIGHTS_CAP_H

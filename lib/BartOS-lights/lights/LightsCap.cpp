@@ -1,5 +1,6 @@
 #include "LightsCap.h"
 #include <Arduino.h>
+
 LightsCap::LightsCap(const uint8_t &pin, const string &name, uint32_t pwmRange) :
         PowerAbleCap(pin, CapabilityType::LIGHT, name),
         _pwmRange(pwmRange) {
@@ -47,4 +48,8 @@ uint32_t LightsCap::getPwmRange() {
 
 void LightsCap::setPwmRange(uint32_t range) {
     _pwmRange = range;
+}
+
+bool LightsCap::validIntensity(uint8_t intensity) {
+    return intensity >= 0 && intensity <= 100;
 }
