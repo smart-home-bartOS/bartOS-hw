@@ -1,0 +1,23 @@
+{
+  "name": "BartOS-core",
+  "version": "0.0.2",
+  "description": "Library for BartOS project - Core",
+  "keywords": "bartOS,iot,arduino,esp8266",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/smart-home-bartOS/bartOS-hw"
+  },
+  "authors": [
+    {
+      "name": "Martin Bartos",
+      "email": "mabartos@redhat.com",
+      "url": "https://github.com/mabartos",
+      "maintainer": true
+    }
+  ],
+  "license": "MIT",
+  "dependencies": {
+  },
+  "frameworks": "arduino",
+  "platforms": "esp8266"
+}

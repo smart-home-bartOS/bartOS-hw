@@ -5,16 +5,16 @@ using namespace std;
 
 #include <Arduino.h>
 #include <memory>
-#include <core/callback/utils/CallbackType.h>
-#include <core/callback/utils/CallbackUtils.h>
+#include <callback/utils/CallbackType.h>
+#include <callback/utils/CallbackUtils.h>
 
-#include <temp/default/DhtTempSensor.h>
-#include <humidity/default/DhtHumSensor.h>
-#include <button/default/two-way-button/TwoWayButton.h>
-#include <powerAble/default/DefaultPowerCap.h>
-#include <lights/default/DefaultLightsCap.h>
-#include <ir/default/DefaultIRCap.h>
-#include <core/device/Device.h>
+#include <default/DhtTempSensor.h>
+#include <default/DhtHumSensor.h>
+#include <default/two-way-button/TwoWayButton.h>
+#include <default/DefaultPowerCap.h>
+#include <default/DefaultLightsCap.h>
+#include <default/DefaultIRCap.h>
+#include <device/Device.h>
 
 /* PINS */
 #define ROOM_TEMP_PIN       D8

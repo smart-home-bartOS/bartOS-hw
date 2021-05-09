@@ -4,9 +4,9 @@
 
 #include <Arduino.h>
 #include <memory>
-#include <core/device/Device.h>
-#include <temp/default/DhtTempSensor.h>
-#include <lights/default/DefaultLightsCap.h>
+#include <device/Device.h>
+#include <default/DhtTempSensor.h>
+#include <default/DefaultLightsCap.h>
 
 shared_ptr<DhtTempSensor> TempSensor = make_shared<DhtTempSensor>(D5, 22);
 shared_ptr<DefaultLightsCap> MainLights = make_shared<DefaultLightsCap>(D6, "MainLights");

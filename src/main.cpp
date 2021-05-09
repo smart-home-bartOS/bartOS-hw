@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include <memory>
-#include <core/device/Device.h>
+#include <Device.h>
 
 using namespace std;
 

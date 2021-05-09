@@ -4,22 +4,20 @@
 using namespace std;
 
 #include <memory>
-#include <core/callback/utils/CallbackType.h>
-#include <core/callback/utils/CallbackUtils.h>
-
-#include <online-device/device/OnlineDevice.h>
-#include <temp/default/DhtTempSensor.h>
-#include <mqtt-data/MqttClient.h>
-#include <http-manage/HttpManageDeviceConn.h>
-#include <lights-online/default/DefaultOnlineLightsCap.h>
-#include <button/default/two-way-button/TwoWayButton.h>
-#include <powerAble/default/DefaultPowerCap.h>
-#include <lights/default/DefaultLightsCap.h>
-#include <temp-online/default/DhtTempOnline.h>
-#include <storage/default/BartFS.h>
-#include <online-device/device/OnlineDevice.h>
-#include <wifi-manager/default/DefaultWifiManager.h>
-#include <ir/default/DefaultIRCap.h>
+#include <callback/utils/CallbackType.h>
+#include <callback/utils/CallbackUtils.h>
+#include <OnlineDevice.h>
+#include <default/DhtTempSensor.h>
+#include <MqttClient.h>
+#include <HttpManageDeviceConn.h>
+#include <default/DefaultOnlineLightsCap.h>
+#include <default/two-way-button/TwoWayButton.h>
+#include <default/DefaultPowerCap.h>
+#include <default/DefaultLightsCap.h>
+#include <default/DhtTempOnline.h>
+#include <default/BartFS.h>
+#include <default/DefaultWifiManager.h>
+#include <default/DefaultIRCap.h>
 
 /* DEVICE */
 extern shared_ptr<OnlineDevice> Device;
