@@ -8,6 +8,8 @@ shared_ptr <DefaultLightsCap> MainLights = make_shared<DefaultLightsCap>(MAIN_LI
 shared_ptr <DefaultLightsCap> UnderLights = make_shared<DefaultLightsCap>(UNDER_LIGHTS_PIN, "UnderLights");
 
 void setupLightsRules() {
+    UnderLights->smoothMode(true);
+
     Capabilities.push_back(MainLights);
     Capabilities.push_back(UnderLights);
 }

@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include "Capabilities.h"
-#include <BasicWifiManager.h>
+#include "BasicWifiManager.h"
 
 shared_ptr<BasicWifiManager> WifiManager = make_shared<BasicWifiManager>();
 vector<shared_ptr<Capability>> Capabilities;

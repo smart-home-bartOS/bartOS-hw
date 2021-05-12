@@ -23,7 +23,7 @@ void changeIntensityUnderLights() {
         }
     } else {
         UnderLights->turnOn();
-        Serial.printf("Turn on Under lights. State: %s\n", UnderLights->isTurnedOn() ? "ON" : "OFF");
+        Serial.printf("Turn on Under lights. Current State: %s\n", UnderLights->isTurnedOn() ? "ON" : "OFF");
         RgbRelay->turnOn();
     }
 }
@@ -33,7 +33,7 @@ void setupIrReceiver() {
 
     RoomIrReceiver->callbacks()->add(LG_TV_YELLOW_BUTTON, []() {
         MainLights->switchState();
-        Serial.printf("LG TV Yellow; switch state. State: %s\n", MainLights->isTurnedOn() ? "ON" : "OFF");
+        Serial.printf("LG TV Yellow; switch state. Current State: %s\n", MainLights->isTurnedOn() ? "ON" : "OFF");
     });
 
     RoomIrReceiver->callbacks()->add(LG_DVD_ENTER, changeIntensityUnderLights);
