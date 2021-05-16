@@ -8,18 +8,22 @@
 #include "LightsCap.h"
 
 #define DEFAULT_PWM_RANGE 1024
-#define DEFAULT_SMOOTH_SAMPLE_INTERVAL_PER_PERCENT 20 // time for smooth executing in milliseconds per one percent
+#define DEFAULT_SMOOTH_SAMPLE_INTERVAL 1000 // time for smooth executing in milliseconds
+#define DEFAULT_MAX_SMOOTH_DELAY 300 // maximal value for sample time
 
 /**
  * @author Nikola Polova
  * @author Martin Bartos
  */
 class DefaultLightsCap : public LightsCap {
+private:
+    bool _smoothActive = false;
+    uint32_t _smoothSampleInterval = DEFAULT_SMOOTH_SAMPLE_INTERVAL;
+    uint32_t _maxSmoothDelay = DEFAULT_MAX_SMOOTH_DELAY;
+    bool _smoothMode = false;
+
 protected:
     uint8_t _resultIntensity = 0;
-    bool _smoothMode = false;
-    bool _smoothActive = false;
-    uint32_t _smoothSampleInterval = DEFAULT_SMOOTH_SAMPLE_INTERVAL_PER_PERCENT;
 
     void executeChangeIntensity(uint8_t intensity);
 
@@ -30,6 +34,10 @@ protected:
     void forceTurnOn();
 
     void forceTurnOff();
+
+    uint32_t getMaxSmoothDelay();
+
+    void setMaxSmoothDelay(uint32_t delay);
 
 public:
     DefaultLightsCap(const uint8_t &pin,

@@ -4,6 +4,8 @@
 
 #include "default/DefaultLightsCap.h"
 #include <Arduino.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 DefaultLightsCap::DefaultLightsCap(const uint8_t &pin, const string &name, uint32_t pwmRange) :
         LightsCap(pin, name, pwmRange) {
@@ -76,7 +78,11 @@ void DefaultLightsCap::checkSmoothIntensity() {
 }
 
 void DefaultLightsCap::changeSmoothIntensity(uint8_t intensity) {
-    setSampleTime(getSmoothSampleInterval());
+    uint32_t samplesCount = abs(intensity - _intensity);
+    unsigned sampleTime = getSmoothSampleInterval() / samplesCount;
+    sampleTime = sampleTime > getMaxSmoothDelay() ? getMaxSmoothDelay() : sampleTime;
+
+    setSampleTime(sampleTime);
     _resultIntensity = intensity;
     _smoothActive = true;
 }
@@ -95,4 +101,12 @@ void DefaultLightsCap::setSmoothSampleInterval(uint32_t interval) {
 
 uint32_t DefaultLightsCap::getSmoothSampleInterval() {
     return _smoothSampleInterval;
+}
+
+uint32_t DefaultLightsCap::getMaxSmoothDelay() {
+    return _maxSmoothDelay;
+}
+
+void DefaultLightsCap::setMaxSmoothDelay(uint32_t delay) {
+    _maxSmoothDelay = delay;
 }
