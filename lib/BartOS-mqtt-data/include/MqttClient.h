@@ -25,13 +25,16 @@ private:
     unsigned long _tryConnectPeriodMs = 200000;
     PubSubClient &_mqttClient;
 
+    string _username;
+    string _password;
+
 protected:
     void executeTopicContext(char *topic, JsonObject &doc);
 
     void printMqttInfo();
 
 public:
-    explicit MqttClient(PubSubClient &mqttClient);
+    explicit MqttClient(PubSubClient &mqttClient, const string &username="", const string &password="");
 
     ~MqttClient() = default;
 
@@ -79,6 +82,10 @@ public:
     unsigned long getTryConnectPeriodMs();
 
     void setTryConnectPeriodMs(unsigned long period);
+
+    void setUsername(const string &username);
+
+    void setPassword(const string &password);
 };
 
 #endif  //MQTT_CLIENT_H

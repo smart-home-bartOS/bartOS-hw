@@ -3,8 +3,13 @@
 #include <utils/PubSubTopics.h>
 #include <utils/RandomGenerator.h>
 
-MqttClient::MqttClient(PubSubClient &mqttClient) : PubSubDataConnector(),
-                                                   _mqttClient(mqttClient) {
+MqttClient::MqttClient(PubSubClient &mqttClient,
+                       const string &username,
+                       const string &password)
+        : PubSubDataConnector(),
+          _mqttClient(mqttClient),
+          _username(username),
+          _password(password) {
     _uuid = "MqttClient-" + RandomGenerator::randomNumber(6);
 }
 
@@ -53,11 +58,15 @@ bool MqttClient::reconnect() {
     Serial.printf("Attempting MQTT connection after %lu ms.\n", getTryConnectPeriodMs());
     Serial.printf("Client UUID: %s\n", getUUID().c_str());
 
-    if (!_mqttClient.connect(getUUID().c_str()/*,       USE LATELY; DOESN'T WORK WITH MOSQUITTO
-                             getLastWillMessage().c_str(),
-                             getLastWillQos(),
-                             isLastWillRetain(),
-                             getLastWillMessage().c_str())*/)) {
+    if (!_mqttClient.connect(getUUID().c_str(),
+                             _username.c_str(),
+                             _password.c_str()
+            /* USE LATELY; DOESN'T WORK WITH MOSQUITTO
+            getLastWillMessage().c_str(),
+            getLastWillQos(),
+            isLastWillRetain(),
+            getLastWillMessage().c_str())*/
+    )) {
         Serial.println("Cannot connect MQTT client");
         return false;
     }
@@ -155,4 +164,12 @@ void MqttClient::printMqttInfo() {
     Serial.println(getUrl().c_str());
     Serial.print("Broker Port: ");
     Serial.println(_port);
+}
+
+void MqttClient::setUsername(const string &username) {
+    _username = username;
+}
+
+void MqttClient::setPassword(const string &password) {
+    _password = password;
 }

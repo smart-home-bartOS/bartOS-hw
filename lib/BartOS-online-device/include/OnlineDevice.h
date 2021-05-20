@@ -20,8 +20,8 @@ private:
 protected:
     DynamicJsonDocument getCreateJSON();
 public:
-    OnlineDevice(shared_ptr<ManageConnector> manageConn,
-                 shared_ptr<DataConnector> dataConn,
+    OnlineDevice(shared_ptr<DataConnector> dataConn,
+                 shared_ptr<ManageConnector> manageConn= nullptr,
                  const string name = "Dev_" + RandomGenerator::randomAlphanum(6),
                  bool storeToFileSystem = false
     );

@@ -8,6 +8,8 @@ shared_ptr <DefaultPowerCap> RgbRelay = make_shared<DefaultPowerCap>(RGB_RELAY_P
 shared_ptr <DefaultPowerCap> Relay2 = make_shared<DefaultPowerCap>(RELAY_2_PIN);
 
 void setupRelaysRules() {
+    RgbRelay->disable();
+
     RgbRelay->turnOff();
     Relay2->turnOff();
 

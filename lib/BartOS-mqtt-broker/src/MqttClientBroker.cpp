@@ -64,3 +64,11 @@ void MqttClientBroker::setMaxRetainedTopics(uint16_t maxRetainedTopics) {
     _maxRetainedTopics = maxRetainedTopics;
     uMQTTBroker::init();
 }
+
+void MqttClientBroker::setAllowedUsername(const string &username) {
+    _allowedUsername = username;
+}
+
+void MqttClientBroker::setAllowedPassword(const string &password) {
+    _allowedPassword = password;
+}

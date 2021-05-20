@@ -24,8 +24,8 @@ using namespace std;
 #define RGB_RELAY_PIN       D1
 #define RELAY_2_PIN         D2
 #define IR_RECEIVER_PIN     D4
-#define LEFT_MAIN_BTN_PIN   D7
-#define RIGHT_MAIN_BTN_PIN  D0
+#define LEFT_MAIN_BTN_PIN   RX
+#define RIGHT_MAIN_BTN_PIN  D7
 
 /* DEVICE */
 extern shared_ptr<Device> device;

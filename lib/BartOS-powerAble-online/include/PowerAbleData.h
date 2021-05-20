@@ -11,6 +11,7 @@
 class PowerAbleData : public PubSubDataTransceiver {
 public:
     static const char *STATE;
+    static const char *SWITCH;
 
     PowerAbleData(shared_ptr<PubSubDataConnector> dataConnector);
 

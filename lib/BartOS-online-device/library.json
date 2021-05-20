@@ -1,6 +1,6 @@
 {
   "name": "BartOS-device-online",
-  "version": "0.0.2.1",
+  "version": "0.0.2.2",
   "description": "Library for BartOS project - Online device core",
   "keywords": "bartOS,iot,arduino,esp8266",
   "repository": {

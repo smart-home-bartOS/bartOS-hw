@@ -15,7 +15,7 @@ shared_ptr<DefaultWifiManager> WifiManager = make_shared<DefaultWifiManager>();
 
 shared_ptr<BartFS> StorageManager = make_shared<BartFS>();
 
-shared_ptr<OnlineDevice> Device = make_shared<OnlineDevice>(HttpDeviceConnector, MqttDataConnector);
+shared_ptr<OnlineDevice> Device = make_shared<OnlineDevice>(MqttDataConnector,HttpDeviceConnector);
 
 void setUpWifiManager() {
     WifiManager->begin();

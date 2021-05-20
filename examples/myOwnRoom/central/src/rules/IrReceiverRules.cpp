@@ -28,13 +28,16 @@ void changeIntensityUnderLights() {
     }
 }
 
+void changeStateMainLights() {
+    MainLights->switchState();
+    Serial.printf("Main Lights - switch state. Current State: %s\n", MainLights->isTurnedOn() ? "ON" : "OFF");
+}
+
 void setupIrReceiver() {
     RoomIrReceiver->callbacks()->add(LG_TV_GREEN_BUTTON, changeIntensityUnderLights);
 
-    RoomIrReceiver->callbacks()->add(LG_TV_YELLOW_BUTTON, []() {
-        MainLights->switchState();
-        Serial.printf("LG TV Yellow; switch state. Current State: %s\n", MainLights->isTurnedOn() ? "ON" : "OFF");
-    });
+    RoomIrReceiver->callbacks()->add(LG_TV_YELLOW_BUTTON, changeStateMainLights);
+    RoomIrReceiver->callbacks()->add(LG_DVD_POWER, changeStateMainLights);
 
     RoomIrReceiver->callbacks()->add(LG_DVD_ENTER, changeIntensityUnderLights);
 

@@ -5,8 +5,8 @@
 #include "transceiver/DataTransceiver.h"
 #include "OnlineDeviceFields.h"
 
-OnlineDevice::OnlineDevice(shared_ptr<ManageConnector> manageConn,
-                           shared_ptr<DataConnector> dataConn,
+OnlineDevice::OnlineDevice(shared_ptr <DataConnector> dataConn,
+                           shared_ptr <ManageConnector> manageConn,
                            const string name,
                            bool storeToFileSystem) :
         Device(name),
@@ -17,17 +17,20 @@ OnlineDevice::OnlineDevice(shared_ptr<ManageConnector> manageConn,
 }
 
 void OnlineDevice::init() {
-    getManageConnector()->init();
-    getDataConnector()->init();
+    if (getManageConnector() != nullptr) { getManageConnector()->init(); }
+    if (getDataConnector() != nullptr) { getDataConnector()->init(); }
 
     Device::init();
-    //getID() != -1 ? connectDevice() : createDevice();
+
+    if (getManageConnector() != nullptr) {
+        getID() != -1 ? connectDevice() : createDevice();
+    }
 }
 
 void OnlineDevice::loop() {
     Device::loop();
-    getManageConnector()->loop();
-    getDataConnector()->loop();
+    if (getManageConnector() != nullptr) { getManageConnector()->loop(); };
+    if (getDataConnector() != nullptr) { getDataConnector()->loop(); };
 }
 
 shared_ptr <ManageConnector> OnlineDevice::getManageConnector() {
