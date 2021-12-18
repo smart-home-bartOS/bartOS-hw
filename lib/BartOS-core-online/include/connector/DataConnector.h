@@ -8,15 +8,16 @@
 #include <vector>
 
 #include "connector/DataHandler.h"
+#include "connector/OnlineConnector.h"
 
 using std::shared_ptr;
 using std::string;
-using std::unordered_map;
+using std::unordered_multimap;
 using std::vector;
 
 class DataConnector : public OnlineConnector {
    private:
-    unordered_map<string, shared_ptr<DataHandler>> _dataHandlers;
+    unordered_multimap<string, shared_ptr<DataHandler>> _dataHandlers;
 
    public:
     DataConnector(const string &baseURL);
@@ -25,13 +26,13 @@ class DataConnector : public OnlineConnector {
 
     virtual void sendData(string path, JsonObject data) = 0;
 
-    virtual void subscribe(string path, DataHandler handler) = 0;
-    virtual void subscribe(vector<string> paths, DataHandler handler) = 0;
+    virtual void subscribe(string path, DataHandler handler);
+    virtual void subscribe(vector<string> paths, DataHandler handler);
 
-    virtual void unsubscribe(DataHandler handler) = 0;
-    virtual void unsubscribe(string path) = 0;
+    virtual void unsubscribe(vector<string> paths);
+    virtual void unsubscribe(string path);
 
-    virtual void notify(JsonObject data) = 0;
+    virtual void notify(string path, JsonObject data);
 };
 
 #endif  // BARTOS_HW_DATA_CONNECTOR_H

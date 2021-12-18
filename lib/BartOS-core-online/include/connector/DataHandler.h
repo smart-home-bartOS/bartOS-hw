@@ -14,9 +14,9 @@ class DataHandler {
     DataHandler() = default;
     ~DataHandler() = default;
 
-    virtual JsonObject getData() = 0;
-    virtual void handleData(JsonObject data) = 0;
-    virtual vector<string> getSubscribedPaths() = 0;
+    virtual JsonObject getData();
+    virtual void handleData(JsonObject data);
+    virtual vector<string> getSubscribedPaths();
 };
 
 #endif  // BARTOS_HW_DATA_HANDLER_H
