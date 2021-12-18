@@ -1,33 +1,34 @@
 #ifndef ONLINE_CAPABILITY_H
 #define ONLINE_CAPABILITY_H
 
+#include <ArduinoJson.h>
+#include <capability/Capability.h>
+#include <connector/DataConnector.h>
+#include <utils/JsonUtils.h>
+
 #include <memory>
 #include <string>
-#include <ArduinoJson.h>
-#include <connector/DataConnector.h>
-#include <capability/Capability.h>
-#include <utils/JsonUtils.h>
 
 using namespace std;
 
-template<class Connector=DataConnector>
+template <class Connector = DataConnector>
 class DataTransceiver {
-private:
+   private:
     shared_ptr<Connector> _dataConnector;
     string _defaultPath;
-public:
+
+   public:
     DataTransceiver(shared_ptr<Connector> dataConnector,
-                    const string &defaultPath = "") :
-            _dataConnector(dataConnector), _defaultPath(defaultPath) {
+                    const string &defaultPath = "") : _dataConnector(dataConnector), _defaultPath(defaultPath) {
     }
 
     ~DataTransceiver() = default;
 
-    template<class SpecificCapability=Capability>
-    void initDataHandler(SpecificCapability *capability, long homeID, long roomID) {};
+    template <class SpecificCapability = Capability>
+    void initDataHandler(SpecificCapability *capability, long homeID, long roomID){};
 
-    template<class SpecificCapability>
-    void sendData(SpecificCapability *capability) {};
+    template <class SpecificCapability>
+    void sendData(SpecificCapability *capability){};
 
     void sendDataToDefault(DynamicJsonDocument &data) {
         sendDataToPath(getDefaultPath(), data);
@@ -68,4 +69,4 @@ public:
     }
 };
 
-#endif  //ONLINE_CAPABILITY_H
+#endif  // ONLINE_CAPABILITY_H
