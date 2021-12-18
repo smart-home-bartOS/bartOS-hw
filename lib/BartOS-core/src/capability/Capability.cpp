@@ -10,8 +10,8 @@ Capability::Capability(const uint8_t &pin,
                                                     _pin(pin),
                                                     _name(name),
                                                     _type(type) {
-    _scheduler = make_shared<TimeActionMap>();
     _actions = make_shared<ActionMap>();
+    _scheduler = make_shared<TimeActionMap>();
 }
 
 string Capability::getName() {

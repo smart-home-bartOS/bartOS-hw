@@ -19,11 +19,6 @@ using std::string;
 using std::unordered_map;
 
 class ActionMap : public AbstractActionMap<AbstractCallbackItem> {
-   private:
-    // unordered_map<string, shared_ptr<AbstractCallbackItem>> _callbacks;
-
-    void changeEnableState(const string &name, bool state);
-
    public:
     ActionMap() = default;
     ~ActionMap() = default;
@@ -32,19 +27,6 @@ class ActionMap : public AbstractActionMap<AbstractCallbackItem> {
     void loop();
 
     void add(const string &name, Callback callback);
-
-    // Interface
-    /* void enable(const string &name);
-
-    void disable(const string &name);
-
-    void remove(const string &name);
-
-    void removeAll();
-
-    uint32_t getSize();
-
-    bool existsCallback(const string &name);*/
 };
 
 #endif  // BARTOS_HW_CALLBACKMAP_H

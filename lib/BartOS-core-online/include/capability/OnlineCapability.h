@@ -1,8 +1,6 @@
 #ifndef BARTOS_HW_ONLINE_CAPABILITY_H
 #define BARTOS_HW_ONLINE_CAPABILITY_H
 
-#include <capability/Capability.h>
-
 #include <memory>
 
 #include "connector/DataConnector.h"
@@ -11,24 +9,52 @@
 using std::shared_ptr;
 using std::string;
 
-class OnlineCapability : public DataHandler, public Capability {
+class OnlineDevice;
+
+template <class TargetCap>
+class OnlineCapability : public DataHandler {
    private:
     long _id = -1;
     shared_ptr<DataConnector> _dataConnector;
+    TargetCap* _capability;
+    OnlineDevice* _device = nullptr;
 
    public:
-    OnlineCapability(const uint8_t &pin,
-                     const string &type = CapabilityType::OTHER,
-                     const string &name = "OnlineCap-unknown",
-                     const unsigned sampleTime = 0);
+    OnlineCapability(TargetCap* capability) : _capability(capability){};
 
     ~OnlineCapability() = default;
 
-    long getID();
-    void setID(long id);
+    void setDevice(OnlineDevice* device) {
+        _device = device;
+    }
 
-    shared_ptr<DataConnector> getDataConnector();
-    void setDataConnector(shared_ptr<DataConnector> connector);
+    TargetCap* getTargetCapability() {
+        return _capability;
+    }
+
+    OnlineDevice* getOnlineDevice() {
+        return _device;
+    }
+
+    void setOnlineDevice(OnlineDevice* device) {
+        _device = device;
+    }
+
+    long getID() {
+        return _id;
+    }
+
+    void setID(long id) {
+        _id = id;
+    }
+
+    shared_ptr<DataConnector> getDataConnector() {
+        return _dataConnector;
+    }
+
+    void setDataConnector(shared_ptr<DataConnector> connector) {
+        _dataConnector = connector;
+    }
 };
 
 #endif  // BARTOS_HW_ONLINE_CAPABILITY_H

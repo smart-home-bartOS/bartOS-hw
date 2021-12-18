@@ -20,11 +20,6 @@ using std::string;
 
 class Capability {
    private:
-    uint8_t _pin;
-    bool _enabled = true;
-    string _name;
-    string _type;
-
     shared_ptr<ActionMap> _actions;
     shared_ptr<TimeActionMap> _scheduler;
 
@@ -38,6 +33,11 @@ class Capability {
     bool isDelayTimeAchieved();
 
    protected:
+    uint8_t _pin;
+    bool _enabled = true;
+    string _name;
+    string _type;
+
     void delayExecution(unsigned long time);
     unsigned long getActualMillis();
 

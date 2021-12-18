@@ -4,11 +4,11 @@
 
 #ifndef BARTOS_HW_TWOWAYBUTTON_H
 #define BARTOS_HW_TWOWAYBUTTON_H
-using namespace std;
 
 #include <string>
 
 #include "ButtonCap.h"
+using std::string;
 
 class TwoWayButton : public ButtonCap {
    protected:

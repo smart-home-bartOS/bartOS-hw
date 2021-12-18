@@ -28,15 +28,15 @@ void ButtonCap::loop() {
     }
 }
 
-void ButtonCap::onChange(SimpleCallback callback) {
+void ButtonCap::onChange(Callback callback) {
     _onChangeCallbacks.push_back(callback);
 }
 
-void ButtonCap::onStateOn(SimpleCallback callback) {
+void ButtonCap::onStateOn(Callback callback) {
     _onOnCallbacks.push_back(callback);
 }
 
-void ButtonCap::onStateOff(SimpleCallback callback) {
+void ButtonCap::onStateOff(Callback callback) {
     _onOffCallbacks.push_back(callback);
 }
 

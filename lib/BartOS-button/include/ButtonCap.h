@@ -46,11 +46,11 @@ class ButtonCap : public Capability {
 
     virtual bool isChanged();
 
-    void onChange(SimpleCallback callback);
+    void onChange(Callback callback);
 
-    void onStateOn(SimpleCallback callback);
+    void onStateOn(Callback callback);
 
-    void onStateOff(SimpleCallback callback);
+    void onStateOff(Callback callback);
 };
 
 #endif  // BARTOS_HW_BUTTONCAP_H

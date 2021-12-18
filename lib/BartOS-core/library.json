@@ -1,6 +1,6 @@
 {
     "name": "BartOS-core",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "Library for BartOS project - Core",
     "keywords": "bartOS,iot,arduino,esp8266",
     "repository": {

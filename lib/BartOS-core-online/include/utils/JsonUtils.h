@@ -61,4 +61,4 @@ static DynamicJsonDocument reduceToAllowedKeys(DynamicJsonDocument &doc, const s
     }
 }
 
-#endif //JSON_UTILS_H
+#endif  // JSON_UTILS_H

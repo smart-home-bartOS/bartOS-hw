@@ -8,9 +8,9 @@
 #include <capability/OnlineCapability.h>
 #include <default/two-way-button/TwoWayButton.h>
 
-#include "ButtonData.h"
+#include "ButtonOnline.h"
 
-class OnlineTwoWayButton : public TwoWayButton, public OnlineCapability {
+class OnlineTwoWayButton : public TwoWayButton, public ButtonOnline {
    public:
     OnlineTwoWayButton(const uint8_t &pin,
                        const string &name = "Online-2W-button");
@@ -18,10 +18,6 @@ class OnlineTwoWayButton : public TwoWayButton, public OnlineCapability {
     ~OnlineTwoWayButton() = default;
 
     void loop() override;
-
-    DynamicJsonDocument getData();
-    void handleData(const DynamicJsonDocument &data);
-    vector<string> getSubscribedPaths();
 };
 
 #endif  // BARTOS_HW_ONLINETWOWAYBUTTON_H

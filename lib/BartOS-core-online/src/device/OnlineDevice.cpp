@@ -76,11 +76,11 @@ void OnlineDevice::setRoomID(const long &roomID) {
     _roomID = roomID;
 }
 
-vector<shared_ptr<OnlineCapability>> OnlineDevice::getOnlineCaps() {
+vector<shared_ptr<OnlineCapability<Capability>>> OnlineDevice::getOnlineCaps() {
     return _onlineCapabilities;
 }
 
-void OnlineDevice::setOnlineCaps(vector<shared_ptr<OnlineCapability>> &caps) {
+void OnlineDevice::setOnlineCaps(vector<shared_ptr<OnlineCapability<Capability>>> &caps) {
     _onlineCapabilities = caps;
 }
 

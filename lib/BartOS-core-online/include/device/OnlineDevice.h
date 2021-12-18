@@ -30,7 +30,7 @@ class OnlineDevice : public Device {
     shared_ptr<DataConnector> _dataConnector = nullptr;
     shared_ptr<ManageConnector> _manageConnector = nullptr;
 
-    vector<shared_ptr<OnlineCapability>> _onlineCapabilities;
+    vector<shared_ptr<OnlineCapability<Capability>>> _onlineCapabilities;
     shared_ptr<ConnectionState> _connectionState = nullptr;
 
    public:
@@ -61,9 +61,9 @@ class OnlineDevice : public Device {
 
     void setRoomID(const long &roomID);
 
-    vector<shared_ptr<OnlineCapability>> getOnlineCaps();
+    vector<shared_ptr<OnlineCapability<Capability>>> getOnlineCaps();
 
-    void setOnlineCaps(vector<shared_ptr<OnlineCapability>> &caps);
+    void setOnlineCaps(vector<shared_ptr<OnlineCapability<Capability>>> &caps);
 
     void changeConnectionState(shared_ptr<ConnectionState> state);
 };
