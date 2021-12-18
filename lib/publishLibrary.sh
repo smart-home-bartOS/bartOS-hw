@@ -8,6 +8,6 @@ for f in * ; do
 
     if [[ -d $FILE_NAME ]] && [[ $FILE_NAME == $BART_PREFIX ]]; then
       echo "Publish library for: $FILE_NAME";
-      ( cd $FILE_NAME && pio package publish ) &
+      ( cd $FILE_NAME && pio package publish --non-interactive) &
     fi;
 done
