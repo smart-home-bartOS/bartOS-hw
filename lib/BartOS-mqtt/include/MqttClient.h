@@ -1,17 +1,22 @@
 #ifndef MQTT_CLIENT_H
 #define MQTT_CLIENT_H
-using namespace std;
 
 #include <ArduinoJson.h>
 #include <PubSubClient.h>
-#include <string>
-#include <connector/PubSubDataConnector.h>
-#include <unordered_map>
-#include <functional>
 #include <callback/utils/CallbackType.h>
+#include <connector/DataConnector.h>
+#include <connector/DataHandler.h>
+#include <connector/ManageConnector.h>
 
-class MqttClient : public PubSubDataConnector {
-private:
+#include <functional>
+#include <string>
+#include <unordered_map>
+
+using std::shared_ptr;
+using std::string;
+
+class MqttClient : public DataConnector, public ManageConnector {
+   private:
     string _uuid;
 
     uint16_t _port = 1883;
@@ -25,36 +30,38 @@ private:
     unsigned long _tryConnectPeriodMs = 200000;
     PubSubClient &_mqttClient;
 
-    string _username;
-    string _password;
+    string _username = "";
+    string _password = "";
 
-protected:
-    void executeTopicContext(char *topic, JsonObject &doc);
+   protected:
+    void checkAvailability();
 
-    void printMqttInfo();
-
-public:
-    explicit MqttClient(PubSubClient &mqttClient, const string &username="", const string &password="");
+   public:
+    explicit MqttClient(PubSubClient &mqttClient, const string &baseURL, const string &username = "", const string &password = "");
 
     ~MqttClient() = default;
 
+    // Online Connector
     void init() override;
-
     void loop() override;
 
+    // Manage Connector
     void connect() override;
-
     void disconnect() override;
+    void create() override;
+    void remove() override;
+    void update() override;
 
-    void sendData(const string &path, DynamicJsonDocument data) override;
+    // DataConnector
+    void sendData(const string &path, DynamicJsonDocument &data) override;
+    void subscribe(const string &path, shared_ptr<DataHandler> handler) override;
+    void unsubscribe(const string &path) override;
 
     string getUUID();
 
     void setUUID(const string &UUID);
 
     bool reconnect();
-
-    void checkAvailability();
 
     PubSubClient &getMqttClient();
 
@@ -75,10 +82,7 @@ public:
 
     void setLastWillMessage(const string &message);
 
-    void addTopicContext(const string &topic, PubSubCallback callback) override;
-
-    void removeTopicContext(const string &topic) override;
-
+    /* Other */
     unsigned long getTryConnectPeriodMs();
 
     void setTryConnectPeriodMs(unsigned long period);
@@ -86,6 +90,8 @@ public:
     void setUsername(const string &username);
 
     void setPassword(const string &password);
+
+    void printMqttInfo();
 };
 
-#endif  //MQTT_CLIENT_H
+#endif  // MQTT_CLIENT_H

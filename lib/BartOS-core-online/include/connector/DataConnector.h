@@ -19,20 +19,24 @@ class DataConnector : public OnlineConnector {
    private:
     unordered_multimap<string, shared_ptr<DataHandler>> _dataHandlers;
 
+   protected:
+    unordered_multimap<string, shared_ptr<DataHandler>> getDataHandlers();
+    vector<string> getDataHandlersKeys();
+
    public:
     DataConnector(const string &baseURL);
     DataConnector() = default;
     ~DataConnector() = default;
 
-    virtual void sendData(string path, JsonObject data) = 0;
+    virtual void sendData(const string &path, DynamicJsonDocument &data) = 0;
 
-    virtual void subscribe(string path, DataHandler handler);
-    virtual void subscribe(vector<string> paths, DataHandler handler);
+    virtual void subscribe(const string &path, shared_ptr<DataHandler> handler);
+    virtual void subscribe(vector<string> paths, shared_ptr<DataHandler> handler);
 
     virtual void unsubscribe(vector<string> paths);
-    virtual void unsubscribe(string path);
+    virtual void unsubscribe(const string &path);
 
-    virtual void notify(string path, JsonObject data);
+    virtual void notify(const string &path, DynamicJsonDocument &data);
 };
 
 #endif  // BARTOS_HW_DATA_CONNECTOR_H

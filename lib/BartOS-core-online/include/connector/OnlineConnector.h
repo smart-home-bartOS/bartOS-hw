@@ -12,22 +12,15 @@ class OnlineConnector {
    public:
     OnlineConnector() = default;
 
-    OnlineConnector(const string &url) {
-        _baseURL = url;
-    };
-
+    OnlineConnector(const string &url);
     ~OnlineConnector() = default;
 
     virtual void init() = 0;
     virtual void loop() = 0;
 
-    virtual string getBaseURL() {
-        return _baseURL;
-    };
+    string getBaseURL();
 
-    virtual void setBaseURL(const string &baseURL) {
-        _baseURL = baseURL;
-    };
+    void setBaseURL(const string &baseURL);
 };
 
 #endif  // BARTOS_HW_ONLINE_CONNECTOR_H
