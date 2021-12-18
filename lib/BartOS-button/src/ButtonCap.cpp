@@ -4,8 +4,7 @@
 
 #include "ButtonCap.h"
 
-ButtonCap::ButtonCap(const uint8_t &pin, const string &name) :
-        Capability(pin, CapabilityType::BUTTON, name, DEFAULT_DELAY_MILLIS) {
+ButtonCap::ButtonCap(const uint8_t &pin, const string &name) : Capability(pin, CapabilityType::BUTTON, name, DEFAULT_DELAY_MILLIS) {
 }
 
 bool ButtonCap::isOn() {
@@ -21,7 +20,7 @@ void ButtonCap::init() {
     _prevState = _state;
 }
 
-void ButtonCap::execute() {
+void ButtonCap::loop() {
     updateState();
     if (isChanged()) {
         executeOnChangeCallbacks();
@@ -42,19 +41,19 @@ void ButtonCap::onStateOff(SimpleCallback callback) {
 }
 
 void ButtonCap::executeOnChangeCallbacks() {
-    for (auto callback:_onChangeCallbacks) {
+    for (auto callback : _onChangeCallbacks) {
         callback();
     }
 }
 
 void ButtonCap::executeOnStateOnCallbacks() {
-    for (auto callback:_onOnCallbacks) {
+    for (auto callback : _onOnCallbacks) {
         callback();
     }
 }
 
 void ButtonCap::executeOnStateOffChangeCallbacks() {
-    for (auto callback:_onOffCallbacks) {
+    for (auto callback : _onOffCallbacks) {
         callback();
     }
 }

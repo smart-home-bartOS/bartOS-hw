@@ -1,6 +1,6 @@
 {
     "name": "BartOS-mqtt",
-    "version": "0.0.2.3",
+    "version": "0.0.3",
     "description": "Library for BartOS project - MQTT data connector",
     "keywords": "bartOS,iot,arduino,esp8266",
     "repository": {
@@ -15,8 +15,8 @@
     }],
     "license": "MIT",
     "dependencies": {
-        "mabartos/BartOS-core": "~0.0.2",
-        "mabartos/BartOS-online-device": "~0.0.2",
+        "mabartos/BartOS-core": "~0.0.3",
+        "mabartos/BartOS-online-device": "~0.0.3",
         "knolleary/PubSubClient": "~2.8"
     },
     "frameworks": "arduino",

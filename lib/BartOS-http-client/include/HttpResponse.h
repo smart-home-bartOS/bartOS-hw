@@ -1,17 +1,18 @@
 #ifndef HTTP_RESPONSE_H
 #define HTTP_RESPONSE_H
 
-using namespace std;
-
 #include <ArduinoJson.h>
+
 #include <string>
 
+using std::string;
+
 class HttpResponse {
-private:
+   private:
     int _code;
     string _payload;
 
-public:
+   public:
     HttpResponse() = default;
 
     HttpResponse(const int &code, const string &payload);
@@ -31,4 +32,4 @@ public:
     void setPayload(const char *payload);
 };
 
-#endif  //HTTP_RESPONSE_H
+#endif  // HTTP_RESPONSE_H

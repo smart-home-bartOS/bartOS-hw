@@ -1,9 +1,10 @@
 #ifndef BARTOS_HW_ONLINE_CAPABILITY_H
 #define BARTOS_HW_ONLINE_CAPABILITY_H
 
+#include <capability/Capability.h>
+
 #include <memory>
 
-#include "capability/Capability.h"
 #include "connector/DataConnector.h"
 #include "connector/DataHandler.h"
 

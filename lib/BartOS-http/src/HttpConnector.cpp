@@ -1,32 +1,26 @@
-#include "HttpManageDeviceConn.h"
-#include "HttpClient.h"
-#include "HttpPath.h"
+#include "HttpConnector.h"
 
 #include <ArduinoJson.h>
 #include <utils/JsonUtils.h>
-#include <OnlineDeviceFields.h>
+
+#include "HttpClient.h"
+#include "HttpPath.h"
 
 HttpClient httpClient;
 
-HttpManageDeviceConn::HttpManageDeviceConn(const string &serverURL) : _serverURL(serverURL) {
-    httpClient.setServerURL(serverURL);
+HttpConnector::HttpConnector(const string &baseURL) : DataConnector(baseURL), ManageConnector(baseURL) {
+    httpClient.setServerURL(baseURL);
 }
 
-void HttpManageDeviceConn::connect() {
-}
+void HttpConnector::connect() {}
+void HttpConnector::disconnect() {}
+void HttpConnector::create() {}
+void HttpConnector::remove() {}
+void HttpConnector::update() {}
+void HttpConnector::init() {}
+void HttpConnector::loop() {}
 
-void HttpManageDeviceConn::disconnect() {
-}
-
-void HttpManageDeviceConn::setServerURL(const string &serverURL) {
-    _serverURL = serverURL;
-}
-
-string HttpManageDeviceConn::getServerURL() {
-    return _serverURL;
-}
-
-bool isValidResponseCode(const int code, const vector<int> &allowedResponseCodes) {
+bool HttpConnector::isValidResponseCode(const int code, const vector<int> &allowedResponseCodes) {
     for (const int item : allowedResponseCodes) {
         if (item == code) {
             return true;
@@ -35,9 +29,9 @@ bool isValidResponseCode(const int code, const vector<int> &allowedResponseCodes
     return false;
 }
 
-DynamicJsonDocument getJsonFromResponse(HttpResponse &response,
-                                        const vector<int> &allowedResponseCodes,
-                                        const string allowedKeys[]) {
+DynamicJsonDocument HttpConnector::getJsonFromResponse(HttpResponse &response,
+                                                       const vector<int> &allowedResponseCodes,
+                                                       const string allowedKeys[]) {
     DynamicJsonDocument empty(1024);
 
     DynamicJsonDocument doc(1024);
@@ -60,11 +54,11 @@ DynamicJsonDocument getJsonFromResponse(HttpResponse &response,
     return doc;
 }
 
-DynamicJsonDocument getJsonFromResponse(HttpResponse &response, const vector<int> &allowedResponseCodes) {
+DynamicJsonDocument HttpConnector::getJsonFromResponse(HttpResponse &response, const vector<int> &allowedResponseCodes) {
     const string empty[] = {};
     return getJsonFromResponse(response, allowedResponseCodes, empty);
 }
-
+/*
 DynamicJsonDocument HttpManageDeviceConn::createDevice(long homeID, const DynamicJsonDocument &data) {
     char buffer[2048];
     serializeJson(data, buffer);
@@ -90,3 +84,4 @@ DynamicJsonDocument HttpManageDeviceConn::disconnectDevice(long homeID, long dev
 
     return getJsonFromResponse(resp, allowedResponseCodes);
 }
+*/

@@ -26,4 +26,4 @@ class TwoWayButton : public ButtonCap {
     bool isOff();
 };
 
-#endif  //BARTOS_HW_TWOWAYBUTTON_H
+#endif  // BARTOS_HW_TWOWAYBUTTON_H

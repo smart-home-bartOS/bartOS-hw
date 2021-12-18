@@ -1,23 +1,24 @@
 {
-  "name": "BartOS-http",
-  "version": "0.0.0.1",
-  "description": "Library for BartOS project - HTTP client",
-  "keywords": "bartOS,iot,arduino,esp8266",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/smart-home-bartOS/bartOS-hw"
-  },
-  "authors": [
-    {
-      "name": "Martin Bartos",
-      "email": "mabartos@redhat.com",
-      "url": "https://github.com/mabartos",
-      "maintainer": true
-    }
-  ],
-  "license": "MIT",
-  "dependencies": {
-  },
-  "frameworks": "arduino",
-  "platforms": "esp8266"
+    "name": "BartOS-http",
+    "version": "0.0.2.1",
+    "description": "Library for BartOS project - HTTP connector",
+    "keywords": "bartOS,iot,arduino,esp8266",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/smart-home-bartOS/bartOS-hw"
+    },
+    "authors": [{
+        "name": "Martin Bartos",
+        "email": "mabartos@redhat.com",
+        "url": "https://github.com/mabartos",
+        "maintainer": true
+    }],
+    "license": "MIT",
+    "dependencies": {
+        "mabartos/BartOS-core": "~0.0.2",
+        "mabartos/BartOS-online-device": "~0.0.1",
+        "mabartos/BartOS-http-client": "~0.0.1"
+    },
+    "frameworks": "arduino",
+    "platforms": "esp8266"
 }

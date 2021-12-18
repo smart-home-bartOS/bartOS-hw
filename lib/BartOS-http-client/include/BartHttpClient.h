@@ -1,13 +1,13 @@
 #ifndef HTTP_CLIENT_H
 #define HTTP_CLIENT_H
-using namespace std;
 
-#include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
-#include <callback/CallbackMap.h>
 
 #include <string>
+
 #include "HttpResponse.h"
+
+using std::string;
 
 enum class HttpMethod {
     GET,
@@ -17,10 +17,9 @@ enum class HttpMethod {
     DELETE
 };
 
-class HttpClient {
-private:
+class BartHttpClient {
+   private:
     string _serverURL = "";
-    CallbackMap _callbacks;
 
     void setUpClient(HTTPClient &client, const string &path);
 
@@ -28,12 +27,12 @@ private:
 
     HttpResponse execute(HttpMethod method, const string &path, const string &body);
 
-public:
-    HttpClient(const string &serverURL);
+   public:
+    BartHttpClient(const string &serverURL);
 
-    HttpClient() = default;
+    BartHttpClient() = default;
 
-    ~HttpClient() = default;
+    ~BartHttpClient() = default;
 
     string getServerURL();
 
@@ -50,4 +49,4 @@ public:
     HttpResponse doDelete(const string &path, const string &body);
 };
 
-#endif  //HTTP_CLIENT_H
+#endif  // HTTP_CLIENT_H

@@ -4,14 +4,19 @@
 
 #include "default/two-way-button/OnlineTwoWayButton.h"
 
-OnlineTwoWayButton::OnlineTwoWayButton(shared_ptr <PubSubDataConnector> dataConnector,
-                                       const uint8_t &pin,
-                                       const string &name) :
-        TwoWayButton(pin, name),
-        ButtonData(dataConnector) {
+OnlineTwoWayButton::OnlineTwoWayButton(const uint8_t &pin,
+                                       const string &name) : TwoWayButton(pin, name),
+                                                             OnlineCapability(pin, name) {
 }
 
-void OnlineTwoWayButton::execute() {
-    TwoWayButton::execute();
+void OnlineTwoWayButton::loop() {
+    TwoWayButton::loop();
     sendData();
+}
+
+DynamicJsonDocument OnlineTwoWayButton::getData() {
+}
+void OnlineTwoWayButton::handleData(const DynamicJsonDocument &data) {
+}
+vector<string> OnlineTwoWayButton::getSubscribedPaths() {
 }

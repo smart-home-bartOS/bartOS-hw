@@ -1,7 +1,7 @@
 {
-    "name": "BartOS-core-online",
-    "version": "0.0.3",
-    "description": "Library for BartOS project - Online device core",
+    "name": "BartOS-http-client",
+    "version": "0.0.0.1",
+    "description": "Library for BartOS project - HTTP client",
     "keywords": "bartOS,iot,arduino,esp8266",
     "repository": {
         "type": "git",
@@ -14,10 +14,6 @@
         "maintainer": true
     }],
     "license": "MIT",
-    "dependencies": {
-        "mabartos/BartOS-core": "~0.0.3",
-        "bblanchon/ArduinoJson": "@^6.18.5"
-    },
     "frameworks": "arduino",
     "platforms": "esp8266"
 }
