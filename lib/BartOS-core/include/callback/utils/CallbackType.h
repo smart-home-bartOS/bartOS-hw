@@ -5,8 +5,6 @@
 #ifndef BARTOS_HW_CALLBACKTYPE_H
 #define BARTOS_HW_CALLBACKTYPE_H
 
-typedef void (*SimpleCallback)();
+typedef void (*Callback)();
 
-typedef unsigned long (*CallbackGetTime)();
-
-#endif //BARTOS_HW_CALLBACKTYPE_H
+#endif  //BARTOS_HW_CALLBACKTYPE_H

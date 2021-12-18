@@ -33,6 +33,8 @@ public:
 
     virtual void removeTopicContext(const string &topic);
 
+    virtual bool subscribe(const string &topic) = 0;
+
     void clearAllTopicContexts();
 };
 

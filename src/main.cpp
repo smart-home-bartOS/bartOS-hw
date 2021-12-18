@@ -1,20 +1,24 @@
 #include <Arduino.h>
+
 #include <memory>
-#include <Device.h>
+
+#include "callback/ActionMap.h"
+#include "device/Device.h"
 
 using namespace std;
 
-vector<shared_ptr<Capability>> Capabilities;
-shared_ptr<Device> Device=make_shared<Device>();
+vector<shared_ptr<Capability>> capabilities;
+shared_ptr<Device> device;
 
 void setup() {
     Serial.begin(9600);
     delay(100);
+    device = make_shared<Device>();
 
-    Device->setCapabilities(Capabilities);
-    Device->init();
+    device->setCapabilities(capabilities);
+    device->init();
 }
 
 void loop() {
-    Device->loop();
+    device->loop();
 }

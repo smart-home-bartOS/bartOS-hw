@@ -4,6 +4,7 @@ using namespace std;
 
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
+#include <callback/CallbackMap.h>
 
 #include <string>
 #include "HttpResponse.h"
@@ -19,6 +20,7 @@ enum class HttpMethod {
 class HttpClient {
 private:
     string _serverURL = "";
+    CallbackMap _callbacks;
 
     void setUpClient(HTTPClient &client, const string &path);
 

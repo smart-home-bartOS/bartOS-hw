@@ -1,12 +1,14 @@
 #ifndef CAPABILITY_TYPE_H
 #define CAPABILITY_TYPE_H
-using namespace std;
 
 #include <string>
 #include <vector>
 
+using std::string;
+using std::vector;
+
 class CapabilityType {
-public:
+   public:
     static const char *TEMPERATURE;
     static const char *HUMIDITY;
     static const char *HEATER;
@@ -22,20 +24,19 @@ public:
 
     static const vector<string> getAllCapabilities() {
         return vector<string>{
-                CapabilityType::TEMPERATURE,
-                CapabilityType::HUMIDITY,
-                CapabilityType::HEATER,
-                CapabilityType::BUTTON,
-                CapabilityType::LIGHT,
-                CapabilityType::RELAY,
-                CapabilityType::SOCKET,
-                CapabilityType::PIR,
-                CapabilityType::GAS_SENSOR,
-                CapabilityType::AIR_CONDITIONER,
-                CapabilityType::INFRA_RED,
-                CapabilityType::OTHER};
+            CapabilityType::TEMPERATURE,
+            CapabilityType::HUMIDITY,
+            CapabilityType::HEATER,
+            CapabilityType::BUTTON,
+            CapabilityType::LIGHT,
+            CapabilityType::RELAY,
+            CapabilityType::SOCKET,
+            CapabilityType::PIR,
+            CapabilityType::GAS_SENSOR,
+            CapabilityType::AIR_CONDITIONER,
+            CapabilityType::INFRA_RED,
+            CapabilityType::OTHER};
     };
 };
 
-
-#endif  //CAPABILITY_TYPE_H
+#endif  // CAPABILITY_TYPE_H

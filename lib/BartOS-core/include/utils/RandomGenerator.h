@@ -2,14 +2,13 @@
 #define NUMBER_GENERATOR_H
 
 #include <string>
-
-using namespace std;
+using std::string;
 
 class RandomGenerator {
-private:
+   private:
     static string random(const int len, const char *set);
 
-public:
+   public:
     static const char *NUMBERS;
     static const char *ALPHA;
     static const char *ALPHANUM;

@@ -13,6 +13,13 @@ using namespace std;
 #include <ESP8266WiFi.h>
 
 class BasicWifiManager : public WifiCredentials {
+private:
+    string _ipAddr = "";
+    string _gateway = "";
+    string _subnetMask = "";
+
+    bool _connected = false;
+
 public:
     BasicWifiManager(const string &ssid = "", const string &pass = "");
 
@@ -23,6 +30,16 @@ public:
     void connect(WiFiMode wiFiMode = WIFI_STA);
 
     void disconnect(bool wifiOff = false);
+
+    bool isConnected();
+
+    string getIPAddress();
+
+    string getGateway();
+
+    string getSubnetMask();
+
+    void printInfo();
 };
 
 

@@ -3,6 +3,7 @@
 
 using namespace std;
 
+#include <ArduinoJson.h>
 #include <string>
 
 class HttpResponse {
@@ -22,6 +23,8 @@ public:
     void setResponseCode(int code);
 
     string &getPayload();
+
+    DynamicJsonDocument &getPayloadJSON();
 
     void setPayload(const string &payload);
 

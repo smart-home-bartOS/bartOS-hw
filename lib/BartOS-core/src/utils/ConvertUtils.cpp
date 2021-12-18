@@ -3,8 +3,11 @@
 //
 
 #include "utils/ConvertUtils.h"
+
 #include <iomanip>
 #include <sstream>
+using std::string;
+using std::stringstream;
 
 string ConvertUtils::convertLongToString(const long number) {
     string result;
@@ -14,11 +17,11 @@ string ConvertUtils::convertLongToString(const long number) {
     return result;
 }
 
-//https://stackoverflow.com/a/5100745
+// https://stackoverflow.com/a/5100745
 string ConvertUtils::convertIntToHexString(unsigned int number) {
     stringstream stream;
     stream << "0x"
-           << setfill('0') << setw(sizeof(unsigned int) * 2)
-           << hex << number;
+           << std::setfill('0') << std::setw(sizeof(unsigned int) * 2)
+           << std::hex << number;
     return stream.str();
 }

@@ -4,16 +4,15 @@
 
 #ifndef BARTOS_HW_CONVERTUTILS_H
 #define BARTOS_HW_CONVERTUTILS_H
-using namespace std;
 
 #include <string>
+using std::string;
 
 class ConvertUtils {
-public:
+   public:
     static string convertLongToString(const long number);
 
     static string convertIntToHexString(unsigned int);
 };
 
-
-#endif //BARTOS_HW_CONVERTUTILS_H
+#endif  // BARTOS_HW_CONVERTUTILS_H

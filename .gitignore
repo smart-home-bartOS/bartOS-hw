@@ -4,3 +4,7 @@ cmake-build-*/
 .gradle
 IRController.txt
 CMakeListsPrivate.txt
+Credentials.h
+diagram
+.vscode
+CMakeListsPrivate.*

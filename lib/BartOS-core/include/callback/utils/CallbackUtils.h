@@ -7,11 +7,11 @@
 
 #include <stdint.h>
 
-template<class CallbackType>
+template <class CallbackType>
 void handleCallback(bool condition, CallbackType callback) {
     if (condition) {
         callback();
     }
 }
 
-#endif //BARTOS_HW_UTILS_H
+#endif  //BARTOS_HW_UTILS_H

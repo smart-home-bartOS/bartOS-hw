@@ -1,24 +1,33 @@
 #ifndef CAPABILITY_H
 #define CAPABILITY_H
 
+#include <callback/ActionMap.h>
+#include <callback/TimeActionMap.h>
+#include <callback/utils/CallbackType.h>
+#include <device/Device.h>
+
 #include <cstdint>
+#include <iostream>
+#include <memory>
+#include <string>
+#include <unordered_map>
 
 #include "CapabilityFields.h"
 #include "CapabilityType.h"
-#include <string>
-#include <memory>
-#include "StateConnection.h"
-#include <device/Device.h>
-#include <callback/utils/CallbackType.h>
-#include <callback/CallbackMap.h>
-#include <callback/CallbackMapTime.h>
-#include <iostream>
-#include <unordered_map>
 
-using namespace std;
+using std::shared_ptr;
+using std::string;
 
-class Capability : public StateConnection {
-private:
+class Capability {
+   private:
+    uint8_t _pin;
+    bool _enabled = true;
+    string _name;
+    string _type;
+
+    shared_ptr<ActionMap> _actions;
+    shared_ptr<TimeActionMap> _scheduler;
+
     unsigned long _sampleTime = 0;
     unsigned long _lastExecution = 0;
 
@@ -26,22 +35,16 @@ private:
     unsigned long _delayTime = 0;
 
     bool isSampleTimeAchieved();
-
     bool isDelayTimeAchieved();
 
-protected:
-    long _ID = -1;
-    uint8_t _pin;
-    bool _enabled = true;
-    string _name;
-    string _type;
-
-    shared_ptr<CallbackMap> _execCallbackMap;
-    shared_ptr<CallbackMapTime> _loopCallbackMap;
-
+   protected:
     void delayExecution(unsigned long time);
+    unsigned long getActualMillis();
 
-public:
+    unsigned long getSampleTime();
+    void setSampleTime(unsigned millis);
+
+   public:
     Capability(const uint8_t &pin,
                const string &type = CapabilityType::OTHER,
                const string &name = "Cap-unknown",
@@ -50,14 +53,9 @@ public:
     ~Capability() = default;
 
     virtual void init();
+    virtual void loop();
 
-    void preExecute();
-
-    virtual void execute();
-
-    long getID();
-
-    void setID(const long &id);
+    void priorLoop();
 
     string getName();
 
@@ -79,15 +77,9 @@ public:
 
     void disable();
 
-    unsigned long getSampleTime();
+    shared_ptr<ActionMap> actions();
 
-    void setSampleTime(unsigned millis);
-
-    shared_ptr<CallbackMap> executeEventHandler();
-
-    shared_ptr<CallbackMapTime> loopEventHandler();
-
-    unsigned long getActualMillis();
+    shared_ptr<TimeActionMap> scheduler();
 
     void printInfo();
 };

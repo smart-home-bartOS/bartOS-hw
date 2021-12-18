@@ -1,48 +1,36 @@
 
 #include "device/Device.h"
-#include <Arduino.h>
-#include <string>
-#include "device/DeviceFields.h"
 
-Device::Device(const string &name) : StateConnection(ConnectionType::OFFLINE),
-                                     _name(name) {
+#include <Arduino.h>
+
+#include <string>
+
+#include "device/DeviceFields.h"
+using std::make_shared;
+
+Device::Device() {
+    _scheduler = make_shared<TimeActionMap>();
 }
 
 void Device::init() {
-    initAllCapabilities();
-    setInitialized(true);
+    initCapabilities();
 }
 
 void Device::loop() {
-    executeAllCapabilities();
-}
-
-string Device::getName() {
-    return _name;
-}
-
-void Device::setName(const string &name) {
-    _name = name;
-}
-
-bool Device::isInitialized() {
-    return _initialized;
-}
-
-void Device::setInitialized(bool initialized) {
-    _initialized = initialized;
+    _scheduler->loop();
+    loopCapabilities();
 }
 
 /* CAPS */
-vector <shared_ptr<Capability>> Device::getCapabilities() {
+vector<shared_ptr<Capability>> Device::getCapabilities() {
     return _capabilities;
 }
 
-void Device::setCapabilities(vector <shared_ptr<Capability>> &caps) {
+void Device::setCapabilities(vector<shared_ptr<Capability>> &caps) {
     _capabilities = caps;
 }
 
-shared_ptr <Capability> Device::getCapByPinAndType(const uint8_t &pin, const string &type) {
+shared_ptr<Capability> Device::getCapByPinAndType(const uint8_t &pin, const std::string &type) {
     for (auto &item : getCapabilities()) {
         if (item->getPin() == pin && item->getType() == type) {
             return item;
@@ -51,7 +39,7 @@ shared_ptr <Capability> Device::getCapByPinAndType(const uint8_t &pin, const str
     return nullptr;
 }
 
-void Device::initAllCapabilities() {
+void Device::initCapabilities() {
     Serial.printf("Init all capabilities. Count: %d\n", getCapabilities().size());
 
     for (auto &item : getCapabilities()) {
@@ -62,15 +50,15 @@ void Device::initAllCapabilities() {
     }
 }
 
-void Device::executeAllCapabilities() {
+void Device::loopCapabilities() {
     for (auto &item : getCapabilities()) {
         if (item->isEnabled()) {
-            item->preExecute();
+            item->loop();
         }
     }
 }
 
-void Device::eraseAll() {
+void Device::factoryReset() {
     Serial.println("Reset device");
     delay(2000);
     ESP.restart();
@@ -81,16 +69,16 @@ unsigned long Device::getDeviceMillis() {
     return millis();
 }
 
-void Device::changeCapAvailability(bool state) {
+void Device::changeCapabilityState(bool state) {
     for (auto &item : getCapabilities()) {
         item->setEnabled(state);
     }
 }
 
-void Device::disableAllCapabilities() {
-    changeCapAvailability(false);
+void Device::disableCapabilities() {
+    changeCapabilityState(false);
 }
 
-void Device::enableAllCapabilities() {
-    changeCapAvailability(true);
+void Device::enableCapabilities() {
+    changeCapabilityState(true);
 }

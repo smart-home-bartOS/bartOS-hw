@@ -15,6 +15,7 @@ using namespace std;
 #include <default/DefaultLightsCap.h>
 #include <default/DefaultIRCap.h>
 #include <device/Device.h>
+#include <MqttClientBroker.h>
 
 /* PINS */
 #define ROOM_TEMP_PIN       D8
@@ -29,6 +30,7 @@ using namespace std;
 
 /* DEVICE */
 extern shared_ptr<Device> device;
+extern shared_ptr<MqttClientBroker> MqttBroker;
 
 /* TEMPERATURE, HUMIDITY */
 extern shared_ptr<DhtTempSensor> RoomTemp;

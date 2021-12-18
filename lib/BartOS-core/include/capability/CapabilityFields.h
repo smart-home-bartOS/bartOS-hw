@@ -3,11 +3,11 @@
 
 #include <string>
 #include <vector>
-
-using namespace std;
+using std::string;
+using std::vector;
 
 class CapabilityFields {
-public:
+   public:
     static const char *ID;
     static const char *NAME;
     static const char *PIN;
@@ -16,11 +16,11 @@ public:
 
     static vector<string> getFields() {
         return vector<string>{
-                ID,
-                NAME,
-                PIN,
-                TYPE};
+            ID,
+            NAME,
+            PIN,
+            TYPE};
     }
 };
 
-#endif  //CAPABILITY_FIELDS_H
+#endif  // CAPABILITY_FIELDS_H

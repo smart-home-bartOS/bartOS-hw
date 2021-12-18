@@ -14,7 +14,7 @@ private:
     long _homeID = -1;
     long _roomID = -1;
     shared_ptr<DataConnector> _dataConnector;
-    shared_ptr<ManageConnector> _manageConnector;
+    shared_ptr<ManageC  onnector> _manageConnector;
 
     bool _storeToFileSystem;
 protected:

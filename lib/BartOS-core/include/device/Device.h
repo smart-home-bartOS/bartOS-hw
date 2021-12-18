@@ -1,49 +1,41 @@
 #ifndef DEVICE_H
 #define DEVICE_H
 
+#include <capability/Capability.h>
+
 #include <memory>
 #include <string>
 #include <vector>
-#include <StateConnection.h>
-#include <capability/Capability.h>
 
-using namespace std;
+using std::shared_ptr;
+using std::string;
+using std::vector;
+
 
 class Capability;
 
-class Device : public StateConnection {
-private:
-    string _name;
-    bool _initialized = false;
+class Device {
+   private:
     vector<shared_ptr<Capability>> _capabilities;
+    shared_ptr<TimeActionMap> _scheduler;
 
-    void changeCapAvailability(bool state);
+   protected:
+    virtual void initCapabilities();
+    virtual void loopCapabilities();
+    virtual unsigned long getDeviceMillis();
+    void changeCapabilityState(bool state);
 
-protected:
-    virtual void initAllCapabilities();
-
-    virtual void executeAllCapabilities();
-
-public:
-    Device(const string &name);
-
+   public:
+    Device();
     ~Device() = default;
 
     virtual void init();
 
     virtual void loop();
 
-    string getName();
+    void disableCapabilities();
 
-    void setName(const string &name);
-
-    bool isInitialized();
-
-    void setInitialized(bool initialized);
-
-    void disableAllCapabilities();
-
-    void enableAllCapabilities();
+    void enableCapabilities();
 
     /* CAPS */
     vector<shared_ptr<Capability>> getCapabilities();
@@ -52,9 +44,9 @@ public:
 
     shared_ptr<Capability> getCapByPinAndType(const uint8_t &pin, const string &type);
 
-    void eraseAll();
+    void factoryReset();
 
-    virtual unsigned long getDeviceMillis();
+    shared_ptr<TimeActionMap> scheduler();
 };
 
 #endif  // DEVICE_H

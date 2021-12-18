@@ -4,10 +4,11 @@
 #include <string>
 #include <vector>
 
-using namespace std;
+using std::string;
+using std::vector;
 
 class DeviceFields {
-public:
+   public:
     static const char *ID;
     static const char *NAME;
     static const char *CAPABILITIES;
@@ -18,14 +19,14 @@ public:
 
     static vector<string> getDeviceFields() {
         return vector<string>{
-                ID,
-                NAME,
-                CAPABILITIES,
-                HOME_ID,
-                ROOM_ID,
-                UUID,
-                DEVICE_ID};
+            ID,
+            NAME,
+            CAPABILITIES,
+            HOME_ID,
+            ROOM_ID,
+            UUID,
+            DEVICE_ID};
     }
 };
 
-#endif  //DEVICE_FIELDS_H
+#endif  // DEVICE_FIELDS_H

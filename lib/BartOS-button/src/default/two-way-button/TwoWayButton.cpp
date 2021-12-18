@@ -3,6 +3,7 @@
 //
 
 #include "default/two-way-button/TwoWayButton.h"
+
 #include <Arduino.h>
 
 TwoWayButton::TwoWayButton(const uint8_t &pin, const string &name) : ButtonCap(pin, name) {}

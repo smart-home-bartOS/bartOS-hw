@@ -6,13 +6,15 @@
 #define BARTOS_HW_TWOWAYBUTTON_H
 using namespace std;
 
-#include "ButtonCap.h"
 #include <string>
 
+#include "ButtonCap.h"
+
 class TwoWayButton : public ButtonCap {
-protected:
+   protected:
     void updateState();
-public:
+
+   public:
     TwoWayButton(const uint8_t &pin, const string &name);
 
     ~TwoWayButton() = default;
@@ -24,5 +26,4 @@ public:
     bool isOff();
 };
 
-
-#endif //BARTOS_HW_TWOWAYBUTTON_H
+#endif  //BARTOS_HW_TWOWAYBUTTON_H

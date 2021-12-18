@@ -3,10 +3,15 @@
 //
 
 #include "callback/CallbackTime.h"
+
 #include <Arduino.h>
 
-CallbackTime::CallbackTime(uint32_t time, SimpleCallback callback, bool oneUseOnly) :
-        _time(time), _callback(callback), _lastExec(getSystemTime()), _oneUseOnly(oneUseOnly) {
+CallbackTime::CallbackTime(uint32_t time,
+                           Callback callback,
+                           bool oneUseOnly) : AbstractCallbackItem(callback),
+                                              _time(time),
+                                              _lastExec(getSystemTime()),
+                                              _oneUseOnly(oneUseOnly) {
 }
 
 uint32_t CallbackTime::getTime() {
@@ -17,18 +22,6 @@ void CallbackTime::setTime(uint32_t time) {
     _time = time;
 }
 
-void CallbackTime::setCallback(SimpleCallback callback) {
-    _callback = callback;
-}
-
-bool CallbackTime::isEnabled() {
-    return _enabled;
-}
-
-void CallbackTime::setEnabled(bool state) {
-    _enabled = state;
-}
-
 bool CallbackTime::isTimeAchieved() {
     if ((getSystemTime() - _lastExec) >= _time) {
         _lastExec = getSystemTime();
@@ -37,12 +30,10 @@ bool CallbackTime::isTimeAchieved() {
     return false;
 }
 
-bool CallbackTime::checkAndExecute() {
+void CallbackTime::execute() {
     if (isEnabled() && isTimeAchieved()) {
-        _callback();
-        return true;
+        AbstractCallbackItem::execute();
     }
-    return false;
 }
 
 bool CallbackTime::isOneUseOnly() {

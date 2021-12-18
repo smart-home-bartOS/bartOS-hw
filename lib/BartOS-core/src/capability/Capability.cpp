@@ -1,48 +1,38 @@
 #include "capability/Capability.h"
 
 #include <Arduino.h>
+using std::make_shared;
 
 Capability::Capability(const uint8_t &pin,
-                       const string &type,
-                       const string &name,
-                       const unsigned sampleTime) :
-        StateConnection(ConnectionType::OFFLINE),
-        _sampleTime(sampleTime),
-        _pin(pin),
-        _name(name),
-        _type(type) {
-    _loopCallbackMap = make_shared<CallbackMapTime>();
-    _execCallbackMap = make_shared<CallbackMap>();
-}
-
-long Capability::getID() {
-    return _ID;
-}
-
-void Capability::setID(const long &id) {
-    _ID = id;
+                       const std::string &type,
+                       const std::string &name,
+                       const unsigned sampleTime) : _sampleTime(sampleTime),
+                                                    _pin(pin),
+                                                    _name(name),
+                                                    _type(type) {
+    _scheduler = make_shared<TimeActionMap>();
+    _actions = make_shared<ActionMap>();
 }
 
 string Capability::getName() {
     return _name;
 }
 
-void Capability::setName(const string &name) {
+void Capability::setName(const std::string &name) {
     _name = name;
 }
 
-//VIRTUAL
+// VIRTUAL
 void Capability::init() {}
+void Capability::loop() {}
 
-void Capability::preExecute() {
+void Capability::priorLoop() {
     if (isSampleTimeAchieved() && isDelayTimeAchieved()) {
-        execute();
-        executeEventHandler()->executeAll();
+        loop();
+        scheduler()->loop();
     }
-    loopEventHandler()->executeAll();
+    actions()->loop();
 }
-
-void Capability::execute() {}
 
 uint8_t Capability::getPin() {
     return _pin;
@@ -72,7 +62,7 @@ string Capability::getType() {
     return _type;
 }
 
-void Capability::setType(const string &type) {
+void Capability::setType(const std::string &type) {
     _type = type;
 }
 
@@ -117,12 +107,12 @@ void Capability::delayExecution(unsigned long time) {
     _delayTime = time;
 }
 
-shared_ptr<CallbackMap> Capability::executeEventHandler() {
-    return _execCallbackMap;
+shared_ptr<ActionMap> Capability::actions() {
+    return _actions;
 }
 
-shared_ptr<CallbackMapTime> Capability::loopEventHandler() {
-    return _loopCallbackMap;
+shared_ptr<TimeActionMap> Capability::scheduler() {
+    return _scheduler;
 }
 
 void Capability::printInfo() {
