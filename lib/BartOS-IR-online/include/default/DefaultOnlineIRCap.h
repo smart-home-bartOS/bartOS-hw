@@ -6,22 +6,17 @@
 #define BARTOS_HW_ONLINEINFRAREDCAP_H
 
 #include <default/DefaultIRCap.h>
-#include "InfraRedData.h"
 
-class DefaultOnlineIRCap : public DefaultIRCap, public InfraRedData {
+#include "InfraRedOnline.h"
 
-    DefaultOnlineIRCap(shared_ptr <PubSubDataConnector> dataConnector,
-                       const uint8_t &pin,
+class DefaultOnlineIRCap : public DefaultIRCap, public InfraRedOnline {
+   public:
+    DefaultOnlineIRCap(const uint8_t &pin,
                        const string &name = "Online_IR");
 
     ~DefaultOnlineIRCap() = default;
 
-    void execute();
-
-    void sendData() {
-        InfraRedData::sendData(this);
-    }
+    void loop();
 };
 
-
-#endif //BARTOS_HW_ONLINEINFRAREDCAP_H
+#endif  // BARTOS_HW_ONLINEINFRAREDCAP_H
