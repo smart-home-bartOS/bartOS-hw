@@ -4,6 +4,9 @@
 #include <TemperatureCap.h>
 
 #include <string>
+
+#include "capability/OnlineCapability.h"
+
 using std::string;
 
 class TemperatureOnline : public OnlineCapability<TemperatureCap> {
@@ -16,7 +19,6 @@ class TemperatureOnline : public OnlineCapability<TemperatureCap> {
     ~TemperatureOnline() = default;
 
     DynamicJsonDocument getData() override;
-    void handleData(DynamicJsonDocument &data) override;
     vector<string> getSubscribedPaths() override;
 };
 

@@ -1,19 +1,19 @@
 #ifndef TEMPERATURE_CAP_H
 #define TEMPERATURE_CAP_H
 
-#include <string>
-
 #include <capability/Capability.h>
 
-using namespace std;
+#include <string>
+using std::string;
 
 #define DEFAULT_SAMPLE_TIME_MS 300
 
 class TemperatureCap : public Capability {
-private:
+   private:
     float _temp = 0.0f;
     string _units = "°C";
-public:
+
+   public:
     TemperatureCap(const uint8_t &pin,
                    const string &name = "Temp-cap",
                    unsigned sampleTime = DEFAULT_SAMPLE_TIME_MS);

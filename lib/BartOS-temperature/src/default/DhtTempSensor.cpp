@@ -8,8 +8,7 @@ const char *DhtTempSensor::DEFAULT_NAME = "DHT_TEMP";
 
 DhtTempSensor::DhtTempSensor(const uint8_t &pin,
                              const uint8_t &dhtType,
-                             const string &name) :
-        TemperatureCap(pin, name), _dhtType(dhtType) {
+                             const string &name) : TemperatureCap(pin, name), _dhtType(dhtType) {
 }
 
 bool DhtTempSensor::isValidDHT() {
@@ -22,7 +21,7 @@ void DhtTempSensor::init() {
     _dht->begin();
 }
 
-void DhtTempSensor::execute() {
+void DhtTempSensor::loop() {
     if (!isValidDHT()) return;
 
     float temp = _dht->readTemperature();

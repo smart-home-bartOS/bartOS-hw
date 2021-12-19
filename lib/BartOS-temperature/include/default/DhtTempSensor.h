@@ -5,21 +5,23 @@
 #ifndef BARTOS_HW_DHTTEMPSENSOR_H
 #define BARTOS_HW_DHTTEMPSENSOR_H
 
-#include "TemperatureCap.h"
-#include <memory>
 #include <Adafruit_Sensor.h>
 #include <DHT.h>
+
+#include <memory>
+
+#include "TemperatureCap.h"
 
 using namespace std;
 
 class DhtTempSensor : public TemperatureCap {
-protected:
+   protected:
     shared_ptr<DHT> _dht;
     uint8_t _dhtType;
 
     bool isValidDHT();
 
-public:
+   public:
     static const char *DEFAULT_NAME;
 
     DhtTempSensor(const uint8_t &pin, const uint8_t &dhtType, const string &name = DEFAULT_NAME);
@@ -28,9 +30,9 @@ public:
 
     void init() override;
 
-    void execute() override;
+    void loop() override;
 
     uint8_t getDhtType();
 };
 
-#endif //BARTOS_HW_DHTTEMPSENSOR_H
+#endif  // BARTOS_HW_DHTTEMPSENSOR_H

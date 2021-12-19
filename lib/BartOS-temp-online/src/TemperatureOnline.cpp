@@ -1,31 +1,26 @@
 #include "TemperatureOnline.h"
 
+const char *TemperatureOnline::TEMP = "temp";
+const char *TemperatureOnline::UNITS = "units";
+
 TemperatureOnline::TemperatureOnline(TemperatureCap *capability) : OnlineCapability<TemperatureCap>(capability) {
+    capability->scheduler()->period("sendEach30s", 30000, [this]() {
+        DynamicJsonDocument doc = getData();
+        getDataConnector()->sendData("/cap/temp/" + getID(), doc);
+    });
 }
 
 DynamicJsonDocument TemperatureOnline::getData() {
     DynamicJsonDocument data(50);
-    data[STATE] = getTargetCapability()->isOn();
+    data[TEMP] = getTargetCapability()->getTemperature();
+    data[UNITS] = getTargetCapability()->getUnits();
 
     data.shrinkToFit();
     data.garbageCollect();
     return data;
 }
 
-void TemperatureOnline::handleData(DynamicJsonDocument &data) {
-    JsonObject object = data.as<JsonObject>();
-    const string KEYS[] = {ButtonOnline::STATE, JsonKeys::ENABLED};
-    if (containKeys(object, KEYS)) {
-        bool isEnabled = object[JsonKeys::ENABLED];
-        getTargetCapability()->setEnabled(isEnabled);
-    }
-}
-
 vector<string> TemperatureOnline::getSubscribedPaths() {
     vector<string> vec;
-    vec.push_back("/cap/btn" + getID());
     return vec;
 }
-
-const char *TemperatureOnline::TEMP = "temp";
-const char *TemperatureOnline::UNIT = "units";

@@ -6,6 +6,7 @@
 
 #include "MqttClient.h"
 #include "callback/ActionMap.h"
+#include "default/DhtTempOnline.h"
 #include "default/two-way-button/OnlineTwoWayButton.h"
 #include "device/Device.h"
 #include "device/OnlineDevice.h"
@@ -17,6 +18,7 @@ shared_ptr<Device> device;
 shared_ptr<OnlineDevice> onlineDevice;
 
 shared_ptr<OnlineTwoWayButton> btn;
+shared_ptr<DhtTempOnline> temp;
 
 WiFiClient espClient;
 PubSubClient clientPub(espClient);

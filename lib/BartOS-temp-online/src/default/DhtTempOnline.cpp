@@ -4,15 +4,8 @@
 
 #include "default/DhtTempOnline.h"
 
-DhtTempOnline::DhtTempOnline(shared_ptr<PubSubDataConnector> dataConnector,
-                             const uint8_t &pin,
+DhtTempOnline::DhtTempOnline(const uint8_t &pin,
                              const uint8_t &dhtType,
-                             const string &name) :
-        DhtTempSensor(pin, dhtType, name),
-        TemperatureData(dataConnector) {
-}
-
-void DhtTempOnline::execute() {
-    DhtTempSensor::execute();
-    sendData();
+                             const string &name) : DhtTempSensor(pin, dhtType, name),
+                                                   TemperatureOnline(this) {
 }
