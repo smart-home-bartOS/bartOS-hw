@@ -47,3 +47,27 @@ vector<string> DataConnector::getDataHandlersKeys() {
     }
     return keys;
 }
+
+void DataConnector::executeMessageEvent(const char *path, DynamicJsonDocument &doc) {
+    if (strlen(path) == 0) return;
+
+    auto it = _messageCallbacks.find(path);
+    if (it != _messageCallbacks.end()) {
+        it->second(doc);
+    }
+}
+
+void DataConnector::onMessage(const string &path, DataCallback callback) {
+    if (path.empty()) return;
+
+    _messageCallbacks.insert({path, callback});
+}
+
+void DataConnector::removeMessageEvent(const string &path) {
+    if (path.empty()) return;
+    _messageCallbacks.erase(path);
+}
+
+void DataConnector::removeMessageEvents() {
+    _messageCallbacks.clear();
+}
