@@ -31,11 +31,11 @@ static bool containOnlyAllowedKey(const JsonObject &obj, const string keys[]) {
     return true;
 }
 
-static bool containKey(const JsonObject &obj, const string key) {
+static bool containsKey(const JsonObject &obj, const string key) {
     return obj.containsKey(key.c_str());
 }
 
-static bool containKeys(const JsonObject &obj, const string keys[]) {
+static bool containsKeys(const JsonObject &obj, const string keys[]) {
     if (keys->empty()) {
         return false;
     }

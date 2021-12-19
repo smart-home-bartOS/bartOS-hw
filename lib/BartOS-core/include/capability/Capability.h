@@ -40,11 +40,7 @@ class Capability {
     string _name;
     string _type;
 
-    void delayExecution(unsigned long time);
     unsigned long getActualMillis();
-
-    unsigned long getSampleTime();
-    void setSampleTime(unsigned millis);
 
    public:
     Capability(const uint8_t &pin,
@@ -84,6 +80,12 @@ class Capability {
     shared_ptr<TimeActionMap> scheduler();
 
     void printInfo();
+
+    unsigned long getSampleTime();
+
+    void setSampleTime(unsigned millis);
+
+    void delayExecution(unsigned long time);
 };
 
 #endif  // CAPABILITY_H

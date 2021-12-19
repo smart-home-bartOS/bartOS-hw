@@ -62,7 +62,7 @@ class OnlineCapability : public DataHandler {
     virtual void handleData(DynamicJsonDocument& data) override {
         JsonObject object = data.as<JsonObject>();
         const string KEYS[] = {JsonKeys::ENABLED};
-        if (containKeys(object, KEYS)) {
+        if (containsKeys(object, KEYS)) {
             bool isEnabled = object[JsonKeys::ENABLED];
             getTargetCapability()->setEnabled(isEnabled);
         }

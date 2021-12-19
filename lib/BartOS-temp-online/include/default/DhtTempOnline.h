@@ -16,8 +16,6 @@ class DhtTempOnline : public DhtTempSensor, public TemperatureOnline {
                   const string &name = DEFAULT_NAME);
 
     ~DhtTempOnline() = default;
-
-    void loop() override;
 };
 
 #endif  // BARTOS_HW_DHTTEMPONLINE_H

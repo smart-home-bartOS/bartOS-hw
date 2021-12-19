@@ -43,7 +43,7 @@ DynamicJsonDocument HttpConnector::getJsonFromResponse(HttpResponse &response,
 
     JsonObject obj = doc.as<JsonObject>();
 
-    if (!allowedKeys->size() == 0 && !containKeys(obj, allowedKeys)) {
+    if (!allowedKeys->size() == 0 && !containsKeys(obj, allowedKeys)) {
         return empty;
     }
 

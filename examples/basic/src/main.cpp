@@ -3,39 +3,38 @@
 //
 
 #include <Arduino.h>
-#include <memory>
-#include <device/Device.h>
-#include <default/DhtTempSensor.h>
 #include <default/DefaultLightsCap.h>
+#include <default/DhtTempSensor.h>
+#include <device/Device.h>
 
-shared_ptr<DhtTempSensor> TempSensor = make_shared<DhtTempSensor>(D5, 22);
-shared_ptr<DefaultLightsCap> MainLights = make_shared<DefaultLightsCap>(D6, "MainLights");
+#include <memory>
 
-using namespace std;
+shared_ptr<DhtTempSensor> tempSensor = make_shared<DhtTempSensor>(D5, 22);
+shared_ptr<DefaultLightsCap> mainLights = make_shared<DefaultLightsCap>(D6, "MainLights");
 
-vector<shared_ptr<Capability>> Capabilities;
-shared_ptr<Device> Device;
+vector<shared_ptr<Capability>> capabilities;
+shared_ptr<Device> device;
 
 inline void addRules() {
-    TempSensor->loopEventHandler()->period("PrintEach2s", 2000, []() {
-        Serial.println(TempSensor->getTemperature());
+    tempSensor->scheduler()->period("PrintEach2s", 2000, []() {
+        Serial.println(tempSensor->getTemperature());
     });
 
-    TempSensor->executeEventHandler()->add("Up25TurnLights", []() {
-        if (TempSensor->getTemperature() > 25.0) {
-            MainLights->turnOn();
-        } else if (TempSensor->getTemperature() > 30.0) {
-            MainLights->turnOff();
+    tempSensor->actions()->add("Up25TurnLights", []() {
+        if (tempSensor->getTemperature() > 25.0) {
+            mainLights->turnOn();
+        } else if (tempSensor->getTemperature() > 30.0) {
+            mainLights->turnOff();
         }
     });
 
-    MainLights->loopEventHandler()->timer("TurnOffAfter1minute", 60000, []() {
+    mainLights->scheduler()->timer("TurnOffAfter1minute", 60000, []() {
         Serial.println("Lights are turned off");
-        MainLights->turnOff();
+        mainLights->turnOff();
     });
-    
-    Capabilities.push_back(TempSensor);
-    Capabilities.push_back(MainLights);
+
+    capabilities.push_back(tempSensor);
+    capabilities.push_back(mainLights);
 }
 
 void setup() {
@@ -44,10 +43,10 @@ void setup() {
 
     addRules();
 
-    Device->setCapabilities(Capabilities);
-    Device->init();
+    device->setCapabilities(capabilities);
+    device->init();
 }
 
 void loop() {
-    Device->loop();
+    device->loop();
 }

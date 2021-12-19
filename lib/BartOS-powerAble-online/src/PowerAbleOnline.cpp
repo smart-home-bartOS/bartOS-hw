@@ -23,10 +23,10 @@ void PowerAbleOnline::handleData(DynamicJsonDocument &data) {
     OnlineCapability::handleData(data);
     JsonObject obj = data.as<JsonObject>();
 
-    if (containKey(obj, STATE)) {
+    if (containsKey(obj, STATE)) {
         const bool state = obj[STATE];
         getTargetCapability()->changeState(state);
-    } else if (containKey(obj, SWITCH)) {
+    } else if (containsKey(obj, SWITCH)) {
         const bool switchState = obj[SWITCH];
         getTargetCapability()->switchState();
     }

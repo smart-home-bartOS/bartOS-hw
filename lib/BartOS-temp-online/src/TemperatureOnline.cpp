@@ -19,8 +19,3 @@ DynamicJsonDocument TemperatureOnline::getData() {
     data.garbageCollect();
     return data;
 }
-
-vector<string> TemperatureOnline::getSubscribedPaths() {
-    vector<string> vec;
-    return vec;
-}

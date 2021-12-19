@@ -5,7 +5,6 @@
 
 #include <string>
 
-#include "device/DeviceFields.h"
 using std::make_shared;
 
 Device::Device() {

@@ -18,26 +18,26 @@ void setupLivingRoomRules() {
     LivingRoomTemp->setEnabled(false);
     LivingRoomLights->setEnabled(false);
 
-    LivingRoomIrReceiver->callbacks()->add(LG_TV_GREEN_BUTTON, []() -> void {
+    LivingRoomIrReceiver->codeHandler()->add(LG_TV_GREEN_BUTTON, []() -> void {
         Serial.println("Heere");
     });
 
-    LivingRoomTemp->executeEventHandler()->add("MAIN", []() -> void {
+    LivingRoomTemp->actions()->add("MAIN", []() -> void {
         handleCallback(LivingRoomTemp->getTemperature() >= 25.0, []() -> void {
             LivingRoomLights->changeIntensity(75);
         });
     });
 
-    LivingRoomTemp->loopEventHandler()->add("LESS_TEMP", []() -> void {
+    LivingRoomTemp->actions()->add("LESS_TEMP", []() -> void {
         handleCallback(LivingRoomTemp->getTemperature() <= 20.0, turnOffLivingRoomLights);
     });
 
-    LivingRoomRelay->loopEventHandler()->period("changeRelayState", 10000, []() -> void {
+    LivingRoomRelay->scheduler()->period("changeRelayState", 10000, []() -> void {
         LivingRoomRelay->switchState();
     });
 
-    Capabilities.push_back(LivingRoomTemp);
-    Capabilities.push_back(LivingRoomLights);
-    Capabilities.push_back(LivingRoomRelay);
-    Capabilities.push_back(LivingRoomIrReceiver);
+    capabilities.push_back(LivingRoomTemp);
+    capabilities.push_back(LivingRoomLights);
+    capabilities.push_back(LivingRoomRelay);
+    capabilities.push_back(LivingRoomIrReceiver);
 }

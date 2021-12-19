@@ -24,12 +24,12 @@ void LightsOnline::handleData(DynamicJsonDocument &data) {
     OnlineCapability::handleData(data);
 
     JsonObject obj = data.as<JsonObject>();
-    if (containKey(obj, STATE)) {
+    if (containsKey(obj, STATE)) {
         const bool state = obj[STATE];
         getTargetCapability()->changeState(state);
     }
 
-    if (containKey(obj, INTENSITY)) {
+    if (containsKey(obj, INTENSITY)) {
         const uint8_t intensity = obj[INTENSITY];
         getTargetCapability()->changeIntensity(intensity);
     }

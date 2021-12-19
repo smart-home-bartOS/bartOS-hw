@@ -16,10 +16,6 @@ class DefaultOnlineLightsCap : public DefaultLightsCap, public LightsOnline {
                            uint32_t pwmRange = DEFAULT_PWM_RANGE);
 
     ~DefaultOnlineLightsCap() = default;
-
-    void init() override;
-
-    void loop() override;
 };
 
 #endif  // BARTOS_HW_DEFAULTONLINELIGHTSCAP_H

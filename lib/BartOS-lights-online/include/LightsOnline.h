@@ -19,7 +19,6 @@ class LightsOnline : public OnlineCapability<LightsCap> {
 
     DynamicJsonDocument getData() override;
     void handleData(DynamicJsonDocument &data) override;
-    vector<string> getSubscribedPaths() override;
 };
 
 #endif  // BARTOS_HW_LIGHTSDATA_H

@@ -52,6 +52,14 @@ shared_ptr<DataConnector> OnlineDevice::getDataConnector() {
     return _dataConnector;
 }
 
+void OnlineDevice::setManageConnector(shared_ptr<ManageConnector> connector) {
+    _manageConnector = connector;
+}
+
+void OnlineDevice::setDataConnector(shared_ptr<DataConnector> connector) {
+    _dataConnector = connector;
+}
+
 long OnlineDevice::getID() {
     return _id;
 }

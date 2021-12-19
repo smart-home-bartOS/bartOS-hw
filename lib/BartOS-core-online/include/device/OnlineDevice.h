@@ -43,8 +43,10 @@ class OnlineDevice : public Device {
     void loop() override;
 
     shared_ptr<ManageConnector> getManageConnector();
+    void setManageConnector(shared_ptr<ManageConnector> connector);
 
     shared_ptr<DataConnector> getDataConnector();
+    void setDataConnector(shared_ptr<DataConnector> connector);
 
     long getID();
 

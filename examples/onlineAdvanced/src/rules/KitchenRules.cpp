@@ -10,61 +10,61 @@
 #include "Capabilities.h"
 
 /* Capabilities */
-shared_ptr<DhtTempSensor> KitchenTemp = make_shared<DhtTempSensor>(D8, 22);
-shared_ptr<DefaultOnlineLightsCap> KitchenMainLights = make_shared<DefaultOnlineLightsCap>(MqttDataConnector,
-                                                                                           LED_BUILTIN, "kitchenMain");
-shared_ptr<TwoWayButton> KitchenMainSwitch = make_shared<TwoWayButton>(D2, "kitchenMainSwitch");
-shared_ptr<DhtTempOnline> KitchenOnlineTemp = make_shared<DhtTempOnline>(MqttDataConnector, D5, 22);
+shared_ptr<DhtTempSensor> kitchenTemp = make_shared<DhtTempSensor>(D8, 22);
+shared_ptr<DefaultOnlineLightsCap> kitchenMainLights = make_shared<DefaultOnlineLightsCap>(LED_BUILTIN, "kitchenMain");
+shared_ptr<TwoWayButton> kitchenMainSwitch = make_shared<TwoWayButton>(D2, "kitchenMainSwitch");
+shared_ptr<DhtTempOnline> kitchenOnlineTemp = make_shared<DhtTempOnline>(D5, 22);
 
 void setupKitchenRules() {
-    KitchenTemp->setEnabled(false);
-    KitchenMainSwitch->setEnabled(false);
-    KitchenMainLights->setInverseOutput(true);
+    kitchenTemp->setEnabled(false);
+    kitchenMainSwitch->setEnabled(false);
+    kitchenMainLights->setInverseOutput(true);
 
-    KitchenTemp->executeEventHandler()->add("MAIN", []() -> void {
-        handleCallback(KitchenTemp->getTemperature() >= 25.0, []() -> void {
-            KitchenMainLights->turnOn();
+    kitchenTemp->actions()->add("MAIN", []() {
+        handleCallback(kitchenTemp->getTemperature() >= 25.0, []() {
+            kitchenMainLights->turnOn();
         });
     });
 
     Serial.println("STARTED");
-    KitchenMainLights->loopEventHandler()->timer("timer123", 3000, []() -> void {
+    kitchenMainLights->scheduler()->timer("timer123", 3000, []() {
         Serial.print("FINISHED");
     });
 
-    KitchenMainLights->loopEventHandler()->period("period", 2000, []() -> void {
+    kitchenMainLights->scheduler()->period("period", 2000, []() {
         Serial.print("Lights state: ");
-        Serial.println(KitchenMainLights->isTurnedOn());
+        Serial.println(kitchenMainLights->isTurnedOn());
     });
 
-    KitchenMainSwitch->setSampleTime(100);
-    KitchenMainSwitch->executeEventHandler()->add("CheckMainSwitch", []() -> void {
-        bool isTurnedOn = KitchenMainSwitch->isOn();
+    kitchenMainSwitch->setSampleTime(100);
+    kitchenMainSwitch->actions()->add("CheckMainSwitch", []() -> void {
+        bool isTurnedOn = kitchenMainSwitch->isOn();
     });
 
-    KitchenOnlineTemp->getDataConnector()->addTopicContext("devices/12", [](JsonObject &doc) -> void {
-        const string KEYS[] = {TemperatureData::TEMPERATURE_FIELD, TemperatureData::UNITS_FIELD};
-        if (containKeys(doc, KEYS)) {
-            KitchenOnlineTemp->getTemperature();
-            KitchenOnlineTemp->setTemperature(23.0);
+    kitchenOnlineTemp->getDataConnector()->onMessage("devices/12", [](DynamicJsonDocument &document) -> void {
+        JsonObject doc = document.as<JsonObject>();
+
+        const string KEYS[] = {TemperatureOnline::TEMP, TemperatureOnline::UNITS};
+        if (containsKeys(doc, KEYS)) {
+            kitchenOnlineTemp->getTemperature();
+            kitchenOnlineTemp->setTemperature(23.0);
             Serial.println("Set temperature");
         }
     });
 
-    KitchenOnlineTemp->loopEventHandler()->period("periodicSending", 2000, []() -> void {
-        KitchenOnlineTemp->sendData();
+    kitchenOnlineTemp->scheduler()->period("periodicSending", 2000, []() -> void {
         DynamicJsonDocument doc(100);
         doc["test"] = "ahoj";
         doc.shrinkToFit();
-        Device->getDataConnector()->sendData("ahoj", doc);
+        device->getDataConnector()->sendData("ahoj", doc);
         doc.garbageCollect();
     });
 
     // Add capabilities
-    Capabilities.push_back(KitchenTemp);
-    Capabilities.push_back(KitchenMainLights);
-    Capabilities.push_back(KitchenMainSwitch);
-    Capabilities.push_back(KitchenOnlineTemp);
+    capabilities.push_back(kitchenTemp);
+    capabilities.push_back(kitchenMainLights);
+    capabilities.push_back(kitchenMainSwitch);
+    capabilities.push_back(kitchenOnlineTemp);
 }
 
 #endif  // BARTOS_HW_KITCHENRULES_H

@@ -1,20 +1,25 @@
 #include <Arduino.h>
+
 #include "Capabilities.h"
 
-vector<shared_ptr<Capability>> Capabilities;
+vector<shared_ptr<Capability>> capabilities;
 
 void setup() {
     Serial.begin(9600);
     delay(100);
-    Device->disableAllCapabilities();
-    KitchenMainLights->setEnabled(true);
+
+    device->disableCapabilities();
+
+    kitchenMainLights->setEnabled(true);
     LivingRoomIrReceiver->setEnabled(true);
 
     addAllRules();
-    Device->setCapabilities(Capabilities);
-    Device->init();
+
+    device->setCapabilities(capabilities);
+    device->setDataConnector(mqttDataConnector);
+    device->init();
 }
 
 void loop() {
-    Device->loop();
+    device->loop();
 }

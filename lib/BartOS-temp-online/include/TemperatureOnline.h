@@ -19,7 +19,6 @@ class TemperatureOnline : public OnlineCapability<TemperatureCap> {
     ~TemperatureOnline() = default;
 
     DynamicJsonDocument getData() override;
-    vector<string> getSubscribedPaths() override;
 };
 
 #endif  // TEMPERATURE_ONLINE_H
