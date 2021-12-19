@@ -14,7 +14,18 @@ HttpConnector::HttpConnector(const string &baseURL) : DataConnector(baseURL), Ma
 
 void HttpConnector::connect() {}
 void HttpConnector::disconnect() {}
-void HttpConnector::create() {}
+
+void HttpConnector::create() {
+    /*  DynamicJsonDocument doc(1024);
+
+      char buffer[2048];
+      serializeJson(data, buffer);
+
+      HttpResponse resp = httpClient.doPost(getCreatePath(homeID), string(buffer));
+      const vector<int> allowedResponseCodes = {200, 201};
+
+      return getJsonFromResponse(resp, allowedResponseCodes, OnlineDeviceFields::getCreateFields().data());*/
+}
 void HttpConnector::remove() {}
 void HttpConnector::update() {}
 void HttpConnector::init() {}

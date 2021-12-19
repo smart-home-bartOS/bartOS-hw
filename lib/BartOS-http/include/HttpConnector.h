@@ -23,8 +23,6 @@ class HttpConnector : public DataConnector, public ManageConnector {
     void init() override;
     void loop() override;
 
-    void sendData(const string &path, DynamicJsonDocument &data) override;
-
     void connect() override;
     void create() override;
     void remove() override;

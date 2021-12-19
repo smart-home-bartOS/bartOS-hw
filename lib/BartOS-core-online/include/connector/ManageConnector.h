@@ -3,9 +3,14 @@
 
 #include "OnlineConnector.h"
 
+class OnlineDevice;
+
 class ManageConnector : public OnlineConnector {
+   private:
+    OnlineDevice* _device = nullptr;
+
    public:
-    ManageConnector(const string &baseURL) : OnlineConnector(baseURL) {}
+    ManageConnector(const string& baseURL);
 
     ManageConnector() = default;
     ~ManageConnector() = default;
@@ -15,6 +20,9 @@ class ManageConnector : public OnlineConnector {
     virtual void remove() = 0;
     virtual void update() = 0;
     virtual void disconnect() = 0;
+
+    OnlineDevice* getOnlineDevice();
+    void setOnlineDevice(OnlineDevice* device);
 };
 
 #endif  // BARTOS_HW_MANAGE_CONNECTOR_H
