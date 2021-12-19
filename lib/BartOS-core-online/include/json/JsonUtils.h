@@ -6,7 +6,8 @@
 #include <string>
 #include <vector>
 
-using namespace std;
+using std::string;
+using std::vector;
 
 static bool isAllowedKey(const string &key, const string keys[]) {
     for (unsigned int i = 0; i < keys->size(); i++) {

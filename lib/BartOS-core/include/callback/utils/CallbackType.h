@@ -5,6 +5,10 @@
 #ifndef BARTOS_HW_CALLBACKTYPE_H
 #define BARTOS_HW_CALLBACKTYPE_H
 
-typedef void (*Callback)();
+#include <functional>
 
-#endif  //BARTOS_HW_CALLBACKTYPE_H
+using std::function;
+
+typedef function<void()> Callback;
+
+#endif  // BARTOS_HW_CALLBACKTYPE_H

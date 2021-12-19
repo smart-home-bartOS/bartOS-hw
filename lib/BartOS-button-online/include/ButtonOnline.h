@@ -18,7 +18,6 @@ class ButtonOnline : public OnlineCapability<ButtonCap> {
     ~ButtonOnline() = default;
 
     DynamicJsonDocument getData() override;
-    void handleData(DynamicJsonDocument &data) override;
     vector<string> getSubscribedPaths() override;
 };
 

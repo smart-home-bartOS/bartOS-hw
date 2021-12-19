@@ -3,16 +3,18 @@
 
 #include <memory>
 
+#include "capability/Capability.h"
 #include "connector/DataConnector.h"
 #include "connector/DataHandler.h"
 #include "json/JsonKeys.h"
+#include "json/JsonUtils.h"
 
 using std::shared_ptr;
 using std::string;
 
 class OnlineDevice;
 
-template <class TargetCap>
+template <class TargetCap = Capability>
 class OnlineCapability : public DataHandler {
    private:
     long _id = -1;
@@ -57,7 +59,16 @@ class OnlineCapability : public DataHandler {
         _dataConnector = connector;
     }
 
-    DynamicJsonDocument getInfo() override {
+    virtual void handleData(DynamicJsonDocument& data) override {
+        JsonObject object = data.as<JsonObject>();
+        const string KEYS[] = {JsonKeys::ENABLED};
+        if (containKeys(object, KEYS)) {
+            bool isEnabled = object[JsonKeys::ENABLED];
+            getTargetCapability()->setEnabled(isEnabled);
+        }
+    }
+
+    virtual DynamicJsonDocument getInfo() override {
         DynamicJsonDocument data(100);
 
         data[JsonKeys::PIN] = getTargetCapability()->getPin();

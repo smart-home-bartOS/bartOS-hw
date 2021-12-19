@@ -5,11 +5,15 @@
 #include "ButtonOnline.h"
 
 #include "json/JsonKeys.h"
-#include "utils/JsonUtils.h"
+#include "json/JsonUtils.h"
 
 const char *ButtonOnline::STATE = "state";
 
 ButtonOnline::ButtonOnline(ButtonCap *capability) : OnlineCapability<ButtonCap>(capability) {
+    capability->onChange([this]() {
+        DynamicJsonDocument doc = getData();
+        getDataConnector()->sendData("/cap/btn/" + getID(), doc);
+    });
 }
 
 DynamicJsonDocument ButtonOnline::getData() {
@@ -19,15 +23,6 @@ DynamicJsonDocument ButtonOnline::getData() {
     data.shrinkToFit();
     data.garbageCollect();
     return data;
-}
-
-void ButtonOnline::handleData(DynamicJsonDocument &data) {
-    JsonObject object = data.as<JsonObject>();
-    const string KEYS[] = {ButtonOnline::STATE, JsonKeys::ENABLED};
-    if (containKeys(object, KEYS)) {
-        bool isEnabled = object[JsonKeys::ENABLED];
-        getTargetCapability()->setEnabled(isEnabled);
-    }
 }
 
 vector<string> ButtonOnline::getSubscribedPaths() {
