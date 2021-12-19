@@ -15,7 +15,7 @@
     }],
     "license": "MIT",
     "dependencies": {
-        "mabartos/BartOS-core": "~0.0.3"
+        "mabartos/BartOS-core": "^0.0.3"
     },
     "frameworks": "arduino",
     "platforms": "esp8266"

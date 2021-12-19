@@ -15,7 +15,7 @@
     }],
     "license": "MIT",
     "dependencies": {
-        "mabartos/BartOS-online-device": "^0.0.4",
+        "mabartos/BartOS-core-online": "^0.0.4",
         "mabartos/BartOS-IR": "^0.0.3"
     },
     "frameworks": "arduino",

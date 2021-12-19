@@ -1,26 +1,24 @@
 {
-  "name": "BartOS-humidity",
-  "version": "0.0.2",
-  "description": "Library for BartOS project - Humidity Sensor",
-  "keywords": "bartOS,iot,arduino,esp8266",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/smart-home-bartOS/bartOS-hw"
-  },
-  "authors": [
-    {
-      "name": "Martin Bartos",
-      "email": "mabartos@redhat.com",
-      "url": "https://github.com/mabartos",
-      "maintainer": true
-    }
-  ],
-  "license": "MIT",
-  "dependencies": {
-    "mabartos/BartOS-core": "~0.0.2",
-    "adafruit/Adafruit Unified Sensor": "~1.1.4",
-    "adafruit/DHT sensor library": "~1.4.2"
-  },
-  "frameworks": "arduino",
-  "platforms": "esp8266"
+    "name": "BartOS-humidity",
+    "version": "0.0.3",
+    "description": "Library for BartOS project - Humidity Sensor",
+    "keywords": "bartOS,iot,arduino,esp8266",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/smart-home-bartOS/bartOS-hw"
+    },
+    "authors": [{
+        "name": "Martin Bartos",
+        "email": "mabartos@redhat.com",
+        "url": "https://github.com/mabartos",
+        "maintainer": true
+    }],
+    "license": "MIT",
+    "dependencies": {
+        "mabartos/BartOS-core": "^0.0.3",
+        "adafruit/Adafruit Unified Sensor": "^1.1.4",
+        "adafruit/DHT sensor library": "^1.4.2"
+    },
+    "frameworks": "arduino",
+    "platforms": "esp8266"
 }

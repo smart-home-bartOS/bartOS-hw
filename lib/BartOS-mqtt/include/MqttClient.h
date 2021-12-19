@@ -1,7 +1,6 @@
 #ifndef MQTT_CLIENT_H
 #define MQTT_CLIENT_H
 
-#include <ArduinoJson.h>
 #include <PubSubClient.h>
 #include <callback/utils/CallbackType.h>
 #include <connector/DataConnector.h>

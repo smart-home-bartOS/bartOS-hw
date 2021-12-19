@@ -1,25 +1,23 @@
 {
-  "name": "BartOS-temp-online",
-  "version": "0.0.2.1",
-  "description": "Library for BartOS project - Online temperature sensor",
-  "keywords": "bartOS,iot,arduino,esp8266",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/smart-home-bartOS/bartOS-hw"
-  },
-  "authors": [
-    {
-      "name": "Martin Bartos",
-      "email": "mabartos@redhat.com",
-      "url": "https://github.com/mabartos",
-      "maintainer": true
-    }
-  ],
-  "license": "MIT",
-  "dependencies": {
-    "mabartos/BartOS-online-device": "~0.0.1",
-    "mabartos/BartOS-temp": "~0.0.1"
-  },
-  "frameworks": "arduino",
-  "platforms": "esp8266"
+    "name": "BartOS-temp-online",
+    "version": "0.0.3",
+    "description": "Library for BartOS project - Online temperature sensor",
+    "keywords": "bartOS,iot,arduino,esp8266",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/smart-home-bartOS/bartOS-hw"
+    },
+    "authors": [{
+        "name": "Martin Bartos",
+        "email": "mabartos@redhat.com",
+        "url": "https://github.com/mabartos",
+        "maintainer": true
+    }],
+    "license": "MIT",
+    "dependencies": {
+        "mabartos/BartOS-core-online": "^0.0.3",
+        "mabartos/BartOS-temperature": "^0.0.3"
+    },
+    "frameworks": "arduino",
+    "platforms": "esp8266"
 }

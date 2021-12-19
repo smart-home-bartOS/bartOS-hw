@@ -15,9 +15,9 @@
     }],
     "license": "MIT",
     "dependencies": {
-        "mabartos/BartOS-core": "~0.0.3",
-        "mabartos/BartOS-online-device": "~0.0.3",
-        "knolleary/PubSubClient": "~2.8"
+        "mabartos/BartOS-core": "^0.0.3",
+        "mabartos/BartOS-core-online": "^0.0.3",
+        "knolleary/PubSubClient": "^2.8"
     },
     "frameworks": "arduino",
     "platforms": "esp8266"
