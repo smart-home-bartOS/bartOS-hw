@@ -4,13 +4,19 @@
 
 #include "InfraRedCap.h"
 
-InfraRedCap::InfraRedCap(const uint8_t &pin, const string &name, bool printCodes) :
-        Capability(pin, CapabilityType::INFRA_RED, name), _printCodes(printCodes) {
-    _callbacks = make_shared<IrCallbackMap>();
+InfraRedCap::InfraRedCap(const uint8_t &pin,
+                         const string &name,
+                         bool printCodes) : Capability(pin, CapabilityType::INFRA_RED, name), _printCodes(printCodes) {
+    _callbacks = make_shared<IrActionMap>();
+    _onDecode = make_shared<ActionMap>();
 }
 
-shared_ptr<IrCallbackMap> InfraRedCap::callbacks() {
+shared_ptr<IrActionMap> InfraRedCap::codeHandler() {
     return _callbacks;
+}
+
+shared_ptr<ActionMap> InfraRedCap::onDecode() {
+    return _onDecode;
 }
 
 bool InfraRedCap::shouldPrintCodes() {

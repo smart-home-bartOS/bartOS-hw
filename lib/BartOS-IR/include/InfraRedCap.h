@@ -5,30 +5,35 @@
 #ifndef BARTOS_HW_INFRARED_CAP_H
 #define BARTOS_HW_INFRARED_CAP_H
 
-using namespace std;
+#include <callback/ActionMap.h>
+#include <capability/Capability.h>
+#include <stdint.h>
 
 #include <string>
-#include <stdint.h>
-#include <capability/Capability.h>
 #include <unordered_map>
-#include "callback/IrCallbackMap.h"
+
+#include "callback/IrActionMap.h"
 
 class InfraRedCap : public Capability {
-private:
+   private:
     bool _printCodes;
-protected:
-    shared_ptr<IrCallbackMap> _callbacks;
-public:
+    shared_ptr<ActionMap> _onDecode;
+
+   protected:
+    shared_ptr<IrActionMap> _callbacks;
+
+   public:
     InfraRedCap(const uint8_t &pin, const string &name, bool printCodes = false);
 
     ~InfraRedCap() = default;
 
-    shared_ptr<IrCallbackMap> callbacks();
+    shared_ptr<IrActionMap> codeHandler();
+
+    shared_ptr<ActionMap> onDecode();
 
     bool shouldPrintCodes();
 
     void setPrintCodes(bool state);
 };
 
-
-#endif //BARTOS_HW_INFRARED_CAP_H
+#endif  // BARTOS_HW_INFRARED_CAP_H

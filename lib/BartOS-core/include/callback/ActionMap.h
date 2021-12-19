@@ -23,10 +23,10 @@ class ActionMap : public AbstractActionMap<AbstractCallbackItem> {
     ActionMap() = default;
     ~ActionMap() = default;
 
-    void execute(const string &name);
-    void loop();
+    virtual void execute(const string &name);
+    virtual void executeAll();
 
-    void add(const string &name, Callback callback);
+    virtual void add(const string &name, Callback callback);
 };
 
 #endif  // BARTOS_HW_CALLBACKMAP_H

@@ -3,10 +3,10 @@
 //
 
 #include "default/DefaultIRCap.h"
+
 #include <utils/ConvertUtils.h>
 
-DefaultIRCap::DefaultIRCap(const uint8_t &pin, const string &name) :
-        InfraRedCap(pin, name) {
+DefaultIRCap::DefaultIRCap(const uint8_t &pin, const string &name) : InfraRedCap(pin, name) {
     _irRecv = make_shared<IRrecv>(pin);
     _results = make_shared<decode_results>();
 }
@@ -15,7 +15,7 @@ void DefaultIRCap::init() {
     _irRecv->enableIRIn();
 }
 
-void DefaultIRCap::execute() {
+void DefaultIRCap::loop() {
     if (_irRecv->decode(_results.get())) {
         const unsigned int tmp = _results->value;
         string hexValue = ConvertUtils::convertIntToHexString(tmp);
@@ -24,7 +24,8 @@ void DefaultIRCap::execute() {
             Serial.println(hexValue.c_str());
         }
 
-        InfraRedCap::callbacks()->execute(hexValue);
+        InfraRedCap::onDecode()->executeAll();
+        InfraRedCap::codeHandler()->execute(hexValue);
         _irRecv->resume();
         delayExecution(100);
     }

@@ -30,7 +30,7 @@ class AbstractActionMap {
         return _callbacks;
     }
 
-    virtual void loop() = 0;
+    virtual void loop() {}
 
     virtual void enable(const string &name) {
         changeEnableState(name, true);

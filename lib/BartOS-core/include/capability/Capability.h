@@ -15,8 +15,10 @@
 #include "CapabilityFields.h"
 #include "CapabilityType.h"
 
+using std::make_shared;
 using std::shared_ptr;
 using std::string;
+using std::unordered_map;
 
 class Capability {
    private:

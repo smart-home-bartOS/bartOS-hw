@@ -12,7 +12,7 @@ void ActionMap::execute(const std::string &name) {
     }
 }
 
-void ActionMap::loop() {
+void ActionMap::executeAll() {
     for (auto item : getCallbacks()) {
         item.second->execute();
     }
