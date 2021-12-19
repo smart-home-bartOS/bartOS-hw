@@ -11,6 +11,7 @@
 
 #include "capability/OnlineCapability.h"
 #include "connector/DataConnector.h"
+#include "connector/DataHandler.h"
 #include "connector/ManageConnector.h"
 #include "state/ConnectionState.h"
 
@@ -20,7 +21,7 @@ using std::vector;
 
 class ConnectionState;
 
-class OnlineDevice : public Device {
+class OnlineDevice : public Device, public DataHandler {
    private:
     long _id = -1;
     long _homeID = -1;
@@ -68,6 +69,9 @@ class OnlineDevice : public Device {
     void setOnlineCaps(vector<shared_ptr<OnlineCapability<Capability>>> &caps);
 
     void changeConnectionState(shared_ptr<ConnectionState> state);
+
+    virtual DynamicJsonDocument getInfo() override;
+    virtual DynamicJsonDocument getInfoWithCaps();
 };
 
 #endif  // ONLINE_DEVICE_H

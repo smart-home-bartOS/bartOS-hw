@@ -1,33 +1,76 @@
 #include "HttpConnector.h"
 
 #include <ArduinoJson.h>
-#include <utils/JsonUtils.h>
+#include <device/DevicePath.h>
+#include <json/JsonUtils.h>
 
 #include "HttpClient.h"
 #include "HttpPath.h"
+#include "device/OnlineDevice.h"
 
-HttpClient httpClient;
-
-HttpConnector::HttpConnector(const string &baseURL) : DataConnector(baseURL), ManageConnector(baseURL) {
-    httpClient.setServerURL(baseURL);
+HttpConnector::HttpConnector(HttpClient &httpClient, const string &baseURL) : DataConnector(baseURL), ManageConnector(baseURL), _httpClient(httpClient) {
+    _httpClient.setServerURL(baseURL);
 }
 
-void HttpConnector::connect() {}
-void HttpConnector::disconnect() {}
+void HttpConnector::sendData(const string &path, DynamicJsonDocument &data) {
+    const string &devicePath = getHomeDevicePath(getOnlineDevice()->getHomeID(), getOnlineDevice()->getID());
+    HttpResponse resp = _httpClient.doPost(devicePath, jsonToString(data));
+
+    DynamicJsonDocument output = getJsonFromResponse(resp, {200});
+    notify(devicePath, output);
+}
+
+void HttpConnector::connect() {
+    DynamicJsonDocument data = getOnlineDevice()->getInfo();
+
+    const string &connectPath = getConnectPath(getOnlineDevice()->getHomeID(), getOnlineDevice()->getID());
+
+    HttpResponse resp = _httpClient.doPost(connectPath, jsonToString(data));
+
+    DynamicJsonDocument output = getJsonFromResponse(resp, {200, 400});
+    notify(connectPath, output);
+}
+
+void HttpConnector::disconnect() {
+    const string &disconnectPath = getDisconnectPath(getOnlineDevice()->getHomeID(), getOnlineDevice()->getID());
+
+    HttpResponse resp = _httpClient.doGet(disconnectPath);
+
+    DynamicJsonDocument output = getJsonFromResponse(resp, {200, 400});
+    notify(disconnectPath, output);
+}
 
 void HttpConnector::create() {
-    /*  DynamicJsonDocument doc(1024);
+    DynamicJsonDocument data = getOnlineDevice()->getInfoWithCaps();
 
-      char buffer[2048];
-      serializeJson(data, buffer);
+    const string &homePath = getHomePath(getOnlineDevice()->getHomeID());
 
-      HttpResponse resp = httpClient.doPost(getCreatePath(homeID), string(buffer));
-      const vector<int> allowedResponseCodes = {200, 201};
+    HttpResponse resp = _httpClient.doPost(homePath, jsonToString(data));
 
-      return getJsonFromResponse(resp, allowedResponseCodes, OnlineDeviceFields::getCreateFields().data());*/
+    DynamicJsonDocument output = getJsonFromResponse(resp, {201});
+    notify(homePath, output);
 }
-void HttpConnector::remove() {}
-void HttpConnector::update() {}
+
+void HttpConnector::remove() {
+    const string &devicePath = getHomeDevicePath(getOnlineDevice()->getHomeID(), getOnlineDevice()->getID());
+
+    HttpResponse resp = _httpClient.doDelete(devicePath);
+
+    DynamicJsonDocument output = getJsonFromResponse(resp, {200, 204});
+    notify(devicePath, output);
+}
+
+void HttpConnector::update() {
+    DynamicJsonDocument data = getOnlineDevice()->getInfoWithCaps();
+
+    const string &devicePath = getHomeDevicePath(getOnlineDevice()->getHomeID(), getOnlineDevice()->getID());
+
+    HttpResponse resp = _httpClient.doPatch(devicePath, jsonToString(data));
+
+    DynamicJsonDocument output = getJsonFromResponse(resp, {200});
+    notify(devicePath, output);
+}
+
 void HttpConnector::init() {}
 void HttpConnector::loop() {}
 
@@ -40,10 +83,8 @@ bool HttpConnector::isValidResponseCode(const int code, const vector<int> &allow
     return false;
 }
 
-DynamicJsonDocument HttpConnector::getJsonFromResponse(HttpResponse &response,
-                                                       const vector<int> &allowedResponseCodes,
-                                                       const string allowedKeys[]) {
-    DynamicJsonDocument empty(1024);
+DynamicJsonDocument HttpConnector::getJsonFromResponse(HttpResponse &response, const vector<int> &allowedResponseCodes) {
+    DynamicJsonDocument empty(10);
 
     DynamicJsonDocument doc(1024);
     DeserializationError err = deserializeJson(doc, response.getPayload().c_str(), response.getPayload().size());
@@ -54,45 +95,9 @@ DynamicJsonDocument HttpConnector::getJsonFromResponse(HttpResponse &response,
 
     JsonObject obj = doc.as<JsonObject>();
 
-    if (!allowedKeys->size() == 0 && !containsKeys(obj, allowedKeys)) {
-        return empty;
-    }
-
     if (!isValidResponseCode(response.getResponseCode(), allowedResponseCodes)) {
         return empty;
     }
 
     return doc;
 }
-
-DynamicJsonDocument HttpConnector::getJsonFromResponse(HttpResponse &response, const vector<int> &allowedResponseCodes) {
-    const string empty[] = {};
-    return getJsonFromResponse(response, allowedResponseCodes, empty);
-}
-/*
-DynamicJsonDocument HttpManageDeviceConn::createDevice(long homeID, const DynamicJsonDocument &data) {
-    char buffer[2048];
-    serializeJson(data, buffer);
-
-    HttpResponse resp = httpClient.doPost(getCreatePath(homeID), string(buffer));
-    const vector<int> allowedResponseCodes = {200, 201};
-
-    return getJsonFromResponse(resp, allowedResponseCodes, OnlineDeviceFields::getCreateFields().data());
-}
-
-DynamicJsonDocument HttpManageDeviceConn::connectDevice(long homeID, long deviceID) {
-    HttpResponse resp = httpClient.doGet(getConnectPath(homeID, deviceID));
-
-    const vector<int> allowedResponseCodes = {200};
-
-    return getJsonFromResponse(resp, allowedResponseCodes, OnlineDeviceFields::getConnectFields().data());
-}
-
-DynamicJsonDocument HttpManageDeviceConn::disconnectDevice(long homeID, long deviceID) {
-    HttpResponse resp = httpClient.doGet(getDisconnectPath(homeID, deviceID));
-
-    const vector<int> allowedResponseCodes = {200};
-
-    return getJsonFromResponse(resp, allowedResponseCodes);
-}
-*/

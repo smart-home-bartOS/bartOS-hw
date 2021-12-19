@@ -1,8 +1,9 @@
 #ifndef DEVICE_PATH_H
 #define DEVICE_PATH_H
 
-#include <string>
 #include <utils/ConvertUtils.h>
+
+#include <string>
 
 using namespace std;
 
@@ -22,4 +23,4 @@ static string getHomeDevicePath(const long homeID, const long deviceID) {
     return getHomePath(homeID) + "/" + ConvertUtils::convertLongToString(deviceID);
 }
 
-#endif  //DEVICE_PATH_H
+#endif  // DEVICE_PATH_H

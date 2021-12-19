@@ -95,3 +95,24 @@ void OnlineDevice::setOnlineCaps(vector<shared_ptr<OnlineCapability<Capability>>
 void OnlineDevice::changeConnectionState(shared_ptr<ConnectionState> state) {
     _connectionState = state;
 }
+
+DynamicJsonDocument OnlineDevice::getInfo() {
+    DynamicJsonDocument doc(50);
+    return doc;
+}
+
+DynamicJsonDocument OnlineDevice::getInfoWithCaps() {
+    DynamicJsonDocument doc = getData();
+
+    JsonArray caps = doc.createNestedArray("capabilities");
+
+    for (auto item : getOnlineCaps()) {
+        JsonObject obj = item->getData().as<JsonObject>();
+        caps.add(obj);
+    }
+
+    doc.shrinkToFit();
+    doc.garbageCollect();
+
+    return doc;
+}

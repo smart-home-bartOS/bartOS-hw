@@ -14,10 +14,19 @@ class DataHandler {
     DataHandler() = default;
     ~DataHandler() = default;
 
-    virtual DynamicJsonDocument getData() = 0;
+    virtual DynamicJsonDocument getData() {
+        DynamicJsonDocument doc(5);
+        return doc;
+    }
+
     virtual DynamicJsonDocument getInfo() = 0;
-    virtual void handleData(DynamicJsonDocument &data) = 0;
-    virtual vector<string> getSubscribedPaths() = 0;
+
+    virtual void handleData(DynamicJsonDocument &data){};
+
+    virtual vector<string> getSubscribedPaths() {
+        vector<string> v;
+        return v;
+    };
 };
 
 #endif  // BARTOS_HW_DATA_HANDLER_H

@@ -19,7 +19,7 @@ static bool isAllowedKey(const string &key, const string keys[]) {
     return false;
 }
 
-static bool containOnlyAllowedKey(const JsonObject &obj, const string keys[]) {
+static bool containsOnlyAllowedKey(const JsonObject &obj, const string keys[]) {
     if (keys->size() == 0)
         return false;
 
@@ -49,7 +49,7 @@ static bool containsKeys(const JsonObject &obj, const string keys[]) {
 
 static DynamicJsonDocument reduceToAllowedKeys(DynamicJsonDocument &doc, const string keys[]) {
     JsonObject obj = doc.as<JsonObject>();
-    if (containOnlyAllowedKey(obj, keys)) {
+    if (containsOnlyAllowedKey(obj, keys)) {
         return doc;
     } else {
         DynamicJsonDocument newDoc(doc.size() + 50);
@@ -60,6 +60,12 @@ static DynamicJsonDocument reduceToAllowedKeys(DynamicJsonDocument &doc, const s
         }
         return newDoc;
     }
+}
+
+static string jsonToString(DynamicJsonDocument &doc) {
+    String output = "";
+    serializeJsonPretty(doc, output);
+    return string(output.c_str());
 }
 
 #endif  // JSON_UTILS_H

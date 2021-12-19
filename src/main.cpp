@@ -4,6 +4,7 @@
 
 #include <memory>
 
+#include "HttpConnector.h"
 #include "MqttClient.h"
 #include "callback/ActionMap.h"
 #include "default/DefaultHttpClient.h"
@@ -26,7 +27,10 @@ shared_ptr<DhtHumOnline> hum;
 WiFiClient espClient;
 PubSubClient clientPub(espClient);
 shared_ptr<MqttClient> MqttDataConnector = make_shared<MqttClient>(clientPub, "url");
-shared_ptr<DefaultHttpClient> httpClient = make_shared<DefaultHttpClient>(espClient, "url");
+// shared_ptr<DefaultHttpClient> httpClient = make_shared<DefaultHttpClient>(espClient, "url");
+
+DefaultHttpClient httpClient(espClient, "asd");
+HttpConnector httpConnector(httpClient, "url");
 
 void setup() {
     Serial.begin(9600);

@@ -1,6 +1,6 @@
 {
     "name": "BartOS-http-client",
-    "version": "0.0.0.1",
+    "version": "0.0.3",
     "description": "Library for BartOS project - HTTP client",
     "keywords": "bartOS,iot,arduino,esp8266",
     "repository": {

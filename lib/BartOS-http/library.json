@@ -1,6 +1,6 @@
 {
     "name": "BartOS-http",
-    "version": "0.0.2.1",
+    "version": "0.0.3",
     "description": "Library for BartOS project - HTTP connector",
     "keywords": "bartOS,iot,arduino,esp8266",
     "repository": {
@@ -15,9 +15,9 @@
     }],
     "license": "MIT",
     "dependencies": {
-        "mabartos/BartOS-core": "~0.0.2",
-        "mabartos/BartOS-core-online": "~0.0.1",
-        "mabartos/BartOS-http-client": "~0.0.1"
+        "mabartos/BartOS-core": "^0.0.4",
+        "mabartos/BartOS-core-online": "^0.0.4",
+        "mabartos/BartOS-http-client": "^0.0.3"
     },
     "frameworks": "arduino",
     "platforms": "esp8266"
