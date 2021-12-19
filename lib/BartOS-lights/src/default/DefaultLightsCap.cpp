@@ -3,12 +3,14 @@
 //
 
 #include "default/DefaultLightsCap.h"
+
 #include <Arduino.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-DefaultLightsCap::DefaultLightsCap(const uint8_t &pin, const string &name, uint32_t pwmRange) :
-        LightsCap(pin, name, pwmRange) {
+DefaultLightsCap::DefaultLightsCap(const uint8_t &pin,
+                                   const string &name,
+                                   uint32_t pwmRange) : LightsCap(pin, name, pwmRange) {
 }
 
 void DefaultLightsCap::init() {
@@ -16,7 +18,7 @@ void DefaultLightsCap::init() {
     forceTurnOff();
 }
 
-void DefaultLightsCap::execute() {
+void DefaultLightsCap::loop() {
     checkSmoothIntensity();
 }
 
@@ -52,7 +54,7 @@ void DefaultLightsCap::executeChangeIntensity(uint8_t intensity) {
 
     setTurnedOn(true);
     float resultIntensity = (getPwmRange() / 100.0) * intensity;
-    analogWrite(_pin, (uint16_t) resultIntensity);
+    analogWrite(_pin, (uint16_t)resultIntensity);
     _intensity = intensity;
 }
 

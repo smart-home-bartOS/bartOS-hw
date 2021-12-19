@@ -8,21 +8,21 @@
 #include "LightsCap.h"
 
 #define DEFAULT_PWM_RANGE 1024
-#define DEFAULT_SMOOTH_SAMPLE_INTERVAL 1000 // time for smooth executing in milliseconds
-#define DEFAULT_MAX_SMOOTH_DELAY 300 // maximal value for sample time
+#define DEFAULT_SMOOTH_SAMPLE_INTERVAL 1000  // time for smooth executing in milliseconds
+#define DEFAULT_MAX_SMOOTH_DELAY 300         // maximal value for sample time
 
 /**
  * @author Nikola Polova
  * @author Martin Bartos
  */
 class DefaultLightsCap : public LightsCap {
-private:
+   private:
     bool _smoothActive = false;
     uint32_t _smoothSampleInterval = DEFAULT_SMOOTH_SAMPLE_INTERVAL;
     uint32_t _maxSmoothDelay = DEFAULT_MAX_SMOOTH_DELAY;
     bool _smoothMode = false;
 
-protected:
+   protected:
     uint8_t _resultIntensity = 0;
 
     void executeChangeIntensity(uint8_t intensity);
@@ -39,7 +39,7 @@ protected:
 
     void setMaxSmoothDelay(uint32_t delay);
 
-public:
+   public:
     DefaultLightsCap(const uint8_t &pin,
                      const string &name = "Default-lights-cap",
                      uint32_t pwmRange = DEFAULT_PWM_RANGE);
@@ -48,7 +48,7 @@ public:
 
     void init() override;
 
-    void execute() override;
+    void loop() override;
 
     void turnOn() override;
 
@@ -67,5 +67,4 @@ public:
     uint32_t getSmoothSampleInterval();
 };
 
-
-#endif //BARTOS_HW_DEFAULTLIGHTSCAP_H
+#endif  // BARTOS_HW_DEFAULTLIGHTSCAP_H

@@ -80,6 +80,11 @@ class OnlineCapability : public DataHandler {
         data.garbageCollect();
         return data;
     };
+
+    virtual vector<string> getSubscribedPaths() override {
+        vector<string> vec;
+        return vec;
+    }
 };
 
 #endif  // BARTOS_HW_ONLINE_CAPABILITY_H

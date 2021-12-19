@@ -1,17 +1,18 @@
 #ifndef LIGHTS_CAP_H
 #define LIGHTS_CAP_H
-using namespace std;
+
+#include <PowerAbleCap.h>
 
 #include <string>
-#include <PowerAbleCap.h>
 
 #define DEFAULT_PWM_RANGE 1024
 
 class LightsCap : public PowerAbleCap {
-protected:
+   protected:
     uint8_t _intensity;
     uint32_t _pwmRange;
-public:
+
+   public:
     LightsCap(const uint8_t &pin,
               const string &name = "Lights-cap",
               uint32_t pwmRange = DEFAULT_PWM_RANGE);
@@ -39,4 +40,4 @@ public:
     static bool validIntensity(uint8_t intensity);
 };
 
-#endif  //LIGHTS_CAP_H
+#endif  // LIGHTS_CAP_H
