@@ -4,7 +4,7 @@ const char *TemperatureOnline::TEMP = "temp";
 const char *TemperatureOnline::UNITS = "units";
 
 TemperatureOnline::TemperatureOnline(TemperatureCap *capability) : OnlineCapability<TemperatureCap>(capability) {
-    capability->scheduler()->period("sendEach30s", 30000, [this]() {
+    getTargetCapability()->scheduler()->period("sendEach30s", 30000, [this]() {
         DynamicJsonDocument doc = getData();
         getDataConnector()->sendData("/cap/temp/" + getID(), doc);
     });

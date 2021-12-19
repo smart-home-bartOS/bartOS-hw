@@ -6,9 +6,10 @@
 #define DEFAULT_SAMPLE_TIME_MS 300
 
 class HumidityCap : public Capability {
-private:
+   private:
     uint8_t _humidity;
-public:
+
+   public:
     HumidityCap(const uint8_t &pin, const string &name = "HUM_CAP", unsigned sampleTime = DEFAULT_SAMPLE_TIME_MS);
 
     ~HumidityCap() = default;

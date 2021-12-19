@@ -6,8 +6,7 @@
 
 DhtHumSensor::DhtHumSensor(const uint8_t &pin,
                            const uint8_t &dhtType,
-                           const string &name) :
-        HumidityCap(pin, name), _dhtType(dhtType) {
+                           const string &name) : HumidityCap(pin, name), _dhtType(dhtType) {
 }
 
 bool DhtHumSensor::isValidDHT() {
@@ -20,7 +19,7 @@ void DhtHumSensor::init() {
     _dht->begin();
 }
 
-void DhtHumSensor::execute() {
+void DhtHumSensor::loop() {
     if (!isValidDHT()) return;
 
     float humidity = _dht->readHumidity();
