@@ -5,6 +5,7 @@
 
 #include "connector/DataConnector.h"
 #include "connector/DataHandler.h"
+#include "json/JsonKeys.h"
 
 using std::shared_ptr;
 using std::string;
@@ -55,6 +56,19 @@ class OnlineCapability : public DataHandler {
     void setDataConnector(shared_ptr<DataConnector> connector) {
         _dataConnector = connector;
     }
+
+    DynamicJsonDocument getInfo() override {
+        DynamicJsonDocument data(100);
+
+        data[JsonKeys::PIN] = getTargetCapability()->getPin();
+        data[JsonKeys::NAME] = getTargetCapability()->getName();
+        data[JsonKeys::TYPE] = getTargetCapability()->getType();
+        data[JsonKeys::ENABLED] = getTargetCapability()->isEnabled();
+
+        data.shrinkToFit();
+        data.garbageCollect();
+        return data;
+    };
 };
 
 #endif  // BARTOS_HW_ONLINE_CAPABILITY_H

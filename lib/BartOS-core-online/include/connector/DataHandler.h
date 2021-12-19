@@ -15,6 +15,7 @@ class DataHandler {
     ~DataHandler() = default;
 
     virtual DynamicJsonDocument getData() = 0;
+    virtual DynamicJsonDocument getInfo() = 0;
     virtual void handleData(DynamicJsonDocument &data) = 0;
     virtual vector<string> getSubscribedPaths() = 0;
 };
