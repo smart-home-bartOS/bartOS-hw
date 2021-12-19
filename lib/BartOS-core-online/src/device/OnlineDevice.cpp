@@ -3,6 +3,7 @@
 #include <cstring>
 #include <memory>
 
+#include "json/JsonKeys.h"
 #include "state/NewDeviceState.h"
 
 using std::make_shared;
@@ -97,14 +98,24 @@ void OnlineDevice::changeConnectionState(shared_ptr<ConnectionState> state) {
 }
 
 DynamicJsonDocument OnlineDevice::getInfo() {
-    DynamicJsonDocument doc(50);
+    DynamicJsonDocument doc(512);
+
+    doc[JsonKeys::ID] = getID();
+    doc[JsonKeys::NAME] = getName();
+    doc[JsonKeys::HOME_ID] = getHomeID();
+    doc[JsonKeys::ROOM_ID] = getRoomID();
+    doc[JsonKeys::COUNT_OF_CAPS] = getOnlineCaps().size();
+
+    doc.shrinkToFit();
+    doc.garbageCollect();
+
     return doc;
 }
 
 DynamicJsonDocument OnlineDevice::getInfoWithCaps() {
     DynamicJsonDocument doc = getData();
 
-    JsonArray caps = doc.createNestedArray("capabilities");
+    JsonArray caps = doc.createNestedArray(JsonKeys::CAPABILITIES);
 
     for (auto item : getOnlineCaps()) {
         JsonObject obj = item->getData().as<JsonObject>();
