@@ -6,24 +6,19 @@
 #define BARTOS_HW_DEFAULTONLINEPOWERCAP_H
 
 #include <default/DefaultPowerCap.h>
-#include "PowerAbleData.h"
 
-class DefaultOnlinePowerCap : public DefaultPowerCap, public PowerAbleData {
-public:
-    DefaultOnlinePowerCap(shared_ptr <PubSubDataConnector> dataConnector,
-                          const uint8_t &pin,
+#include "PowerAbleOnline.h"
+
+class DefaultOnlinePowerCap : public DefaultPowerCap, public PowerAbleOnline {
+   public:
+    DefaultOnlinePowerCap(const uint8_t &pin,
                           const string &name = "DefaultOnlinePowerAble");
 
     ~DefaultOnlinePowerCap() = default;
 
     void init() override;
 
-    void execute() override;
-
-    void sendData() {
-        PowerAbleData::sendData(this);
-    }
+    void loop() override;
 };
 
-
-#endif //BARTOS_HW_DEFAULTONLINEPOWERCAP_H
+#endif  // BARTOS_HW_DEFAULTONLINEPOWERCAP_H

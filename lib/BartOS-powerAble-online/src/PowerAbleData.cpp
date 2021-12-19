@@ -2,38 +2,38 @@
 // Created by mabartos on 4/19/21.
 //
 
-#include "PowerAbleData.h"
+#include "PowerAbleOnline.h"
 
-const char *PowerAbleData::STATE = "state";
-const char *PowerAbleData::SWITCH = "switch";
+const char *PowerAbleOnline::STATE = "state";
+const char *PowerAbleOnline::SWITCH = "switch";
 
-PowerAbleData::PowerAbleData(shared_ptr<PubSubDataConnector> dataConnector) :
-        PubSubDataTransceiver(dataConnector) {
+PowerAbleOnline::PowerAbleOnline(PowerAbleCap *capability) : OnlineCapability(capability) {
 }
 
-void PowerAbleData::sendData(PowerAbleCap *cap) {
-    if (cap == nullptr)return;
-
-    DynamicJsonDocument data(100);
-    data[STATE] = cap->isTurnedOn();
+DynamicJsonDocument PowerAbleOnline::getData() {
+    DynamicJsonDocument data(50);
+    data[STATE] = getTargetCapability()->isTurnedOn();
 
     data.shrinkToFit();
-    sendDataToDefault(data);
     data.garbageCollect();
+    return data;
 }
 
-void PowerAbleData::initDataHandler(PowerAbleCap *cap, long deviceID, long homeID, long roomID) {
-    if (cap == nullptr) return;
+void PowerAbleOnline::handleData(DynamicJsonDocument &data) {
+    OnlineCapability::handleData(data);
+    JsonObject obj = data.as<JsonObject>();
 
-    auto setValues = [cap](JsonObject &obj) -> void {
-        if (containKey(obj, STATE)) {
-            const bool state = obj[STATE];
-            cap->changeState(state);
-        } else if (containKey(obj, SWITCH)) {
-            const bool switchState = obj[SWITCH];
-            cap->switchState();
-        }
-    };
+    if (containKey(obj, STATE)) {
+        const bool state = obj[STATE];
+        getTargetCapability()->changeState(state);
+    } else if (containKey(obj, SWITCH)) {
+        const bool switchState = obj[SWITCH];
+        getTargetCapability()->switchState();
+    }
+}
 
-    addSameCallbackForBasicTopics(cap, setValues, deviceID, homeID, roomID);
+vector<string> PowerAbleOnline::getSubscribedPaths() {
+    vector<string> vec;
+    vec.push_back("/cap/power-able/" + getID());
+    return vec;
 }

@@ -6,8 +6,7 @@
 
 PowerAbleCap::PowerAbleCap(const uint8_t &pin,
                            const string &type,
-                           const string &name) :
-        Capability(pin, type, name) {}
+                           const string &name) : Capability(pin, type, name) {}
 
 bool PowerAbleCap::isTurnedOn() {
     return _isTurnedOn;

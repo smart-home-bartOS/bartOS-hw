@@ -8,7 +8,7 @@
 #include "PowerAbleCap.h"
 
 class DefaultPowerCap : public PowerAbleCap {
-public:
+   public:
     DefaultPowerCap(const uint8_t &pin, const string &name = "DefaultPowerAble");
 
     ~DefaultPowerCap() = default;
@@ -20,5 +20,4 @@ public:
     void turnOff();
 };
 
-
-#endif //BARTOS_HW_DEFAULTPOWERCAP_H
+#endif  // BARTOS_HW_DEFAULTPOWERCAP_H

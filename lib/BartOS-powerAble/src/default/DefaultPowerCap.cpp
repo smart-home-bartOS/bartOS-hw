@@ -3,10 +3,10 @@
 //
 
 #include "default/DefaultPowerCap.h"
+
 #include <Arduino.h>
 
-DefaultPowerCap::DefaultPowerCap(const uint8_t &pin, const string &name) :
-        PowerAbleCap(pin, CapabilityType::RELAY, name) {}
+DefaultPowerCap::DefaultPowerCap(const uint8_t &pin, const string &name) : PowerAbleCap(pin, CapabilityType::RELAY, name) {}
 
 void DefaultPowerCap::init() {
     pinMode(_pin, OUTPUT);

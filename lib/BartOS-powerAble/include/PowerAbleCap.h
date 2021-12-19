@@ -8,13 +8,14 @@
 #include <capability/Capability.h>
 
 class PowerAbleCap : public Capability {
-private:
+   private:
     bool _isTurnedOn = false;
     bool _isInverseOutput = false;
-protected:
+
+   protected:
     void setTurnedOn(bool state);
 
-public:
+   public:
     PowerAbleCap(const uint8_t &pin,
                  const string &type = CapabilityType::OTHER,
                  const string &name = "PowerAbleCap");
@@ -36,5 +37,4 @@ public:
     void setInverseOutput(bool state);
 };
 
-
-#endif //BARTOS_HW_POWERABLECAP_H
+#endif  // BARTOS_HW_POWERABLECAP_H
