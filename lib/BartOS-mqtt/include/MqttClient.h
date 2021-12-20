@@ -34,6 +34,7 @@ class MqttClient : public DataConnector, public ManageConnector {
 
    protected:
     void checkAvailability();
+    OnlineDevice *device();
 
    public:
     explicit MqttClient(PubSubClient &mqttClient, const string &baseURL, const string &username = "", const string &password = "");
@@ -61,6 +62,7 @@ class MqttClient : public DataConnector, public ManageConnector {
     void setUUID(const string &UUID);
 
     bool reconnect();
+    void disconnectClient();
 
     PubSubClient &getMqttClient();
 

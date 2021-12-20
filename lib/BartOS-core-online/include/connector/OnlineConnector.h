@@ -5,9 +5,12 @@
 
 using std::string;
 
+class OnlineDevice;
+
 class OnlineConnector {
    private:
     string _baseURL = "";
+    OnlineDevice *_device = nullptr;
 
    public:
     OnlineConnector() = default;
@@ -21,6 +24,9 @@ class OnlineConnector {
     string getBaseURL();
 
     void setBaseURL(const string &baseURL);
+
+    OnlineDevice *getOnlineDevice();
+    void setOnlineDevice(OnlineDevice *device);
 };
 
 #endif  // BARTOS_HW_ONLINE_CONNECTOR_H

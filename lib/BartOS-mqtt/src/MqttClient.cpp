@@ -2,6 +2,9 @@
 
 #include <utils/RandomGenerator.h>
 
+#include "MqttPath.h"
+#include "device/OnlineDevice.h"
+
 MqttClient::MqttClient(PubSubClient &mqttClient,
                        const string &baseURL,
                        const string &username,
@@ -28,12 +31,8 @@ void MqttClient::loop() {
     checkAvailability();
 }
 
-void MqttClient::connect() {
-    reconnect();
-}
-
-void MqttClient::disconnect() {
-    _mqttClient.disconnect();
+OnlineDevice *MqttClient::device() {
+    return DataConnector::getOnlineDevice();
 }
 
 void MqttClient::sendData(const string &path, DynamicJsonDocument &data) {
@@ -100,6 +99,10 @@ bool MqttClient::reconnect() {
     }
 
     return _mqttClient.connected();
+}
+
+void MqttClient::disconnectClient() {
+    _mqttClient.disconnect();
 }
 
 void MqttClient::checkAvailability() {
@@ -176,14 +179,32 @@ void MqttClient::setPassword(const string &password) {
     _password = password;
 }
 
-void MqttClient::create(){
+void MqttClient::connect() {
+    DynamicJsonDocument data = device()->getInfo();
+    const string &connectPath = getConnectPath(device()->getHomeID(), device()->getID());
+    sendData(connectPath, data);
+}
 
+void MqttClient::disconnect() {
+    DynamicJsonDocument data(5);
+    const string &disconnectPath = getDisconnectPath(device()->getHomeID(), device()->getID());
+    sendData(disconnectPath, data);
+}
+
+void MqttClient::create() {
+    DynamicJsonDocument data = device()->getInfoWithCaps();
+    const string &createPath = getCreatePath(device()->getHomeID());
+    sendData(createPath, data);
 };
 
-void MqttClient::remove(){
-
+void MqttClient::remove() {
+    DynamicJsonDocument data(5);
+    const string &removePath = getRemovePath(device()->getHomeID(), device()->getID());
+    sendData(removePath, data);
 };
 
-void MqttClient::update(){
-
+void MqttClient::update() {
+    DynamicJsonDocument data = device()->getInfoWithCaps();
+    const string &updatePath = getUpdatePath(device()->getHomeID(), device()->getID());
+    sendData(updatePath, data);
 };

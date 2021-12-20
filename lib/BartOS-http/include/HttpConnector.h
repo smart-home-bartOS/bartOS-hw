@@ -15,6 +15,7 @@ class HttpConnector : public DataConnector, public ManageConnector {
 
     static bool isValidResponseCode(const int code, const vector<int> &allowedResponseCodes);
     static DynamicJsonDocument getJsonFromResponse(HttpResponse &response, const vector<int> &allowedResponseCodes);
+    OnlineDevice *device();
 
    public:
     explicit HttpConnector(HttpClient &httpClient, const string &baseURL);

@@ -12,8 +12,12 @@ HttpConnector::HttpConnector(HttpClient &httpClient, const string &baseURL) : Da
     _httpClient.setServerURL(baseURL);
 }
 
+OnlineDevice *HttpConnector::device() {
+    return DataConnector::getOnlineDevice();
+}
+
 void HttpConnector::sendData(const string &path, DynamicJsonDocument &data) {
-    const string &devicePath = getHomeDevicePath(getOnlineDevice()->getHomeID(), getOnlineDevice()->getID());
+    const string &devicePath = getHomeDevicePath(device()->getHomeID(), device()->getID());
     HttpResponse resp = _httpClient.doPost(devicePath, jsonToString(data));
 
     DynamicJsonDocument output = getJsonFromResponse(resp, {200});
@@ -21,9 +25,9 @@ void HttpConnector::sendData(const string &path, DynamicJsonDocument &data) {
 }
 
 void HttpConnector::connect() {
-    DynamicJsonDocument data = getOnlineDevice()->getInfo();
+    DynamicJsonDocument data = device()->getInfo();
 
-    const string &connectPath = getConnectPath(getOnlineDevice()->getHomeID(), getOnlineDevice()->getID());
+    const string &connectPath = getConnectPath(device()->getHomeID(), device()->getID());
 
     HttpResponse resp = _httpClient.doPost(connectPath, jsonToString(data));
 
@@ -32,7 +36,7 @@ void HttpConnector::connect() {
 }
 
 void HttpConnector::disconnect() {
-    const string &disconnectPath = getDisconnectPath(getOnlineDevice()->getHomeID(), getOnlineDevice()->getID());
+    const string &disconnectPath = getDisconnectPath(device()->getHomeID(), device()->getID());
 
     HttpResponse resp = _httpClient.doGet(disconnectPath);
 
@@ -41,9 +45,9 @@ void HttpConnector::disconnect() {
 }
 
 void HttpConnector::create() {
-    DynamicJsonDocument data = getOnlineDevice()->getInfoWithCaps();
+    DynamicJsonDocument data = device()->getInfoWithCaps();
 
-    const string &homePath = getHomePath(getOnlineDevice()->getHomeID());
+    const string &homePath = getHomePath(device()->getHomeID());
 
     HttpResponse resp = _httpClient.doPost(homePath, jsonToString(data));
 
@@ -52,7 +56,7 @@ void HttpConnector::create() {
 }
 
 void HttpConnector::remove() {
-    const string &devicePath = getHomeDevicePath(getOnlineDevice()->getHomeID(), getOnlineDevice()->getID());
+    const string &devicePath = getHomeDevicePath(device()->getHomeID(), device()->getID());
 
     HttpResponse resp = _httpClient.doDelete(devicePath);
 
@@ -61,9 +65,9 @@ void HttpConnector::remove() {
 }
 
 void HttpConnector::update() {
-    DynamicJsonDocument data = getOnlineDevice()->getInfoWithCaps();
+    DynamicJsonDocument data = device()->getInfoWithCaps();
 
-    const string &devicePath = getHomeDevicePath(getOnlineDevice()->getHomeID(), getOnlineDevice()->getID());
+    const string &devicePath = getHomeDevicePath(device()->getHomeID(), device()->getID());
 
     HttpResponse resp = _httpClient.doPatch(devicePath, jsonToString(data));
 
