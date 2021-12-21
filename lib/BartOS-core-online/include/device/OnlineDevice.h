@@ -13,15 +13,22 @@
 #include "connector/DataConnector.h"
 #include "connector/DataHandler.h"
 #include "connector/ManageConnector.h"
-#include "state/ConnectionState.h"
 
 using std::shared_ptr;
 using std::string;
 using std::vector;
 
-class ConnectionState;
+#define CONNECTION_STATE_CALLBACK "connection_state_callback_period"
+#define DEFAULT_CONNECTION_STATE_PERIOD 500
 
-class OnlineDevice : public Device, public DataHandler {
+enum class ConnectionState {
+    NOT_CONNECTED,
+    CONNECTED,
+    NEW_DEVICE
+};
+
+class OnlineDevice : public Device,
+                     public DataHandler {
    private:
     long _id = -1;
     long _homeID = -1;
@@ -32,7 +39,7 @@ class OnlineDevice : public Device, public DataHandler {
     shared_ptr<ManageConnector> _manageConnector = nullptr;
 
     vector<shared_ptr<OnlineCapability<Capability>>> _onlineCapabilities;
-    shared_ptr<ConnectionState> _connectionState = nullptr;
+    ConnectionState _connectionState = ConnectionState::NOT_CONNECTED;
 
    public:
     OnlineDevice(const string name = "Dev_" + RandomGenerator::randomAlphanum(6));
@@ -42,6 +49,8 @@ class OnlineDevice : public Device, public DataHandler {
     void init() override;
 
     void loop() override;
+
+    void initConnectionState();
 
     shared_ptr<ManageConnector> getManageConnector();
     void setManageConnector(shared_ptr<ManageConnector> connector);
@@ -68,7 +77,7 @@ class OnlineDevice : public Device, public DataHandler {
 
     void setOnlineCaps(vector<shared_ptr<OnlineCapability<Capability>>> &caps);
 
-    void changeConnectionState(shared_ptr<ConnectionState> state);
+    void changeConnectionState(ConnectionState state);
 
     virtual DynamicJsonDocument getInfo() override;
     virtual DynamicJsonDocument getInfoWithCaps();

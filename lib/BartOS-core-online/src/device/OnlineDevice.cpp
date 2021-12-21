@@ -4,12 +4,10 @@
 #include <memory>
 
 #include "json/JsonKeys.h"
-#include "state/NewDeviceState.h"
 
 using std::make_shared;
 
 OnlineDevice::OnlineDevice(const string name) : Device(), _name(name) {
-    changeConnectionState(make_shared<NewDeviceState>(this));
 }
 
 void OnlineDevice::init() {
@@ -19,15 +17,12 @@ void OnlineDevice::init() {
     if (getDataConnector() != nullptr) {
         getDataConnector()->init();
     }
-    _connectionState->init();
-
+    initConnectionState();
     Device::init();
 }
 
 void OnlineDevice::loop() {
     Device::loop();
-
-    _connectionState->loop();
 
     if (getManageConnector() != nullptr) {
         getManageConnector()->loop();
@@ -35,6 +30,38 @@ void OnlineDevice::loop() {
     if (getDataConnector() != nullptr) {
         getDataConnector()->loop();
     };
+}
+
+void OnlineDevice::initConnectionState() {
+    /*scheduler()->period(CONNECTION_STATE_CALLBACK, DEFAULT_CONNECTION_STATE_PERIOD, [this]() {
+        switch (_connectionState) {
+            case ConnectionState::NOT_CONNECTED:
+                if (getID() == -1) {
+                    getManageConnector()->create();
+                    changeConnectionState(ConnectionState::NEW_DEVICE);
+                } else {
+                    if (!getManageConnector()->isConnected()) {
+                        getManageConnector()->connect();
+                    } else {
+                        changeConnectionState(ConnectionState::CONNECTED);
+                    }
+                }
+                break;
+            case ConnectionState::NEW_DEVICE:
+                if (getManageConnector()->isConnected()) {
+                    changeConnectionState(ConnectionState::CONNECTED);
+                }
+                getManageConnector()->create();
+                break;
+            case ConnectionState::CONNECTED:
+                if (!getManageConnector()->isConnected()) {
+                    changeConnectionState(ConnectionState::NOT_CONNECTED);
+                }
+                break;
+            default:
+                break;
+        }
+    });*/
 }
 
 string OnlineDevice::getName() {
@@ -93,7 +120,7 @@ void OnlineDevice::setOnlineCaps(vector<shared_ptr<OnlineCapability<Capability>>
     _onlineCapabilities = caps;
 }
 
-void OnlineDevice::changeConnectionState(shared_ptr<ConnectionState> state) {
+void OnlineDevice::changeConnectionState(ConnectionState state) {
     _connectionState = state;
 }
 

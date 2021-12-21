@@ -15,6 +15,7 @@ class ManageConnector : public OnlineConnector {
     virtual void remove() = 0;
     virtual void update() = 0;
     virtual void disconnect() = 0;
+    virtual bool isConnected() { return false; };  // TODO resolve
 };
 
 #endif  // BARTOS_HW_MANAGE_CONNECTOR_H

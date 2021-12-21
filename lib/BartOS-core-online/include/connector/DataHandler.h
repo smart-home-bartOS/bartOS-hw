@@ -6,27 +6,29 @@
 #include <string>
 #include <vector>
 
+#include "callback/DataCallback.h"
+
 using std::string;
+using std::unordered_multimap;
 using std::vector;
 
 class DataHandler {
+   private:
+    unordered_multimap<string, DataCallback> _messageCallbacks;
+
    public:
     DataHandler() = default;
     ~DataHandler() = default;
 
-    virtual DynamicJsonDocument getData() {
-        DynamicJsonDocument doc(5);
-        return doc;
-    }
-
     virtual DynamicJsonDocument getInfo() = 0;
+    virtual DynamicJsonDocument getData();
+    virtual void handleData(DynamicJsonDocument &data);
+    virtual vector<string> getSubscribedPaths();
 
-    virtual void handleData(DynamicJsonDocument &data){};
-
-    virtual vector<string> getSubscribedPaths() {
-        vector<string> v;
-        return v;
-    };
+    void handleData(const string &path, DynamicJsonDocument &data);
+    void onMessage(const string &path, DataCallback callback);
+    void removeMessageEvent(const string &path);
+    void removeMessageEvents();
 };
 
 #endif  // BARTOS_HW_DATA_HANDLER_H
