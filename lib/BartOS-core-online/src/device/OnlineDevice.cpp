@@ -11,13 +11,13 @@ OnlineDevice::OnlineDevice(const string name) : Device(), _name(name) {
 }
 
 void OnlineDevice::init() {
+    Device::init();
     if (getManageConnector() != nullptr) {
         getManageConnector()->init();
     }
     if (getDataConnector() != nullptr) {
         getDataConnector()->init();
     }
-    Device::init();
 }
 
 void OnlineDevice::loop() {
@@ -49,10 +49,12 @@ shared_ptr<DataConnector> OnlineDevice::getDataConnector() {
 
 void OnlineDevice::setManageConnector(shared_ptr<ManageConnector> connector) {
     _manageConnector = connector;
+    _manageConnector->setOnlineDevice(this);
 }
 
 void OnlineDevice::setDataConnector(shared_ptr<DataConnector> connector) {
     _dataConnector = connector;
+    _dataConnector->setOnlineDevice(this);
 }
 
 long OnlineDevice::getID() {
