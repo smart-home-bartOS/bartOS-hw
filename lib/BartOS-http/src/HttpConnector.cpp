@@ -21,7 +21,7 @@ void HttpConnector::sendData(const string &path, DynamicJsonDocument &data) {
     HttpResponse resp = _httpClient.doPost(devicePath, jsonToString(data));
 
     DynamicJsonDocument output = getJsonFromResponse(resp, {200});
-    notify(devicePath, output);
+    device()->handleData(devicePath, output);
 }
 
 void HttpConnector::connect() {
@@ -32,7 +32,7 @@ void HttpConnector::connect() {
     HttpResponse resp = _httpClient.doPost(connectPath, jsonToString(data));
 
     DynamicJsonDocument output = getJsonFromResponse(resp, {200, 400});
-    notify(connectPath, output);
+    device()->handleData(connectPath, output);
 }
 
 void HttpConnector::disconnect() {
@@ -41,7 +41,7 @@ void HttpConnector::disconnect() {
     HttpResponse resp = _httpClient.doGet(disconnectPath);
 
     DynamicJsonDocument output = getJsonFromResponse(resp, {200, 400});
-    notify(disconnectPath, output);
+    device()->handleData(disconnectPath, output);
 }
 
 void HttpConnector::create() {
@@ -52,7 +52,7 @@ void HttpConnector::create() {
     HttpResponse resp = _httpClient.doPost(homePath, jsonToString(data));
 
     DynamicJsonDocument output = getJsonFromResponse(resp, {201});
-    notify(homePath, output);
+    device()->handleData(homePath, output);
 }
 
 void HttpConnector::remove() {
@@ -61,7 +61,7 @@ void HttpConnector::remove() {
     HttpResponse resp = _httpClient.doDelete(devicePath);
 
     DynamicJsonDocument output = getJsonFromResponse(resp, {200, 204});
-    notify(devicePath, output);
+    device()->handleData(devicePath, output);
 }
 
 void HttpConnector::update() {
@@ -72,7 +72,7 @@ void HttpConnector::update() {
     HttpResponse resp = _httpClient.doPatch(devicePath, jsonToString(data));
 
     DynamicJsonDocument output = getJsonFromResponse(resp, {200});
-    notify(devicePath, output);
+    device()->handleData(devicePath, output);
 }
 
 void HttpConnector::init() {}
@@ -96,8 +96,6 @@ DynamicJsonDocument HttpConnector::getJsonFromResponse(HttpResponse &response, c
         Serial.println(err.c_str());
         return empty;
     }
-
-    JsonObject obj = doc.as<JsonObject>();
 
     if (!isValidResponseCode(response.getResponseCode(), allowedResponseCodes)) {
         return empty;
