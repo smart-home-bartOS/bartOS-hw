@@ -18,15 +18,6 @@ using std::shared_ptr;
 using std::string;
 using std::vector;
 
-#define CONNECTION_STATE_CALLBACK "connection_state_callback_period"
-#define DEFAULT_CONNECTION_STATE_PERIOD 500
-
-enum class ConnectionState {
-    NOT_CONNECTED,
-    CONNECTED,
-    NEW_DEVICE
-};
-
 class OnlineDevice : public Device,
                      public DataHandler {
    private:
@@ -39,7 +30,6 @@ class OnlineDevice : public Device,
     shared_ptr<ManageConnector> _manageConnector = nullptr;
 
     vector<shared_ptr<OnlineCapability<Capability>>> _onlineCapabilities;
-    ConnectionState _connectionState = ConnectionState::NOT_CONNECTED;
 
    public:
     OnlineDevice(const string name = "Dev_" + RandomGenerator::randomAlphanum(6));
@@ -49,8 +39,6 @@ class OnlineDevice : public Device,
     void init() override;
 
     void loop() override;
-
-    void initConnectionState();
 
     shared_ptr<ManageConnector> getManageConnector();
     void setManageConnector(shared_ptr<ManageConnector> connector);
@@ -76,8 +64,6 @@ class OnlineDevice : public Device,
     vector<shared_ptr<OnlineCapability<Capability>>> getOnlineCaps();
 
     void setOnlineCaps(vector<shared_ptr<OnlineCapability<Capability>>> &caps);
-
-    void changeConnectionState(ConnectionState state);
 
     virtual DynamicJsonDocument getInfo() override;
     virtual DynamicJsonDocument getInfoWithCaps();
