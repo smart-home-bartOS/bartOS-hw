@@ -13,8 +13,7 @@ shared_ptr<BasicWifiManager> WifiManager = make_shared<BasicWifiManager>(SSID, W
 vector<shared_ptr<Capability>> Capabilities;
 shared_ptr<Device> device = make_shared<Device>("RGB-relay-device");
 shared_ptr<DefaultOnlinePowerCap> RgbRelay = make_shared<DefaultOnlinePowerCap>(MqttDataConnector,
-                                                                                RGB_RELAY_PIN,
-                                                                                "rgbRelay");
+                                                                                RGB_RELAY_PIN);
 
 void setup() {
     Serial.begin(9600);

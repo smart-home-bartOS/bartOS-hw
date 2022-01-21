@@ -4,11 +4,8 @@
 
 #include "default/DhtTempSensor.h"
 
-const char *DhtTempSensor::DEFAULT_NAME = "DHT_TEMP";
-
 DhtTempSensor::DhtTempSensor(const uint8_t &pin,
-                             const uint8_t &dhtType,
-                             const string &name) : TemperatureCap(pin, name), _dhtType(dhtType) {
+                             const uint8_t &dhtType) : TemperatureCap(pin), _dhtType(dhtType) {
 }
 
 bool DhtTempSensor::isValidDHT() {

@@ -45,7 +45,6 @@ class Capability {
    public:
     Capability(const uint8_t &pin,
                const string &type = CapabilityType::OTHER,
-               const string &name = "Cap-unknown",
                const unsigned sampleTime = 0);
 
     ~Capability() = default;
@@ -54,10 +53,6 @@ class Capability {
     virtual void loop();
 
     void priorLoop();
-
-    string getName();
-
-    void setName(const string &name);
 
     uint8_t getPin();
 

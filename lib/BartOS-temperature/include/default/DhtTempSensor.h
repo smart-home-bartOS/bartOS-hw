@@ -24,7 +24,7 @@ class DhtTempSensor : public TemperatureCap {
    public:
     static const char *DEFAULT_NAME;
 
-    DhtTempSensor(const uint8_t &pin, const uint8_t &dhtType, const string &name = DEFAULT_NAME);
+    DhtTempSensor(const uint8_t &pin, const uint8_t &dhtType);
 
     ~DhtTempSensor() = default;
 

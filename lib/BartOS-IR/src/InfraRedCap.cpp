@@ -5,8 +5,7 @@
 #include "InfraRedCap.h"
 
 InfraRedCap::InfraRedCap(const uint8_t &pin,
-                         const string &name,
-                         bool printCodes) : Capability(pin, CapabilityType::INFRA_RED, name), _printCodes(printCodes) {
+                         bool printCodes) : Capability(pin, CapabilityType::INFRA_RED), _printCodes(printCodes) {
     _callbacks = make_shared<IrActionMap>();
     _onDecode = make_shared<ActionMap>();
 }

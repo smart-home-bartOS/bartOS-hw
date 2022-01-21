@@ -7,7 +7,7 @@ static const string LG_TV_GREEN_BUTTON = "0x20dfc639";
 
 shared_ptr<DhtTempSensor> LivingRoomTemp = make_shared<DhtTempSensor>(D7, 22);
 shared_ptr<DefaultLightsCap> LivingRoomLights = make_shared<DefaultLightsCap>(D3);
-shared_ptr<DefaultPowerCap> LivingRoomRelay = make_shared<DefaultPowerCap>(D1, "relay");
+shared_ptr<DefaultPowerCap> LivingRoomRelay = make_shared<DefaultPowerCap>(D1);
 shared_ptr<DefaultIRCap> LivingRoomIrReceiver = make_shared<DefaultIRCap>(D6);
 
 void turnOffLivingRoomLights() {

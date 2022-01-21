@@ -11,7 +11,6 @@
 #include <vector>
 
 #define DEFAULT_DELAY_MILLIS 50
-
 class ButtonCap : public Capability {
    private:
     bool _prevState;
@@ -32,7 +31,7 @@ class ButtonCap : public Capability {
     void executeOnStateOffChangeCallbacks();
 
    public:
-    ButtonCap(const uint8_t &pin, const string &name);
+    ButtonCap(const uint8_t &pin);
 
     ~ButtonCap() = default;
 

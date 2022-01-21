@@ -5,21 +5,11 @@ using std::make_shared;
 
 Capability::Capability(const uint8_t &pin,
                        const std::string &type,
-                       const std::string &name,
                        const unsigned sampleTime) : _sampleTime(sampleTime),
                                                     _pin(pin),
-                                                    _name(name),
                                                     _type(type) {
     _actions = make_shared<ActionMap>();
     _scheduler = make_shared<TimeActionMap>();
-}
-
-string Capability::getName() {
-    return _name;
-}
-
-void Capability::setName(const std::string &name) {
-    _name = name;
 }
 
 // VIRTUAL
@@ -116,5 +106,5 @@ shared_ptr<TimeActionMap> Capability::scheduler() {
 }
 
 void Capability::printInfo() {
-    Serial.printf("Cap = name:'%s', type:'%s', pin:'%d'.\n", getName().c_str(), getType().c_str(), getPin());
+    Serial.printf("Cap = type:'%s', pin:'%d'.\n", getType().c_str(), getPin());
 }

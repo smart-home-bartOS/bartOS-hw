@@ -4,7 +4,6 @@
 
 #include "default/DefaultOnlinePowerCap.h"
 
-DefaultOnlinePowerCap::DefaultOnlinePowerCap(const uint8_t &pin,
-                                             const string &name) : DefaultPowerCap(pin, name),
+DefaultOnlinePowerCap::DefaultOnlinePowerCap(const uint8_t &pin) : DefaultPowerCap(pin),
                                                                    PowerAbleOnline(this) {
 }

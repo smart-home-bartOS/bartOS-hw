@@ -4,8 +4,7 @@
 
 #include "default/two-way-button/OnlineTwoWayButton.h"
 
-OnlineTwoWayButton::OnlineTwoWayButton(const uint8_t &pin,
-                                       const string &name) : TwoWayButton(pin, name),
+OnlineTwoWayButton::OnlineTwoWayButton(const uint8_t &pin) : TwoWayButton(pin),
                                                              ButtonOnline(this) {
 }
 

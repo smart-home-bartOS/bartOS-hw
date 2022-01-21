@@ -4,8 +4,8 @@
 
 #include "Capabilities.h"
 
-shared_ptr <TwoWayButton> LeftMainButton = make_shared<TwoWayButton>(LEFT_MAIN_BTN_PIN, "LeftMainButton");
-shared_ptr <TwoWayButton> RightMainButton = make_shared<TwoWayButton>(RIGHT_MAIN_BTN_PIN, "RightMainButton");
+shared_ptr <TwoWayButton> LeftMainButton = make_shared<TwoWayButton>(LEFT_MAIN_BTN_PIN);
+shared_ptr <TwoWayButton> RightMainButton = make_shared<TwoWayButton>(RIGHT_MAIN_BTN_PIN);
 
 void setupLeftButton() {
     LeftMainButton->onChange([]() {

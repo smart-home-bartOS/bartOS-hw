@@ -11,8 +11,7 @@
 
 class DefaultOnlineIRCap : public DefaultIRCap, public InfraRedOnline {
    public:
-    DefaultOnlineIRCap(const uint8_t &pin,
-                       const string &name = "Online_IR");
+    DefaultOnlineIRCap(const uint8_t &pin);
 
     ~DefaultOnlineIRCap() = default;
 

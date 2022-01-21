@@ -10,9 +10,8 @@
 #define DEFAULT_SAMPLE_TIME 500
 
 class MotionCap : public Capability {
-public:
+   public:
     MotionCap(const uint8_t &pin,
-              const string &name = "Motion-Cap",
               const unsigned sampleTime = DEFAULT_SAMPLE_TIME);
 
     ~MotionCap() = default;
@@ -20,5 +19,4 @@ public:
     virtual bool isMotionDetected() = 0;
 };
 
-
-#endif //BARTOS_HW_MOTIONCAP_H
+#endif  // BARTOS_HW_MOTIONCAP_H

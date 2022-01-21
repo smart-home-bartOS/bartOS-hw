@@ -5,7 +5,5 @@
 #include "MotionCap.h"
 
 MotionCap::MotionCap(const uint8_t &pin,
-                     const string &name,
-                     const unsigned sampleTime) :
-        Capability(pin, CapabilityType::PIR, name, sampleTime) {
+                     const unsigned sampleTime) : Capability(pin, CapabilityType::PIR, sampleTime) {
 }

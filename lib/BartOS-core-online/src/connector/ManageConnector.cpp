@@ -64,18 +64,12 @@ void ManageConnector::setUpCapabilities(DynamicJsonDocument& doc) {
 
     if (data.containsKey(JsonKeys::CAPABILITIES)) {
         JsonArray caps = data[JsonKeys::CAPABILITIES];
-        const string KEYS[] = {JsonKeys::PIN, JsonKeys::TYPE, JsonKeys::NAME};
+        const string KEYS[] = {JsonKeys::PIN, JsonKeys::TYPE};
 
         for (JsonObject capData : caps) {
             if (containsKeys(capData, KEYS)) {
                 uint8_t pin = capData[JsonKeys::PIN];
                 const char* type = capData[JsonKeys::TYPE];
-
-                auto p_cap = getOnlineDevice()->getCapByPinAndType(pin, type);
-                if (p_cap != nullptr) {
-                    string name = capData[JsonKeys::NAME];
-                    p_cap->setName(name);
-                }
             }
         }
     }

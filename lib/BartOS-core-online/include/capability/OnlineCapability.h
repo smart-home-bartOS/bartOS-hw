@@ -72,7 +72,6 @@ class OnlineCapability : public DataHandler {
         DynamicJsonDocument data(100);
 
         data[JsonKeys::PIN] = getTargetCapability()->getPin();
-        data[JsonKeys::NAME] = getTargetCapability()->getName();
         data[JsonKeys::TYPE] = getTargetCapability()->getType();
         data[JsonKeys::ENABLED] = getTargetCapability()->isEnabled();
 

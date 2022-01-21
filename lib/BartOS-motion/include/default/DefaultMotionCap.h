@@ -8,19 +8,19 @@
 #include <MotionCap.h>
 
 class DefaultMotionCap : public MotionCap {
-private:
-    bool _motionDetected = false;
-public:
-    DefaultMotionCap(const uint8_t &pin, const string &name = "Default-Motion-Cap");
+   private:
+    volatile bool _motionDetected = false;
+
+   public:
+    DefaultMotionCap(const uint8_t &pin);
 
     ~DefaultMotionCap() = default;
 
     void init() override;
 
-    void execute() override;
+    void loop() override;
 
     bool isMotionDetected() override;
 };
 
-
-#endif //BARTOS_HW_DEFAULTMOTIONCAP_H
+#endif  // BARTOS_HW_DEFAULTMOTIONCAP_H

@@ -5,10 +5,10 @@
 #ifndef BARTOS_HW_IRREMOTECAP_H
 #define BARTOS_HW_IRREMOTECAP_H
 
-
+#include <IRrecv.h>
 #include <IRremoteESP8266.h>
 #include <IRutils.h>
-#include <IRrecv.h>
+
 #include <memory>
 
 #include "InfraRedCap.h"
@@ -19,7 +19,7 @@ class DefaultIRCap : public InfraRedCap {
     shared_ptr<decode_results> _results;
 
    public:
-    DefaultIRCap(const uint8_t &pin, const string &name = "IR_Recv");
+    DefaultIRCap(const uint8_t &pin);
 
     ~DefaultIRCap() = default;
 

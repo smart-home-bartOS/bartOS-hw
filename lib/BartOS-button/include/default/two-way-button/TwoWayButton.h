@@ -15,7 +15,7 @@ class TwoWayButton : public ButtonCap {
     void updateState();
 
    public:
-    TwoWayButton(const uint8_t &pin, const string &name);
+    TwoWayButton(const uint8_t &pin);
 
     ~TwoWayButton() = default;
 

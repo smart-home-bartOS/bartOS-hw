@@ -12,8 +12,7 @@
 class DhtTempOnline : public DhtTempSensor, public TemperatureOnline {
    public:
     DhtTempOnline(const uint8_t &pin,
-                  const uint8_t &dhtType,
-                  const string &name = DEFAULT_NAME);
+                  const uint8_t &dhtType);
 
     ~DhtTempOnline() = default;
 };

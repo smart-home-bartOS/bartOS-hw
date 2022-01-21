@@ -12,8 +12,7 @@
 
 class OnlineTwoWayButton : public TwoWayButton, public ButtonOnline {
    public:
-    OnlineTwoWayButton(const uint8_t &pin,
-                       const string &name = "Online-2W-button");
+    OnlineTwoWayButton(const uint8_t &pin);
 
     ~OnlineTwoWayButton() = default;
 

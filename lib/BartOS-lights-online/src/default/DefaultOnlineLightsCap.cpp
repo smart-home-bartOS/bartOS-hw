@@ -5,7 +5,6 @@
 #include "default/DefaultOnlineLightsCap.h"
 
 DefaultOnlineLightsCap::DefaultOnlineLightsCap(const uint8_t &pin,
-                                               const string &name,
-                                               uint32_t pwmRange) : DefaultLightsCap(pin, name, pwmRange),
+                                               uint32_t pwmRange) : DefaultLightsCap(pin, pwmRange),
                                                                     LightsOnline(this) {
 }

@@ -11,8 +11,8 @@
 
 /* Capabilities */
 shared_ptr<DhtTempSensor> kitchenTemp = make_shared<DhtTempSensor>(D8, 22);
-shared_ptr<DefaultOnlineLightsCap> kitchenMainLights = make_shared<DefaultOnlineLightsCap>(LED_BUILTIN, "kitchenMain");
-shared_ptr<TwoWayButton> kitchenMainSwitch = make_shared<TwoWayButton>(D2, "kitchenMainSwitch");
+shared_ptr<DefaultOnlineLightsCap> kitchenMainLights = make_shared<DefaultOnlineLightsCap>(LED_BUILTIN);
+shared_ptr<TwoWayButton> kitchenMainSwitch = make_shared<TwoWayButton>(D2);
 shared_ptr<DhtTempOnline> kitchenOnlineTemp = make_shared<DhtTempOnline>(D5, 22);
 
 void setupKitchenRules() {

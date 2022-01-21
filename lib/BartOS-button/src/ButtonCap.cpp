@@ -4,7 +4,7 @@
 
 #include "ButtonCap.h"
 
-ButtonCap::ButtonCap(const uint8_t &pin, const string &name) : Capability(pin, CapabilityType::BUTTON, name, DEFAULT_DELAY_MILLIS) {
+ButtonCap::ButtonCap(const uint8_t &pin) : Capability(pin, CapabilityType::BUTTON, DEFAULT_DELAY_MILLIS) {
 }
 
 bool ButtonCap::isOn() {

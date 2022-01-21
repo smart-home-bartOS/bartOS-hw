@@ -12,7 +12,6 @@
 class DefaultOnlineLightsCap : public DefaultLightsCap, public LightsOnline {
    public:
     DefaultOnlineLightsCap(const uint8_t &pin,
-                           const string &name = "Default-online-lights-cap",
                            uint32_t pwmRange = DEFAULT_PWM_RANGE);
 
     ~DefaultOnlineLightsCap() = default;

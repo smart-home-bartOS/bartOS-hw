@@ -10,7 +10,7 @@
 #include <memory>
 
 shared_ptr<DhtTempSensor> tempSensor = make_shared<DhtTempSensor>(D5, 22);
-shared_ptr<DefaultLightsCap> mainLights = make_shared<DefaultLightsCap>(D6, "MainLights");
+shared_ptr<DefaultLightsCap> mainLights = make_shared<DefaultLightsCap>(D6);
 
 vector<shared_ptr<Capability>> capabilities;
 shared_ptr<Device> device;

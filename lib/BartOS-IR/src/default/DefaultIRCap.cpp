@@ -6,7 +6,7 @@
 
 #include <utils/ConvertUtils.h>
 
-DefaultIRCap::DefaultIRCap(const uint8_t &pin, const string &name) : InfraRedCap(pin, name) {
+DefaultIRCap::DefaultIRCap(const uint8_t &pin) : InfraRedCap(pin) {
     _irRecv = make_shared<IRrecv>(pin);
     _results = make_shared<decode_results>();
 }

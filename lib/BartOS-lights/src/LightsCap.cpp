@@ -3,8 +3,7 @@
 #include <Arduino.h>
 
 LightsCap::LightsCap(const uint8_t &pin,
-                     const string &name,
-                     uint32_t pwmRange) : PowerAbleCap(pin, CapabilityType::LIGHT, name),
+                     uint32_t pwmRange) : PowerAbleCap(pin, CapabilityType::LIGHT),
                                           _pwmRange(pwmRange) {
 }
 

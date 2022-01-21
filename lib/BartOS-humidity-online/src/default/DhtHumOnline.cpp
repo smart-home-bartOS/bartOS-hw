@@ -5,7 +5,6 @@
 #include "default/DhtHumOnline.h"
 
 DhtHumOnline::DhtHumOnline(const uint8_t &pin,
-                           const uint8_t &dhtType,
-                           const string &name) : DhtHumSensor(pin, dhtType, name),
-                                                 HumidityOnline(this) {
+                           const uint8_t &dhtType) : DhtHumSensor(pin, dhtType),
+                                                     HumidityOnline(this) {
 }

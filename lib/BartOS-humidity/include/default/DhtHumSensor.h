@@ -20,9 +20,7 @@ class DhtHumSensor : public HumidityCap {
     bool isValidDHT();
 
    public:
-    static const char *DEFAULT_NAME;
-
-    DhtHumSensor(const uint8_t &pin, const uint8_t &dhtType, const string &name = DEFAULT_NAME);
+    DhtHumSensor(const uint8_t &pin, const uint8_t &dhtType);
 
     ~DhtHumSensor() = default;
 

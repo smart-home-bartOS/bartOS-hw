@@ -5,8 +5,7 @@
 #include "PowerAbleCap.h"
 
 PowerAbleCap::PowerAbleCap(const uint8_t &pin,
-                           const string &type,
-                           const string &name) : Capability(pin, type, name) {}
+                           const string &type) : Capability(pin, type) {}
 
 bool PowerAbleCap::isTurnedOn() {
     return _isTurnedOn;

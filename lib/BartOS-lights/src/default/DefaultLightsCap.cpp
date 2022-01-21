@@ -9,8 +9,7 @@
 #include <stdlib.h>
 
 DefaultLightsCap::DefaultLightsCap(const uint8_t &pin,
-                                   const string &name,
-                                   uint32_t pwmRange) : LightsCap(pin, name, pwmRange) {
+                                   uint32_t pwmRange) : LightsCap(pin, pwmRange) {
 }
 
 void DefaultLightsCap::init() {

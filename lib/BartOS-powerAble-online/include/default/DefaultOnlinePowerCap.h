@@ -11,8 +11,7 @@
 
 class DefaultOnlinePowerCap : public DefaultPowerCap, public PowerAbleOnline {
    public:
-    DefaultOnlinePowerCap(const uint8_t &pin,
-                          const string &name = "DefaultOnlinePowerAble");
+    DefaultOnlinePowerCap(const uint8_t &pin);
 
     ~DefaultOnlinePowerCap() = default;
 

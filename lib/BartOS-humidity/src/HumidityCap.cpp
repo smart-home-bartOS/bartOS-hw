@@ -1,8 +1,7 @@
 #include "HumidityCap.h"
 
-HumidityCap::HumidityCap(const uint8_t &pin, const string &name, unsigned sampleTime) :
-        Capability(pin, CapabilityType::HUMIDITY, name, sampleTime) {}
-        
+HumidityCap::HumidityCap(const uint8_t &pin, unsigned sampleTime) : Capability(pin, CapabilityType::HUMIDITY, sampleTime) {}
+
 uint8_t HumidityCap::getHumidity() {
     return _humidity;
 }

@@ -14,7 +14,6 @@ class LightsCap : public PowerAbleCap {
 
    public:
     LightsCap(const uint8_t &pin,
-              const string &name = "Lights-cap",
               uint32_t pwmRange = DEFAULT_PWM_RANGE);
 
     ~LightsCap() = default;

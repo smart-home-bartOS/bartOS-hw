@@ -23,7 +23,7 @@ class InfraRedCap : public Capability {
     shared_ptr<IrActionMap> _callbacks;
 
    public:
-    InfraRedCap(const uint8_t &pin, const string &name, bool printCodes = false);
+    InfraRedCap(const uint8_t &pin, bool printCodes = false);
 
     ~InfraRedCap() = default;
 

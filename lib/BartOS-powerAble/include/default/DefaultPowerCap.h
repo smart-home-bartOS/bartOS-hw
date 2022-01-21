@@ -9,7 +9,7 @@
 
 class DefaultPowerCap : public PowerAbleCap {
    public:
-    DefaultPowerCap(const uint8_t &pin, const string &name = "DefaultPowerAble");
+    DefaultPowerCap(const uint8_t &pin);
 
     ~DefaultPowerCap() = default;
 

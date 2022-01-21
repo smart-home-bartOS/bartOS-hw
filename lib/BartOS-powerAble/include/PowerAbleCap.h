@@ -17,8 +17,7 @@ class PowerAbleCap : public Capability {
 
    public:
     PowerAbleCap(const uint8_t &pin,
-                 const string &type = CapabilityType::OTHER,
-                 const string &name = "PowerAbleCap");
+                 const string &type = CapabilityType::OTHER);
 
     ~PowerAbleCap() = default;
 

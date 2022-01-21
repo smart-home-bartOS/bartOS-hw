@@ -6,7 +6,7 @@
 
 #include <Arduino.h>
 
-TwoWayButton::TwoWayButton(const uint8_t &pin, const string &name) : ButtonCap(pin, name) {}
+TwoWayButton::TwoWayButton(const uint8_t &pin) : ButtonCap(pin) {}
 
 void TwoWayButton::updateState() {
     _state = digitalRead(_pin);

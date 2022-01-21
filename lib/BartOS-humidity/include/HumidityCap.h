@@ -10,7 +10,7 @@ class HumidityCap : public Capability {
     uint8_t _humidity;
 
    public:
-    HumidityCap(const uint8_t &pin, const string &name = "HUM_CAP", unsigned sampleTime = DEFAULT_SAMPLE_TIME_MS);
+    HumidityCap(const uint8_t &pin, unsigned sampleTime = DEFAULT_SAMPLE_TIME_MS);
 
     ~HumidityCap() = default;
 

@@ -15,7 +15,6 @@ class TemperatureCap : public Capability {
 
    public:
     TemperatureCap(const uint8_t &pin,
-                   const string &name = "Temp-cap",
                    unsigned sampleTime = DEFAULT_SAMPLE_TIME_MS);
 
     ~TemperatureCap() = default;

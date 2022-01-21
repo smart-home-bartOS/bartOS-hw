@@ -1,8 +1,8 @@
 #include "TemperatureCap.h"
+
 #include <capability/CapabilityType.h>
 
-TemperatureCap::TemperatureCap(const uint8_t &pin, const string &name, unsigned sampleTime) :
-        Capability(pin, CapabilityType::TEMPERATURE, name, sampleTime) {
+TemperatureCap::TemperatureCap(const uint8_t &pin, unsigned sampleTime) : Capability(pin, CapabilityType::TEMPERATURE, sampleTime) {
 }
 
 float TemperatureCap::getTemperature() {

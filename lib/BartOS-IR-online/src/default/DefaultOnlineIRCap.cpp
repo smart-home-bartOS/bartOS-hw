@@ -4,8 +4,7 @@
 
 #include "default/DefaultOnlineIRCap.h"
 
-DefaultOnlineIRCap::DefaultOnlineIRCap(const uint8_t &pin,
-                                       const string &name) : DefaultIRCap(pin, name),
+DefaultOnlineIRCap::DefaultOnlineIRCap(const uint8_t &pin) : DefaultIRCap(pin),
                                                              InfraRedOnline(this) {
     getTargetCapability()->onDecode()->add("sendOnDecode", [this]() {
         DynamicJsonDocument doc(10);

@@ -5,8 +5,7 @@
 #include "default/DhtHumSensor.h"
 
 DhtHumSensor::DhtHumSensor(const uint8_t &pin,
-                           const uint8_t &dhtType,
-                           const string &name) : HumidityCap(pin, name), _dhtType(dhtType) {
+                           const uint8_t &dhtType) : HumidityCap(pin), _dhtType(dhtType) {
 }
 
 bool DhtHumSensor::isValidDHT() {
@@ -32,5 +31,3 @@ void DhtHumSensor::loop() {
 uint8_t DhtHumSensor::getDhtType() {
     return _dhtType;
 }
-
-const char *DhtHumSensor::DEFAULT_NAME = "DHT_HUM";

@@ -11,8 +11,7 @@
 class DhtHumOnline : public DhtHumSensor, public HumidityOnline {
    public:
     DhtHumOnline(const uint8_t &pin,
-                 const uint8_t &dhtType,
-                 const string &name = DEFAULT_NAME);
+                 const uint8_t &dhtType);
 
     ~DhtHumOnline() = default;
 };
